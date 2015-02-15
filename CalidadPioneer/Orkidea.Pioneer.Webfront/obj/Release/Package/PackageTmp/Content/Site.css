@@ -1,0 +1,61 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: 'Exo', sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    MARGIN-TOP: 20PX;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.logo {
+    MARGIN-TOP: 5PX;
+    margin-right: 50px;
+}
+
+.homeHeader {
+    text-align:center;
+    font-family: 'Russo One', sans-serif;
+}
+
+.homeHeader h1{    
+    font-family: 'Russo One', sans-serif;
+}
+
+.homeBoxTitle {
+    font-family: 'Russo One', sans-serif;
+    color:#4f5458;
+}
+
+.homeBoxBody {
+    
+    text-align:justify;
+}
+
+.footer {
+position: fixed;
+height: 25px;
+bottom: 0;
+width: 100%;
+background-color: black;
+opacity: 0.7;
+text-align: center;
+color: white;
+}

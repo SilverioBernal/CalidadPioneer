@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href='http://fonts.googleapis.com/css?family=Russo+One|Patua+One|Exo' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index","Home")"><img alt="Logo" class="logo" src="@Url.Content("~/images/pioneer-low.png")" /></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acerca del SGC<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Estructura organizacional</a></li>
+                            <li><a href="#">Direccionamiento estratégico</a></li>
+                            <li><a href="#">Normativas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="@Url.Action("Index", "Process")">Sistema de Gestión</a></li>
+                    <li><a href="@Url.Action("Suggestion", "HomeSGC")">Sugerencias</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "NewsPaper")">Noticias</a></li>
+                            <li><a href="@Url.Action("Index", "FileUpload")">Medios</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Calidad</li>
+
+                            <li><a href="@Url.Action("Index", "DocumentType")">Tipos de documento</a></li>
+                            <li><a href="@Url.Action("List", "Process")">Procesos</a></li>
+                            <li><a href="@Url.Action("Index", "ProcessDocument")">Documentos por proceso</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <div class="footer">
+        <span>.::. © 2015 Pioneer Energy Services Colombia .::. Desarrollado por <a href="http://www.orkidea.co" style="color:white;">OrkIdea SAS</a> .::. </span>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="pioneerEntities-Web.config Connection String" description="pioneerEntities Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="metadata=res://*/PioneerModel.csdl|res://*/PioneerModel.ssdl|res://*/PioneerModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=SAPSERVER\sql2012;initial catalog=pioneer;user id=sa;password=Tecnologia.4;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='pioneerEntities']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="DefaultConnection_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

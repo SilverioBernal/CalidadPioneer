@@ -1,0 +1,12 @@
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\Orkidea.Pioneer.Entities.dll.config
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\Orkidea.Pioneer.Entities.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\Orkidea.Pioneer.Entities.pdb
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\EntityFramework.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\EntityFramework.xml
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\es\EntityFramework.resources.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\bin\Release\es\EntityFramework.SqlServer.resources.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\obj\Release\Orkidea.Pioneer.Entities.csprojResolveAssemblyReference.cache
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\obj\Release\Orkidea.Pioneer.Entities.dll
+C:\Users\SILVERIO\Source\Repos\CalidadPioneer\CalidadPioneer\Orkidea.Pioneer.Entities\obj\Release\Orkidea.Pioneer.Entities.pdb

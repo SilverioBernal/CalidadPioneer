@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="/Scripts/jquery-2.1.3.js"></script>
+
+<script type="text/javascript">
+
+    var page = 0;
+    var _inCallback = false;
+
+    function loadNews() {
+        if (page > -1 && !_inCallback) {
+            _inCallback = true;
+            page++;
+            $('div#loading').html('<p><img src="/Images/layout/ajax-progress.gif"></p>');
+            $.get("/Home/Index/" + page, function (data) {
+                if (data != '') {
+                    $("#NewsList").append(data);
+                }
+                else {
+                    page = -1;
+                }
+
+                _inCallback = false;
+                $('div#loading').empty();
+            });
+        }
+    }
+
+    var dcList = true;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+
+            loadNews();
+        }
+    });
+</script>
+<br />
+<h2>@ViewBag.Message</h2>
+<div class="row-fluid">
+    <div id="NewsList">
+        @Html.Partial("_NewsPaper")
+    </div>
+</div>
+<div id="loading"></div>

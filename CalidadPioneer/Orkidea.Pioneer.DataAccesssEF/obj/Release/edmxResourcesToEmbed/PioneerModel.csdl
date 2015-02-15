@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pioneerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ActivityLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUsuario" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DocumentType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ProcessDocument" Relationship="Self.FK_ProcessDocument_DocumentType" FromRole="DocumentType" ToRole="ProcessDocument" />
+    <NavigationProperty Name="ProjectDocument" Relationship="Self.FK_ProjectDocument_DocumentType" FromRole="DocumentType" ToRole="ProjectDocument" />
+  </EntityType>
+  <EntityType Name="FileType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tipoMIME" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NewsPaper">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Process">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="archivoCaracterizacion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProcessDocument" Relationship="Self.FK_ProcessDocument_Process" FromRole="Process" ToRole="ProcessDocument" />
+  </EntityType>
+  <EntityType Name="ProcessDocument">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idProceso" Type="Int32" Nullable="false" />
+    <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ruta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DocumentType" Relationship="Self.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
+    <NavigationProperty Name="Process" Relationship="Self.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ProjectDocument" Relationship="Self.FK_ProjectDocument_Project" FromRole="Project" ToRole="ProjectDocument" />
+  </EntityType>
+  <EntityType Name="ProjectDocument">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idProyecto" Type="Int32" Nullable="false" />
+    <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ruta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DocumentType" Relationship="Self.FK_ProjectDocument_DocumentType" FromRole="ProjectDocument" ToRole="DocumentType" />
+    <NavigationProperty Name="Project" Relationship="Self.FK_ProjectDocument_Project" FromRole="ProjectDocument" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="admin" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ProcessDocument_DocumentType">
+    <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
+    <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DocumentType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProcessDocument">
+        <PropertyRef Name="idTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocument_DocumentType">
+    <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
+    <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DocumentType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProjectDocument">
+        <PropertyRef Name="idTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProcessDocument_Process">
+    <End Role="Process" Type="Self.Process" Multiplicity="1" />
+    <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Process">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProcessDocument">
+        <PropertyRef Name="idProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDocument_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="1" />
+    <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProjectDocument">
+        <PropertyRef Name="idProyecto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pioneerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" />
+    <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
+    <EntitySet Name="FileType" EntityType="Self.FileType" />
+    <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
+    <EntitySet Name="Process" EntityType="Self.Process" />
+    <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" />
+    <EntitySet Name="Project" EntityType="Self.Project" />
+    <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="Self.FK_ProcessDocument_DocumentType">
+      <End Role="DocumentType" EntitySet="DocumentType" />
+      <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="Self.FK_ProjectDocument_DocumentType">
+      <End Role="DocumentType" EntitySet="DocumentType" />
+      <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProcessDocument_Process" Association="Self.FK_ProcessDocument_Process">
+      <End Role="Process" EntitySet="Process" />
+      <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDocument_Project" Association="Self.FK_ProjectDocument_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
