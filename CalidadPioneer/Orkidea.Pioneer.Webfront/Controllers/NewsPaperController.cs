@@ -73,6 +73,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         // POST: /NewsPaper/Edit/5
         [Authorize]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(int id, NewsPaper newsContent)
         {
             try
@@ -105,19 +106,19 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         //
         // POST: /NewsPaper/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

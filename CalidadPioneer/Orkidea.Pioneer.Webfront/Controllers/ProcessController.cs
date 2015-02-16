@@ -20,7 +20,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         {
             return View();
         }
-        //[Authorize]
+        [Authorize]
         public ActionResult List()
         {
             List<Process> lstProcess = processBiz.GetProcessList();
@@ -43,7 +43,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
         //
         // GET: /Process/Create
-        [Authorize]
+        //[Authorize]
         public ActionResult Create()
         {
             vmProcess process = new vmProcess();
@@ -53,33 +53,14 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         //
         // POST: /Process/Create
         [HttpPost]
-        public ActionResult Create(Process process, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Create(Process process)
         {
             try
             {
                 if (string.IsNullOrEmpty(process.descripcion))
                     process.descripcion = "";
-
-                if (files != null)
-                {
-                    FileTypeBiz fileTypeBiz = new FileTypeBiz();
-                    foreach (HttpPostedFileBase file in files)
-                    {
-                        if (file.FileName != null)
-                        {
-                            string physicalPath = HttpContext.Server.MapPath("~") + "UploadedFiles" + "\\";
-                            string fileName = Guid.NewGuid().ToString() + fileTypeBiz.GetFileTypebyKey(new FileType() { tipoMIME = file.ContentType }).extension;
-
-                            using (Stream output = System.IO.File.OpenWrite(physicalPath + fileName))
-                            using (Stream input = file.InputStream)
-                            {
-                                input.CopyTo(output);
-
-                                process.archivoCaracterizacion = fileName;
-                            }
-                        }
-                    }
-                }
+                if (string.IsNullOrEmpty(process.archivoCaracterizacion))
+                    process.archivoCaracterizacion = "";
 
                 processBiz.SaveProcess(process);
                 return RedirectToAction("List");
@@ -105,49 +86,16 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
         //
         // POST: /Process/Edit/5
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        public ActionResult Edit(int id, Process process, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Edit(int id, Process process)
         {
             try
             {
                 if (string.IsNullOrEmpty(process.descripcion))
                     process.descripcion = "";
-
-                Process oProcess = processBiz.GetProcessbyKey(new Process() { id = id });
-
-                if (files != null)
-                {
-                    FileTypeBiz fileTypeBiz = new FileTypeBiz();
-                    foreach (HttpPostedFileBase file in files)
-                    {
-                        if (file.FileName != null)
-                        {
-                            string physicalPath = HttpContext.Server.MapPath("~") + "UploadedFiles" + "\\";
-                            string fileName = Guid.NewGuid().ToString() + fileTypeBiz.GetFileTypebyKey(new FileType() { tipoMIME = file.ContentType }).extension;
-
-                            using (Stream output = System.IO.File.OpenWrite(physicalPath + fileName))
-                            using (Stream input = file.InputStream)
-                            {
-                                input.CopyTo(output);
-
-                                process.archivoCaracterizacion = fileName;
-                            }
-                        }
-                    }
-                }
-                //if (Request.ContentLength > 0)
-                //{
-                //    FileTypeBiz fileTypeBiz = new FileTypeBiz();
-                //    UploadedFile file = RetrieveFileFromRequest();
-
-                //    if (!string.IsNullOrEmpty(file.Filename))                                                          
-                //        process.archivoCaracterizacion += fileTypeBiz.GetFileTypebyKey(new FileType() { tipoMIME = file.ContentType }).extension;                    
-                //    else
-                //        process.archivoCaracterizacion = oProcess.archivoCaracterizacion;
-                //}
-                //else
-                //    process.archivoCaracterizacion = oProcess.archivoCaracterizacion;
+                if (string.IsNullOrEmpty(process.archivoCaracterizacion))
+                    process.archivoCaracterizacion = "";
 
                 process.id = id;
                 processBiz.SaveProcess(process);
@@ -159,23 +107,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             }
         }
 
-        //
-        // GET: /Process/Delete/5
+
+        // POST: /Process/Delete/5        
         [Authorize]
-        public ActionResult Delete(int id)
-        {
-            Process process = processBiz.GetProcessbyKey(new Process() { id = id });
-
-            vmProcess oProcess = new vmProcess() { id = process.id, descripcion = process.descripcion, nombre = process.nombre };
-            ViewBag.idProcess = id;
-
-            return View(oProcess);
-        }
-
-        //
-        // POST: /Process/Delete/5
-        [Authorize]
-        [HttpPost]
         public ActionResult Delete(int id, Process process)
         {
 
@@ -188,9 +122,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 }
                 catch
                 {
-                    return View();
+                    return RedirectToAction("List");
                 }
             }
-        }        
+        }
     }
 }

@@ -30,10 +30,12 @@ namespace Orkidea.Pioneer.DataAccesssEF
         public virtual DbSet<DocumentType> DocumentType { get; set; }
         public virtual DbSet<FileType> FileType { get; set; }
         public virtual DbSet<NewsPaper> NewsPaper { get; set; }
-        public virtual DbSet<Process> Process { get; set; }
         public virtual DbSet<ProcessDocument> ProcessDocument { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectDocument> ProjectDocument { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Process> Process { get; set; }
+        public virtual DbSet<FileUpload> FileUpload { get; set; }
+        public virtual DbSet<mimetype> mimetype { get; set; }
     }
 }

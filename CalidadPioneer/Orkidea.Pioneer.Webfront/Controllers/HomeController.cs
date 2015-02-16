@@ -14,7 +14,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
         const int recordsPerPage = 3;
 
-        //[Authorize]
+        [Authorize]
         public ActionResult Index(int? id)
         {
             var page = id ?? 0;

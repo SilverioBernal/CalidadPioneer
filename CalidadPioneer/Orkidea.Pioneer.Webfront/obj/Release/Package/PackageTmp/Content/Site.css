@@ -4,6 +4,13 @@
     font-family: 'Exo', sans-serif;
 }
 
+h1 {    
+    font-family: 'Russo One', sans-serif;
+}
+h2 {
+    font-family: 'Exo', sans-serif;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -58,4 +65,61 @@ background-color: black;
 opacity: 0.7;
 text-align: center;
 color: white;
+}
+
+
+
+
+.navbar-inverse {
+  background-color:#eff0f0 /*#222222*/;
+  border-color: #eff0f0/*#080808*/;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: black/*#999999*/;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: #8d060c/*#ffffff*/;
+  background-color: transparent;
+}
+
+
+/*custom slider*/
+.carousel .item {
+    width: 100%; /*slider width*/
+    max-height: 300px; /*slider height*/
+}
+.carousel .item img {
+    width: 100%; /*img width*/
+}
+
+/*.carousel .carousel-control {
+    background: none;
+    border: none;
+    top: 50%;
+}*/
+
+@media (max-width: 767px) {
+    .block {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+}
+
+/*custom slider*/
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: left;
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    padding-top: 25px/*15px*/;
+    padding-bottom: 15px;
+  }
 }

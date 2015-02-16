@@ -51,6 +51,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DocumentTypeBiz.cs" />
     <Compile Include="FileTypeBiz.cs" />
+    <Compile Include="FileUploadBiz.cs" />
+    <Compile Include="MimeTypeBiz.cs" />
     <Compile Include="NewsPaperBiz.cs" />
     <Compile Include="ProcessBiz.cs" />
     <Compile Include="ProcessDocumentBiz.cs" />

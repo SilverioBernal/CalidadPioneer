@@ -38,16 +38,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Process">
-      <EntityTypeMapping TypeName="pioneerModel.Process">
-        <MappingFragment StoreEntitySet="Process">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="archivoCaracterizacion" ColumnName="archivoCaracterizacion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProcessDocument">
       <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
         <MappingFragment StoreEntitySet="ProcessDocument">
@@ -86,6 +76,35 @@
           <ScalarProperty Name="usuario" ColumnName="usuario" />
           <ScalarProperty Name="clave" ColumnName="clave" />
           <ScalarProperty Name="admin" ColumnName="admin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Process">
+      <EntityTypeMapping TypeName="pioneerModel.Process">
+        <MappingFragment StoreEntitySet="Process">
+          <ScalarProperty Name="archivoCaracterizacion" ColumnName="archivoCaracterizacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileUpload">
+      <EntityTypeMapping TypeName="pioneerModel.FileUpload">
+        <MappingFragment StoreEntitySet="FileUpload">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="fileName" ColumnName="fileName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mimetype">
+      <EntityTypeMapping TypeName="pioneerModel.mimetype">
+        <MappingFragment StoreEntitySet="mimetype">
+          <ScalarProperty Name="extension" ColumnName="extension" />
+          <ScalarProperty Name="mimetype1" ColumnName="mimetype" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

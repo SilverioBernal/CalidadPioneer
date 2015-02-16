@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivityLog">
           <Key>
             <PropertyRef Name="id" />
@@ -28,6 +28,23 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tipoMIME" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="extension" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileUpload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fileName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="mimetype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="mimetype" Type="varchar" MaxLength="200" />
+          <Property Name="extension" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="NewsPaper">
           <Key>
@@ -136,6 +153,8 @@
           <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mimetype" EntityType="Self.mimetype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" Schema="dbo" store:Type="Tables" />
@@ -159,8 +178,7 @@
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="pioneerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -199,16 +217,6 @@
           <Property Name="titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityType Name="Process">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="archivoCaracterizacion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ProcessDocument" Relationship="Self.FK_ProcessDocument_Process" FromRole="Process" ToRole="ProcessDocument" />
-        </EntityType>
         <EntityType Name="ProcessDocument">
           <Key>
             <PropertyRef Name="id" />
@@ -220,7 +228,7 @@
           <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="ruta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
-          <NavigationProperty Name="Process" Relationship="Self.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
+          <NavigationProperty Name="Process" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -275,18 +283,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProcessDocument_Process">
-          <End Role="Process" Type="Self.Process" Multiplicity="1" />
-          <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Process">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessDocument">
-              <PropertyRef Name="idProceso" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProjectDocument_Project">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
@@ -304,7 +300,6 @@
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
           <EntitySet Name="FileType" EntityType="Self.FileType" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
-          <EntitySet Name="Process" EntityType="Self.Process" />
           <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" />
           <EntitySet Name="Project" EntityType="Self.Project" />
           <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" />
@@ -317,15 +312,57 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProcessDocument_Process" Association="Self.FK_ProcessDocument_Process">
-            <End Role="Process" EntitySet="Process" />
-            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProjectDocument_Project" Association="Self.FK_ProjectDocument_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
           </AssociationSet>
+          <EntitySet Name="Process" EntityType="pioneerModel.Process" />
+          <AssociationSet Name="FK_ProcessDocument_Process" Association="pioneerModel.FK_ProcessDocument_Process">
+            <End Role="Process" EntitySet="Process" />
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+          </AssociationSet>
+          <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
+          <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
         </EntityContainer>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="archivoCaracterizacion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="Process" ToRole="ProcessDocument" />
+        </EntityType>
+        <Association Name="FK_ProcessDocument_Process">
+          <End Type="pioneerModel.Process" Role="Process" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessDocument">
+              <PropertyRef Name="idProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FileUpload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="fileName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="mimetype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="mimetype1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -369,16 +406,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Process">
-            <EntityTypeMapping TypeName="pioneerModel.Process">
-              <MappingFragment StoreEntitySet="Process">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="archivoCaracterizacion" ColumnName="archivoCaracterizacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProcessDocument">
             <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
               <MappingFragment StoreEntitySet="ProcessDocument">
@@ -417,6 +444,35 @@
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="clave" ColumnName="clave" />
                 <ScalarProperty Name="admin" ColumnName="admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Process">
+            <EntityTypeMapping TypeName="pioneerModel.Process">
+              <MappingFragment StoreEntitySet="Process">
+                <ScalarProperty Name="archivoCaracterizacion" ColumnName="archivoCaracterizacion" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileUpload">
+            <EntityTypeMapping TypeName="pioneerModel.FileUpload">
+              <MappingFragment StoreEntitySet="FileUpload">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="fileName" ColumnName="fileName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mimetype">
+            <EntityTypeMapping TypeName="pioneerModel.mimetype">
+              <MappingFragment StoreEntitySet="mimetype">
+                <ScalarProperty Name="extension" ColumnName="extension" />
+                <ScalarProperty Name="mimetype1" ColumnName="mimetype" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

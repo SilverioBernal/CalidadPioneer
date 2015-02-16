@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Orkidea.Pioneer.Webfront.Models;
+using System.Web.Security;
 
 namespace Orkidea.Pioneer.Webfront.Controllers
 {
@@ -391,7 +392,11 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            //AuthenticationManager.SignOut();
+            //return RedirectToAction("Index", "Home");
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+
             return RedirectToAction("Index", "Home");
         }
 

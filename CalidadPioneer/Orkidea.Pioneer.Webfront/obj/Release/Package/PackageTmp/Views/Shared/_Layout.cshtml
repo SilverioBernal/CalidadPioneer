@@ -8,6 +8,32 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href='http://fonts.googleapis.com/css?family=Russo+One|Patua+One|Exo' rel='stylesheet' type='text/css'>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
+
+    <!-- font icons -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    @{
+        System.Security.Principal.IIdentity context = Context.User.Identity;
+        bool admin = false;
+        string userName = "";
+        if (context.IsAuthenticated)
+        {
+            System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)Context.User.Identity;
+            string[] userRole = ci.Ticket.UserData.Split('|');
+            admin = int.Parse(userRole[1]) == 1 ? true : false;
+            userName = ci.Name;
+        }
+    }
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,31 +48,37 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acerca del SGC<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Estructura organizacional</a></li>
-                            <li><a href="#">Direccionamiento estratégico</a></li>
-                            <li><a href="#">Normativas</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="@Url.Action("Index", "Process")">Sistema de Gestión</a></li>
-                    <li><a href="@Url.Action("Suggestion", "HomeSGC")">Sugerencias</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Index", "NewsPaper")">Noticias</a></li>
-                            <li><a href="@Url.Action("Index", "FileUpload")">Medios</a></li>
-                            <li class="divider"></li>
-                            <li class="nav-header">Calidad</li>
+                    @if (context.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acerca del SGC<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Estructura organizacional</a></li>
+                                <li><a href="#">Direccionamiento estratégico</a></li>
+                                <li><a href="#">Normativas</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="@Url.Action("Index", "Process")">Sistema de Gestión</a></li>
+                        <li><a href="@Url.Action("Suggestion", "HomeSGC")">Sugerencias</a></li>
+                        if (admin)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index", "NewsPaper")">Noticias</a></li>
+                                    <li><a href="@Url.Action("Index", "FileUpload")">Medios</a></li>
+                                    <li class="divider"></li>
+                                    <li class="nav-header">Calidad</li>
 
-                            <li><a href="@Url.Action("Index", "DocumentType")">Tipos de documento</a></li>
-                            <li><a href="@Url.Action("List", "Process")">Procesos</a></li>
-                            <li><a href="@Url.Action("Index", "ProcessDocument")">Documentos por proceso</a></li>
-                        </ul>
-                    </li>
+                                    <li><a href="@Url.Action("Index", "DocumentType")">Tipos de documento</a></li>
+                                    <li><a href="@Url.Action("List", "Process")">Procesos</a></li>
+                                    <li><a href="@Url.Action("Index", "ProcessDocument")">Documentos por proceso</a></li>
+                                </ul>
+                            </li>
+                        }
+                    }
                 </ul>
-                @*@Html.Partial("_LoginPartial")*@
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

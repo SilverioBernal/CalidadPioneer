@@ -1,0 +1,88 @@
+﻿@model Orkidea.Pioneer.Webfront.Models.LoginModel
+
+@{
+    ViewBag.Title = ".::Pioneer de Colombia::.";
+}
+
+<script src="/Scripts/jquery-2.1.3.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+
+<section class="block">
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="active item">
+                <img src="~/Images/slider/s1.png" alt="Slide1" />
+            </div>
+            <div class="item">
+                <img src="~/Images/slider/s2.png" alt="Slide2" />
+            </div>
+        </div>
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">‹</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">›</a>
+
+    </div>
+</section>
+<header class="homeHeader"><h1>Sistema de Gestión Documental Pioneer de Colombia</h1></header>
+@*<hr />*@
+<div class="row">
+    <div class="col-md-4">
+        <h4 class="homeBoxTitle">Bienvenido</h4>
+        <p class="homeBoxBody">
+            Pioneer de Colombia les da la bienvenida y presenta a ustedes
+            su nuevo sistema de gestión documental, en el encontrará las
+            políticas, procedimientos, formatos y demás documentación
+            vigente para su consulta permanente.
+        </p>
+        <p>
+            Esperamos que esta herramienta facilite la mejora continua
+            de los procesos y nos permita continuar el camino hacia la
+            excelencia
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h4 class="homeBoxTitle">¡Gracias por tu compromiso!</h4>
+        <div class="col-md-6">
+            <img alt=" pionero " src="~/Images/Pionero.png" width="99%" />
+        </div>
+        <div class="col-md-6">
+            <p class="homeBoxBody">Tu labor hace que nuestra organización sea mejor cada día. ¡Sientete orgulloso! eres nuestro visitante No. <strong>00000</strong> </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4 class="homeBoxTitle">Acceder al portal</h4>
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Security", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Usuario", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Contraseña", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Iniciar sesión" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<script>
+    $("#myCarousel").carousel();
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

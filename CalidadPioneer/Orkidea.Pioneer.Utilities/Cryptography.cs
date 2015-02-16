@@ -59,8 +59,8 @@ namespace Orkidea.Pioneer.Utilities
         /// 
 
 
-        private string passPhrase = "0rk1d3a&3xt3rr@n";
-        private string saltValue = "@Ch0r1z0$";
+        private string passPhrase = "0rk1d3aT3ch$";
+        private string saltValue = "@L0ng4n1z@$";
         private string initVector = "cUb4L1br3V1rg3n$.";
         private string hashAlgorithm = "MD5";
         private int passwordIterations = 2;

@@ -4,6 +4,7 @@ using Orkidea.Pioneer.Entities;
 using Orkidea.Pioneer.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace Orkidea.Pioneer.Business
                         ctx.Process.Where(x => x.id.Equals(ProcessTarget.id)).FirstOrDefault();
                 }
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ) { }
 
             return oProcess;
         }
@@ -73,10 +74,10 @@ namespace Orkidea.Pioneer.Business
                 using (var ctx = new pioneerEntities())
                 {
                     //verify if the student exists
-                    Process oProcess = GetProcessbyKey(Process);
-
-                    if (oProcess != null)
+                    if (Process.id != 0)
                     {
+                        Process oProcess = GetProcessbyKey(Process);
+
                         // if exists then edit 
                         ctx.Process.Attach(oProcess);
                         EntityFrameworkHelper.EnumeratePropertyDifferences(oProcess, Process);
@@ -90,6 +91,23 @@ namespace Orkidea.Pioneer.Business
                     }
                 }
 
+            }
+            catch (DbEntityValidationException e)
+            {
+                StringBuilder oError = new StringBuilder();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    oError.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
+
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        oError.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+                string msg = oError.ToString();
+                throw new Exception(msg);
             }
             catch (Exception ex) { throw ex; }
         }

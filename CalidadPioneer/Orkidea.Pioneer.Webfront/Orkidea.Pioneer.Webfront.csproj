@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DocumentTypeController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewsPaperController.cs" />
@@ -174,9 +175,11 @@
     <Compile Include="Models\CustomIdentity.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\vmFileUpload.cs" />
     <Compile Include="Models\vmNews.cs" />
     <Compile Include="Models\vmProcess.cs" />
     <Compile Include="Models\vmProcessDocument.cs" />
+    <Compile Include="Models\vmUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -459,6 +462,7 @@
     <Content Include="Images\Map\9n.png" />
     <Content Include="Images\Map\9s.png" />
     <Content Include="Images\pioneer-low.png" />
+    <Content Include="Images\Pionero.png" />
     <Content Include="Images\slider\s1.png" />
     <Content Include="Images\slider\s2.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -500,7 +504,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -537,14 +543,24 @@
     <Content Include="Views\Shared\_NewsPaper.cshtml" />
     <Content Include="Views\Process\Index.cshtml" />
     <Content Include="Views\Process\List.cshtml" />
+    <Content Include="Views\Process\Create.cshtml" />
+    <Content Include="Views\Process\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Security\Login.cshtml" />
+    <Content Include="Views\FileUpload\Index.cshtml" />
+    <Content Include="Views\FileUpload\Create.cshtml" />
+    <Content Include="Views\NewsPaper\Index.cshtml" />
+    <Content Include="Views\NewsPaper\Create.cshtml" />
+    <Content Include="Views\NewsPaper\Edit.cshtml" />
+    <Content Include="Views\DocumentType\Index.cshtml" />
+    <Content Include="Views\DocumentType\Create.cshtml" />
+    <Content Include="Views\DocumentType\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DocumentType\" />
-    <Folder Include="Views\NewsPaper\" />
     <Folder Include="Views\ProcessDocument\" />
-    <Folder Include="Views\Security\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

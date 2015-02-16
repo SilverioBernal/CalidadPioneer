@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Orkidea.Pioneer.Entities.User>
+
+@{
+    ViewBag.Title = "Usuarios - Listado general";
+}
+<h2>Usuarios - Listado general</h2>
+<p>
+    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-info" }) | @Html.ActionLink("Volver al home", "Index", "Home")
+</p>
+<div class="container-fluid">
+    <div class="span12">
+        <table class="table table-bordered table-striped table_vam" id="dt">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Administrador</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.usuario)
+                            @Html.HiddenFor(modelItem => item.id)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.admin)</td>
+                        <td>
+                            <a href="@Url.Action("Details", "Process", new { id = item.id })" class="sepV_a" title="Ver"><i class="fa fa-eye"></i></a>
+                            <a href="@Url.Action("Edit", "Process", new { id = item.id })" class="sepV_a" title="Editar"><i class="fa fa-pencil"></i></a>
+                            <a href="@Url.Action("Delete", "Process", new { id = item.id })" title="Eliminar"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#dt').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "Ningun resultado encontrado",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primera",
+                "last": "Ultima",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        }
+    });
+</script>
