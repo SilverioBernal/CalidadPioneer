@@ -45,7 +45,7 @@
             <img alt=" pionero " src="~/Images/Pionero.png" width="99%" />
         </div>
         <div class="col-md-6">
-            <p class="homeBoxBody">Tu labor hace que nuestra organización sea mejor cada día. ¡Sientete orgulloso! eres nuestro visitante No. <strong>00000</strong> </p>
+            <p class="homeBoxBody estadistica">Tu labor hace que nuestra organización sea mejor cada día. ¡Sientete orgulloso! eres nuestro visitante No. <strong></strong> </p>
         </div>
     </div>
     <div class="col-md-4">
@@ -81,6 +81,16 @@
 
 <script>
     $("#myCarousel").carousel();
+
+    $(document).ready(function () {
+        $.getJSON("@Url.Action("visitante", "Home")", "", res);
+
+        function res(data) {
+            if (data != "") {
+                $(".estadistica").html("Tu labor hace que nuestra organización sea mejor cada día. ¡Sientete orgulloso! eres nuestro visitante No.<strong style='color:#8d060c'>" + data + "</strong>");
+            }
+        }
+    });
 </script>
 
 @section Scripts {

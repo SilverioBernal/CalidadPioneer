@@ -76,10 +76,16 @@
     <Compile Include="ProcessDocument.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProcessLinkedDoc.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Project.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ProjectDocument.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectLinkedDoc.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

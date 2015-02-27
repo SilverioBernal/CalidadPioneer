@@ -1,5 +1,6 @@
 ﻿using Orkidea.Pioneer.Business;
 using Orkidea.Pioneer.Entities;
+using Orkidea.Pioneer.Utilities;
 using Orkidea.Pioneer.Webfront.Models;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                     idProceso = item.idProceso,
                     idTipoDocumento = item.idTipoDocumento,
                     nombre = item.nombre,
-                    ruta = item.ruta
+
                 };
 
                 processDoc.desProceso = processList.Where(x => x.id.Equals(item.idProceso)).FirstOrDefault().nombre;//processBiz.GetProcessbyKey(new Process() { id = item.idProceso }).nombre;
@@ -55,18 +56,10 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             ProcessDocument processDocument = new ProcessDocument() { idProceso = idProceso, idTipoDocumento = idTipoDocumento };
 
             List<ProcessDocument> lstProcessDocument =
-                processDocumentBiz.GetProcessDocumentListByProcessDocumentType(processDocument)
+                processDocumentBiz.GetProcessDocumentList(processDocument)
                 .OrderBy(x => x.nombre).ToList();
 
             return View(lstProcessDocument);
-        }
-
-        //
-        // GET: /ProcessDocument/Details/5
-        [Authorize]
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         //
@@ -88,56 +81,42 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         // POST: /ProcessDocument/Create
         [Authorize]
         [HttpPost]
-        public ActionResult Create(ProcessDocument oProcessDocument, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Create(vmProcessDocument oProcessDocument, IEnumerable<HttpPostedFileBase> files)
         {
             try
-            {
-                if (string.IsNullOrEmpty(oProcessDocument.descripcion))
-                    oProcessDocument.descripcion = "";
+            {                
+                string fileExtension = Path.GetExtension(oProcessDocument.File.FileName);
+                string fileName = Guid.NewGuid().ToString() + fileExtension;                
 
-                if (files != null)
+                AzureStorageHelper.uploadFile(oProcessDocument.File.InputStream, fileName, "uploadedFiles");
+
+                processDocumentBiz.SaveProcessDocument(new ProcessDocument()
                 {
-                    FileTypeBiz fileTypeBiz = new FileTypeBiz();
-                    foreach (HttpPostedFileBase file in files)
-                    {
-                        if (file.FileName != null)
-                        {
-                            string physicalPath = HttpContext.Server.MapPath("~") + "UploadedFiles" + "\\";
-                            string fileName = Guid.NewGuid().ToString() + fileTypeBiz.GetFileTypebyKey(new FileType() { tipoMIME = file.ContentType }).extension;
+                    idTipoDocumento = oProcessDocument.idTipoDocumento,
+                    idProceso = oProcessDocument.idProceso,
+                    nombre = fileName,
+                    descripcion = string.IsNullOrEmpty(oProcessDocument.descripcion) ? "" : oProcessDocument.descripcion
+                });
+                ViewBag.menu = "medios";
 
-                            using (Stream output = System.IO.File.OpenWrite(physicalPath + fileName))
-                            using (Stream input = file.InputStream)
-                            {
-                                input.CopyTo(output);
-
-                                oProcessDocument.ruta = fileName;
-                            }
-                        }
-                    }
-                    processDocumentBiz.SaveProcessDocument(oProcessDocument);
-                }
 
                 return RedirectToAction("Index");
+
             }
             catch (Exception ex)
             {
                 ViewBag.mensaje = ex.Message + ex.StackTrace + ex.InnerException.Message;
                 ProcessBiz processBiz = new ProcessBiz();
                 DocumentTypeBiz documentTypeBiz = new DocumentTypeBiz();
-
                 vmProcessDocument processDocument = new vmProcessDocument()
                 {
-                    descripcion = oProcessDocument.descripcion,
-                    desProceso = oProcessDocument.descripcion,
+                    desProceso = oProcessDocument.desProceso,
                     idProceso = oProcessDocument.idProceso,
                     idTipoDocumento = oProcessDocument.idTipoDocumento,
-                    nombre = oProcessDocument.nombre,
-                    ruta = oProcessDocument.ruta
+                    descripcion = string.IsNullOrEmpty(oProcessDocument.descripcion) ? "" : oProcessDocument.descripcion
                 };
-
                 processDocument.lstProcess = processBiz.GetProcessList().OrderBy(x => x.nombre).ToList();
                 processDocument.lstDocType = documentTypeBiz.GetDocumentTypeList().OrderBy(x => x.nombre).ToList();
-
                 return View(processDocument);
             }
         }
@@ -162,11 +141,12 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 idTipoDocumento = oProcessDocument.idTipoDocumento,
                 desTipo = documentType.nombre,
                 nombre = oProcessDocument.nombre,
-                ruta = oProcessDocument.ruta
             };
 
             processDocument.lstProcess = processBiz.GetProcessList().OrderBy(x => x.nombre).ToList();
             processDocument.lstDocType = documentTypeBiz.GetDocumentTypeList().OrderBy(x => x.nombre).ToList();
+
+            ViewBag.idPadre = id;
 
             return View(processDocument);
         }
@@ -182,28 +162,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 if (string.IsNullOrEmpty(oProcessDocument.descripcion))
                     oProcessDocument.descripcion = "";
 
-                if (files != null)
-                {
-                    FileTypeBiz fileTypeBiz = new FileTypeBiz();
-                    foreach (HttpPostedFileBase file in files)
-                    {
-                        if (file.FileName != null)
-                        {
-                            string physicalPath = HttpContext.Server.MapPath("~") + "UploadedFiles" + "\\";
-                            string fileName = Guid.NewGuid().ToString() + fileTypeBiz.GetFileTypebyKey(new FileType() { tipoMIME = file.ContentType }).extension;
-
-                            using (Stream output = System.IO.File.OpenWrite(physicalPath + fileName))
-                            using (Stream input = file.InputStream)
-                            {
-                                input.CopyTo(output);
-
-                                oProcessDocument.ruta = fileName;
-                            }
-                        }
-                    }
-                    oProcessDocument.id = id;
-                    processDocumentBiz.SaveProcessDocument(oProcessDocument);
-                }
+                oProcessDocument.id = id;
+                processDocumentBiz.SaveProcessDocument(oProcessDocument);
 
                 return RedirectToAction("Index");
             }
@@ -219,8 +179,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                     desProceso = oProcessDocument.descripcion,
                     idProceso = oProcessDocument.idProceso,
                     idTipoDocumento = oProcessDocument.idTipoDocumento,
-                    nombre = oProcessDocument.nombre,
-                    ruta = oProcessDocument.ruta
+                    nombre = oProcessDocument.nombre
                 };
 
                 processDocument.lstProcess = processBiz.GetProcessList().OrderBy(x => x.nombre).ToList();
@@ -235,63 +194,44 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [Authorize]
         public ActionResult Delete(int id)
         {
-            ProcessBiz processBiz = new ProcessBiz();
-            DocumentTypeBiz documentTypeBiz = new DocumentTypeBiz();
-            ProcessDocument oProcessDocument = processDocumentBiz.GetProcessDocumentbyKey(new ProcessDocument() { id = id });
-            Process process = processBiz.GetProcessbyKey(new Process() { id = oProcessDocument.idProceso });
-            DocumentType documentType = documentTypeBiz.GetDocumentTypeByKey(new DocumentType() { id = oProcessDocument.idTipoDocumento });
-
-            vmProcessDocument processDocument = new vmProcessDocument()
-            {
-                id = id,
-                descripcion = oProcessDocument.descripcion,
-                desProceso = process.nombre,
-                idProceso = oProcessDocument.idProceso,
-                idTipoDocumento = oProcessDocument.idTipoDocumento,
-                desTipo = documentType.nombre,
-                nombre = oProcessDocument.nombre,
-                ruta = oProcessDocument.ruta
-            };
-
-            processDocument.lstProcess = processBiz.GetProcessList().OrderBy(x => x.nombre).ToList();
-            processDocument.lstDocType = documentTypeBiz.GetDocumentTypeList().OrderBy(x => x.nombre).ToList();
-
-            return View(processDocument);
+            processDocumentBiz.DeleteProcessDocument(new ProcessDocument() { id = id });
+            return RedirectToAction("Index");
         }
 
-        //
-        // POST: /ProcessDocument/Delete/5
-        [Authorize]
-        [HttpPost]
-        public ActionResult Delete(int id, ProcessDocument oProcessDocument)
+        public ActionResult Details(string archivo)
         {
-            try
-            {
-                oProcessDocument.id = id;
-                processDocumentBiz.DeleteProcessDocument(oProcessDocument);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                ProcessBiz processBiz = new ProcessBiz();
-                DocumentTypeBiz documentTypeBiz = new DocumentTypeBiz();
+            string mimeType = "";
+            int cuentaPuntos = 0;
+            string[] nombreArchivo = archivo.Split('.');
+            cuentaPuntos = nombreArchivo.Length;
+            mimeType = MimeTypeBiz.GetMimeType(nombreArchivo[cuentaPuntos - 1]).mimetype1;
+            //dynamically generate a file
+            System.IO.MemoryStream ms;
+            ms = AzureStorageHelper.getFile(archivo, "uploadedFiles");
+            // return the file
+            return File(ms.ToArray(), mimeType, archivo);
+        }
 
-                vmProcessDocument processDocument = new vmProcessDocument()
+        public ActionResult ShowRelations(int id) {
+            ProcessDocument oProcessDocument = processDocumentBiz.GetProcessDocumentbyKey(new ProcessDocument() { id = id });
+            List<ProcessDocument> lsProcessDocument = processDocumentBiz.GetProcessDocumentList(oProcessDocument.idProceso).Where(x => x.id != id).ToList();
+            List<ProcessLinkedDoc> lsLinkedDocs = processDocumentBiz.GetProcessLinkedDocList(id);
+
+            List<ProcessDocument> lsDocs = new List<ProcessDocument>();
+
+            foreach (ProcessLinkedDoc item in lsLinkedDocs)
+            {
+                ProcessDocument document = new ProcessDocument()
                 {
-                    id = id,
-                    descripcion = oProcessDocument.descripcion,
-                    desProceso = oProcessDocument.descripcion,
-                    idProceso = oProcessDocument.idProceso,
-                    idTipoDocumento = oProcessDocument.idTipoDocumento,
-                    nombre = oProcessDocument.nombre,
-                    ruta = oProcessDocument.ruta
+                    id = item.idHijo,                  
+                    descripcion = lsProcessDocument.Where(x => x.id.Equals(item.idHijo)).Select(x => x.descripcion).FirstOrDefault(),
+                    nombre = lsProcessDocument.Where(x => x.id.Equals(item.idHijo)).Select(x => x.nombre).FirstOrDefault()
                 };
 
-                processDocument.lstProcess = processBiz.GetProcessList().OrderBy(x => x.nombre).ToList();
-                processDocument.lstDocType = documentTypeBiz.GetDocumentTypeList().OrderBy(x => x.nombre).ToList();
-
-                return View(processDocument);
+                lsDocs.Add(document);
             }
-        }        
+
+            return View(lsDocs);
+        }
     }
 }

@@ -69,6 +69,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Cryptography.cs" />
     <Compile Include="EntityFrameworkHelper.cs" />
+    <Compile Include="MailingHelper.cs" />
+    <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

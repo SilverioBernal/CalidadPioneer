@@ -1,0 +1,14 @@
+﻿Apreciado Administrador
+
+De:[correo]
+Enviado:[fecha]
+
+________________________Inicio Mensaje_________________________
+[mensaje]
+________________________Fin Mensaje____________________________
+
+
+Cordialmente,
+
+
+Sistema de Gestión Documental Pioneer Colombia

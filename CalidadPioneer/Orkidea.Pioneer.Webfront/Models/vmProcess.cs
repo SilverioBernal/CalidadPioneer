@@ -23,9 +23,12 @@ namespace Orkidea.Pioneer.Webfront.Models
 
         public List<DocumentType> lstDocumentType { get; set; }
 
+        public List<vmProject> lsProject { get; set; }
         public vmProcess()
         {
             lstDocumentType = new List<DocumentType>();
+
+            lsProject = new List<vmProject>();
         }
     }
 }

@@ -29,8 +29,11 @@
     <div class="row">
     </div>
     <p>
-        <input type='submit' id='upload-files' value=' Guardar ' class="btn btn-primary" />
+        <input type='submit' id='upload-files' value=' Guardar ' class="btn btn-info" />
         | @Html.ActionLink("Volver a la lista", "List")
     </p>                                                                                     
    
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

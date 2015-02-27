@@ -1,6 +1,7 @@
 ﻿using Orkidea.Pioneer.Business;
 using Orkidea.Pioneer.Entities;
 using Orkidea.Pioneer.Utilities;
+using Orkidea.Pioneer.Webfront.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,28 +49,12 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         public ActionResult Create(User user)
         {
             try
-            {
-                Cryptography oCrypto = new Cryptography();
-                //Mailing mailing = new Mailing();
+            {                
+                User oUser = userBiz.GetUserbyName(new User() { usuario = user.usuario });
+                string rootPath = Server.MapPath("~"); 
 
-                //User oUser = userBiz.GetUserbyName(new User() { usuario = user.usuario });
-
-                //if (oUser == null)
-                //{
-                //    string clave = RandomPasswordGenerator.Generate();
-                //    user.clave = oCrypto.Encrypt(clave);
-                //    userBiz.SaveUser(user);
-
-                //    List<MailAddress> to = new List<MailAddress>();
-                //    to.Add(new MailAddress(user.usuario, user.usuario));
-                //    List<MailAddress> cc = new List<MailAddress>();
-                //    List<MailAddress> bcc = new List<MailAddress>();
-
-                //    string body = "<p>Apreciado usuario, <p><p>Se ha creado una cuenta para acceder al portal del Sistema de Gestión de Calidad. Su usuario es <b>" + user.usuario + "</b> y su clave es: <br /><br /> <b>" + clave + "</b></p><br /><br /><p>Sistema de Gestion de Calidad</p>";
-
-
-                //    mailing.SendMail(to, cc, bcc, "Creacion de usuario", body);
-                //}
+                if (oUser == null)
+                    userBiz.SaveUser(user, rootPath);                
                 return RedirectToAction("Index");
             }
             catch
@@ -83,8 +68,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [Authorize]
         public ActionResult Edit(int id)
         {
-            //User oUser = userBiz.GetUserbyKey(new User() { id = id });
-            //vmUser user = new vmUser() { admin = oUser.admin, clave = oUser.clave, id = oUser.id, usuario = oUser.usuario };
+            User oUser = userBiz.GetUserbyKey(new User() { id = id });
+            vmUser user = new vmUser() { admin = oUser.admin, clave = oUser.clave, id = oUser.id, usuario = oUser.usuario };
             //return View(user);
             return View();
         }
@@ -97,8 +82,10 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         {
             try
             {
+                string rootPath = Server.MapPath("~"); 
+
                 user.id = id;
-                userBiz.SaveUser(user);
+                userBiz.SaveUser(user, rootPath);
 
                 return RedirectToAction("Index");
             }

@@ -62,6 +62,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                         GenericPrincipal newUser = new GenericPrincipal(identity, new string[] { });
                         HttpContext.User = newUser;
                     }
+                    
+                    ActivityLogBiz.SaveActivityLog(new ActivityLog() { idUsuario = id, accion = "Login", fecha = DateTime.Now });
 
                     return RedirectToLocal(returnUrl);
                 }
@@ -99,8 +101,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             UserBiz userBiz = new UserBiz();
 
             User user = userBiz.GetUserbyName(new User() { usuario = HttpContext.User.Identity.Name });
+            vmUser oUser = new vmUser() { id = user.id, usuario = user.usuario, admin = user.admin};
             user.clave = "";
-            return View(user);
+            return View(oUser);
         }
 
         [Authorize]
@@ -108,14 +111,14 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         public ActionResult ChangePassword(User userTarget)
         {
             Cryptography oCrypto = new Cryptography();
-
+            string rootPath = Server.MapPath("~"); 
             UserBiz userBiz = new UserBiz();
 
             User user = userBiz.GetUserbyName(new User() { usuario = HttpContext.User.Identity.Name });
 
             user.clave = oCrypto.Encrypt(userTarget.clave);
 
-            userBiz.SaveUser(user);
+            userBiz.SaveUser(user, rootPath);
 
             return RedirectToAction("Index", "Home");
         }

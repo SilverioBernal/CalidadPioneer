@@ -68,13 +68,21 @@
     <Property Name="idTipoDocumento" Type="int" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
     <Property Name="descripcion" Type="varchar" MaxLength="250" />
-    <Property Name="ruta" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProcessLinkedDoc">
+    <Key>
+      <PropertyRef Name="idPadre" />
+      <PropertyRef Name="idHijo" />
+    </Key>
+    <Property Name="idPadre" Type="int" Nullable="false" />
+    <Property Name="idHijo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idProceso" Type="int" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectDocument">
@@ -85,7 +93,15 @@
     <Property Name="idProyecto" Type="int" Nullable="false" />
     <Property Name="idTipoDocumento" Type="int" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
-    <Property Name="ruta" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProjectLinkedDoc">
+    <Key>
+      <PropertyRef Name="idPadre" />
+      <PropertyRef Name="idHijo" />
+    </Key>
+    <Property Name="idPadre" Type="int" Nullable="false" />
+    <Property Name="idHijo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -120,6 +136,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProcessLinkedDoc_ProcessDocument">
+    <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="1" />
+    <End Role="ProcessLinkedDoc" Type="Self.ProcessLinkedDoc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProcessDocument">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProcessLinkedDoc">
+        <PropertyRef Name="idHijo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectDocument_DocumentType">
     <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
     <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
@@ -144,6 +172,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ProjectLinkedDoc_ProjectDocument">
+    <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="1" />
+    <End Role="ProjectLinkedDoc" Type="Self.ProjectLinkedDoc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectDocument">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ProjectLinkedDoc">
+        <PropertyRef Name="idHijo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="pioneerModelStoreContainer">
     <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
@@ -153,8 +193,10 @@
     <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProcessLinkedDoc" EntityType="Self.ProcessLinkedDoc" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectLinkedDoc" EntityType="Self.ProjectLinkedDoc" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="Self.FK_ProcessDocument_DocumentType">
       <End Role="DocumentType" EntitySet="DocumentType" />
@@ -164,6 +206,10 @@
       <End Role="Process" EntitySet="Process" />
       <End Role="ProcessDocument" EntitySet="ProcessDocument" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProcessLinkedDoc_ProcessDocument" Association="Self.FK_ProcessLinkedDoc_ProcessDocument">
+      <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+      <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="Self.FK_ProjectDocument_DocumentType">
       <End Role="DocumentType" EntitySet="DocumentType" />
       <End Role="ProjectDocument" EntitySet="ProjectDocument" />
@@ -171,6 +217,10 @@
     <AssociationSet Name="FK_ProjectDocument_Project" Association="Self.FK_ProjectDocument_Project">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectLinkedDoc_ProjectDocument" Association="Self.FK_ProjectLinkedDoc_ProjectDocument">
+      <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+      <End Role="ProjectLinkedDoc" EntitySet="ProjectLinkedDoc" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

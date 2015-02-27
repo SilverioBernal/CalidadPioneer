@@ -1,0 +1,72 @@
+﻿﻿@model Orkidea.Pioneer.Webfront.Models.vmProjectDocument
+@{
+    ViewBag.Title = "Sistema de gestión - Creación de documentos de proyectos";
+}
+
+
+<div class="container-fluid">
+    @using (Html.BeginForm("Create", "ProjectDocument", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <h2>Documentos de proyectos</h2>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, "Subir archivo", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-primary", title = "Seleccione el archivo" })
+            @Html.ValidationMessageFor(m => m.File, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <div class="span6">
+                <label>Descripcion del archivo</label>
+                @Html.TextBoxFor(m => m.descripcion, new { @class = "form-control" })
+                @Html.HiddenFor(model => model.nombre)
+            </div>
+        </div>        
+        <div class="form-group">
+            @Html.LabelFor(model => model.idProyecto, new { @class = "control-label" })
+            @Html.DropDownListFor(model => model.idProyecto,  new SelectList(Model.lstProject, "id", "nombre"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.idProyecto,"", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.idTipoDocumento)
+            @Html.DropDownListFor(model => model.idTipoDocumento, new SelectList(Model.lstDocType, "id", "nombre"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.idTipoDocumento, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-info" />  | @Html.ActionLink("Volver a la lista", "Index")
+        </div>
+
+    }
+</div>
+<div id="uploaded" class="row">
+</div>
+
+<!-- plupload and all it's runtimes and the jQuery queue widget (attachments) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+<script>
+    //<![CDATA[
+    $(function () {
+        $.fn.bootstrapFileInput = function () {
+            this.each(function (i, elem) {
+                var $elem = $(elem); if (typeof $elem.attr('data-bfi-disabled') != 'undefined') { return; }
+                var buttonWord = 'Browse'; if (typeof $elem.attr('title') != 'undefined') { buttonWord = $elem.attr('title'); }
+                var className = ''; if (!!$elem.attr('class')) { className = ' ' + $elem.attr('class'); }
+                $elem.wrap('<a class="file-input-wrapper btn btn-default ' + className + '"></a>').parent().prepend(buttonWord);
+            }).promise().done(function () {
+                $('.file-input-wrapper').mousemove(function (cursor) { var input, wrapper, wrapperX, wrapperY, inputWidth, inputHeight, cursorX, cursorY; wrapper = $(this); input = wrapper.find("input"); wrapperX = wrapper.offset().left; wrapperY = wrapper.offset().top; inputWidth = input.width(); inputHeight = input.height(); cursorX = cursor.pageX; cursorY = cursor.pageY; moveInputX = cursorX - wrapperX - inputWidth + 20; moveInputY = cursorY - wrapperY - (inputHeight / 2); input.css({ left: moveInputX, top: moveInputY }); }); $('body').on('change', '.file-input-wrapper input[type=file]', function () {
+                    var fileName; fileName = $(this).val(); $(this).parent().next('.file-input-name').remove(); if (!!$(this).prop('files') && $(this).prop('files').length > 1) { fileName = $(this)[0].files.length + ' files'; }
+                    else { fileName = fileName.substring(fileName.lastIndexOf('\\') + 1, fileName.length); }
+                    $(this).parent().after('<span class="file-input-name">' + fileName + '</span>');
+                });
+            });
+        }; var cssHtml = '<style>' + '.file-input-wrapper { overflow: hidden; position: relative; cursor: pointer; z-index: 1; }' + '.file-input-wrapper input[type=file], .file-input-wrapper input[type=file]:focus, .file-input-wrapper input[type=file]:hover { position: absolute; top: 0; left: 0; cursor: pointer; opacity: 0; filter: alpha(opacity=0); z-index: 99; outline: 0; }' + '.file-input-name { margin-left: 8px; }' + '</style>'; $('link[rel=stylesheet]').eq(0).before(cssHtml);
+    });
+    //]]></script>
+<script>$(document).ready(function () { $('input[type=file]').bootstrapFileInput(); });</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

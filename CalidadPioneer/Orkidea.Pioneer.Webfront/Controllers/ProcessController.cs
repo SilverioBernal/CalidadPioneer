@@ -32,9 +32,26 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
+            #region User identification
+            System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+            int user = 0;
+
+            if (context.IsAuthenticated)
+            {
+
+                System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                string[] userRole = ci.Ticket.UserData.Split('|');
+                user = int.Parse(userRole[0]);
+            }
+
+            #endregion
+
             ProcessDocumentBiz processDocumentBiz = new ProcessDocumentBiz();
             Process process = processBiz.GetProcessbyKey(new Process() { id = id });
             vmProcess oProcess = new vmProcess() { id = id, nombre = process.nombre, descripcion = process.descripcion, archivoCaracterizacion = process.archivoCaracterizacion };
+
+            ActivityLogBiz.SaveActivityLog(new ActivityLog() { idUsuario = user, accion = "Proceso " + process.nombre, fecha = DateTime.Now });
 
             oProcess.lstDocumentType = processDocumentBiz.GetDocumentTypeByProcess(process);
 

@@ -38,37 +38,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProcessDocument">
-      <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
-        <MappingFragment StoreEntitySet="ProcessDocument">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idProceso" ColumnName="idProceso" />
-          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="ruta" ColumnName="ruta" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Project">
-      <EntityTypeMapping TypeName="pioneerModel.Project">
-        <MappingFragment StoreEntitySet="Project">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProjectDocument">
-      <EntityTypeMapping TypeName="pioneerModel.ProjectDocument">
-        <MappingFragment StoreEntitySet="ProjectDocument">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
-          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="ruta" ColumnName="ruta" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="User">
       <EntityTypeMapping TypeName="pioneerModel.User">
         <MappingFragment StoreEntitySet="User">
@@ -105,6 +74,53 @@
           <ScalarProperty Name="mimetype1" ColumnName="mimetype" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Project">
+      <EntityTypeMapping TypeName="pioneerModel.Project">
+        <MappingFragment StoreEntitySet="Project">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProcessDocument">
+      <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
+        <MappingFragment StoreEntitySet="ProcessDocument">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+          <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProcessLinkedDoc">
+      <EntityTypeMapping TypeName="pioneerModel.ProcessLinkedDoc">
+        <MappingFragment StoreEntitySet="ProcessLinkedDoc">
+          <ScalarProperty Name="idHijo" ColumnName="idHijo" />
+          <ScalarProperty Name="idPadre" ColumnName="idPadre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectLinkedDoc">
+      <EntityTypeMapping TypeName="pioneerModel.ProjectLinkedDoc">
+        <MappingFragment StoreEntitySet="ProjectLinkedDoc">
+          <ScalarProperty Name="idHijo" ColumnName="idHijo" />
+          <ScalarProperty Name="idPadre" ColumnName="idPadre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectDocument">
+      <EntityTypeMapping TypeName="pioneerModel.ProjectDocument">
+        <MappingFragment StoreEntitySet="ProjectDocument">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+          <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

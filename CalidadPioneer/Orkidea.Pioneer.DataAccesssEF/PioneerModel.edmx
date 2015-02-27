@@ -73,13 +73,21 @@
           <Property Name="idTipoDocumento" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="250" />
-          <Property Name="ruta" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProcessLinkedDoc">
+          <Key>
+            <PropertyRef Name="idPadre" />
+            <PropertyRef Name="idHijo" />
+          </Key>
+          <Property Name="idPadre" Type="int" Nullable="false" />
+          <Property Name="idHijo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProceso" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectDocument">
@@ -90,7 +98,15 @@
           <Property Name="idProyecto" Type="int" Nullable="false" />
           <Property Name="idTipoDocumento" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="ruta" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectLinkedDoc">
+          <Key>
+            <PropertyRef Name="idPadre" />
+            <PropertyRef Name="idHijo" />
+          </Key>
+          <Property Name="idPadre" Type="int" Nullable="false" />
+          <Property Name="idHijo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -125,6 +141,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProcessLinkedDoc_ProcessDocument">
+          <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="1" />
+          <End Role="ProcessLinkedDoc" Type="Self.ProcessLinkedDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcessDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessLinkedDoc">
+              <PropertyRef Name="idHijo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProjectDocument_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
           <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
@@ -149,6 +177,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProjectLinkedDoc_ProjectDocument">
+          <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="1" />
+          <End Role="ProjectLinkedDoc" Type="Self.ProjectLinkedDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProjectLinkedDoc">
+              <PropertyRef Name="idHijo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="pioneerModelStoreContainer">
           <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
@@ -158,8 +198,10 @@
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessLinkedDoc" EntityType="Self.ProcessLinkedDoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectLinkedDoc" EntityType="Self.ProjectLinkedDoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="Self.FK_ProcessDocument_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
@@ -169,6 +211,10 @@
             <End Role="Process" EntitySet="Process" />
             <End Role="ProcessDocument" EntitySet="ProcessDocument" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProcessLinkedDoc_ProcessDocument" Association="Self.FK_ProcessLinkedDoc_ProcessDocument">
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+            <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="Self.FK_ProjectDocument_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
@@ -176,6 +222,10 @@
           <AssociationSet Name="FK_ProjectDocument_Project" Association="Self.FK_ProjectDocument_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectLinkedDoc_ProjectDocument" Association="Self.FK_ProjectLinkedDoc_ProjectDocument">
+            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+            <End Role="ProjectLinkedDoc" EntitySet="ProjectLinkedDoc" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -197,8 +247,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ProcessDocument" Relationship="Self.FK_ProcessDocument_DocumentType" FromRole="DocumentType" ToRole="ProcessDocument" />
-          <NavigationProperty Name="ProjectDocument" Relationship="Self.FK_ProjectDocument_DocumentType" FromRole="DocumentType" ToRole="ProjectDocument" />
+          <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="DocumentType" ToRole="ProcessDocument" />
+          <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectDocument_DocumentType" FromRole="DocumentType" ToRole="ProjectDocument" />
         </EntityType>
         <EntityType Name="FileType">
           <Key>
@@ -217,39 +267,6 @@
           <Property Name="titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityType Name="ProcessDocument">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idProceso" Type="Int32" Nullable="false" />
-          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ruta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="DocumentType" Relationship="Self.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
-          <NavigationProperty Name="Process" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
-        </EntityType>
-        <EntityType Name="Project">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ProjectDocument" Relationship="Self.FK_ProjectDocument_Project" FromRole="Project" ToRole="ProjectDocument" />
-        </EntityType>
-        <EntityType Name="ProjectDocument">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idProyecto" Type="Int32" Nullable="false" />
-          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ruta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="DocumentType" Relationship="Self.FK_ProjectDocument_DocumentType" FromRole="ProjectDocument" ToRole="DocumentType" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_ProjectDocument_Project" FromRole="ProjectDocument" ToRole="Project" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
@@ -259,71 +276,45 @@
           <Property Name="clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="admin" Type="Boolean" Nullable="false" />
         </EntityType>
-        <Association Name="FK_ProcessDocument_DocumentType">
-          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
-          <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DocumentType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessDocument">
-              <PropertyRef Name="idTipoDocumento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProjectDocument_DocumentType">
-          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
-          <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DocumentType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProjectDocument">
-              <PropertyRef Name="idTipoDocumento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProjectDocument_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="ProjectDocument" Type="Self.ProjectDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProjectDocument">
-              <PropertyRef Name="idProyecto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="pioneerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
           <EntitySet Name="FileType" EntityType="Self.FileType" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
-          <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" />
-          <EntitySet Name="Project" EntityType="Self.Project" />
-          <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" />
           <EntitySet Name="User" EntityType="Self.User" />
-          <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="Self.FK_ProcessDocument_DocumentType">
+          <EntitySet Name="Process" EntityType="pioneerModel.Process" />
+          <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
+          <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
+          <EntitySet Name="Project" EntityType="pioneerModel.Project" />
+          <EntitySet Name="ProcessDocument" EntityType="pioneerModel.ProcessDocument" />
+          <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="pioneerModel.FK_ProcessDocument_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="ProcessDocument" EntitySet="ProcessDocument" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="Self.FK_ProjectDocument_DocumentType">
-            <End Role="DocumentType" EntitySet="DocumentType" />
-            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProjectDocument_Project" Association="Self.FK_ProjectDocument_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
-          </AssociationSet>
-          <EntitySet Name="Process" EntityType="pioneerModel.Process" />
           <AssociationSet Name="FK_ProcessDocument_Process" Association="pioneerModel.FK_ProcessDocument_Process">
             <End Role="Process" EntitySet="Process" />
             <End Role="ProcessDocument" EntitySet="ProcessDocument" />
           </AssociationSet>
-          <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
-          <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
-        </EntityContainer>
+          <EntitySet Name="ProcessLinkedDoc" EntityType="pioneerModel.ProcessLinkedDoc" />
+          <EntitySet Name="ProjectLinkedDoc" EntityType="pioneerModel.ProjectLinkedDoc" />
+          <AssociationSet Name="FK_ProcessLinkedDoc_ProcessDocument" Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument">
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+            <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
+          </AssociationSet>
+          <EntitySet Name="ProjectDocument" EntityType="pioneerModel.ProjectDocument" />
+          <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="pioneerModel.FK_ProjectDocument_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectDocument_Project" Association="pioneerModel.FK_ProjectDocument_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectLinkedDoc_ProjectDocument" Association="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument">
+            <End Role="ProjectDocument" EntitySet="ProjectDocument" />
+            <End Role="ProjectLinkedDoc" EntitySet="ProjectLinkedDoc" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Process">
           <Key>
             <PropertyRef Name="id" />
@@ -334,18 +325,6 @@
           <Property Name="archivoCaracterizacion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="Process" ToRole="ProcessDocument" />
         </EntityType>
-        <Association Name="FK_ProcessDocument_Process">
-          <End Type="pioneerModel.Process" Role="Process" Multiplicity="1" />
-          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Process">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessDocument">
-              <PropertyRef Name="idProceso" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FileUpload">
           <Key>
             <PropertyRef Name="id" />
@@ -363,7 +342,132 @@
           <Property Name="mimetype1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-      </Schema>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProceso" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectDocument_Project" FromRole="Project" ToRole="ProjectDocument" />
+        </EntityType>
+        <EntityType Name="ProcessDocument">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProceso" Type="Int32" Nullable="false" />
+          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DocumentType" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
+          <NavigationProperty Name="Process" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
+          <NavigationProperty Name="ProcessLinkedDoc" Relationship="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" FromRole="ProcessDocument" ToRole="ProcessLinkedDoc" />
+        </EntityType>
+        <Association Name="FK_ProcessDocument_DocumentType">
+          <End Type="pioneerModel.DocumentType" Role="DocumentType" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessDocument">
+              <PropertyRef Name="idTipoDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessDocument_Process">
+          <End Type="pioneerModel.Process" Role="Process" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessDocument">
+              <PropertyRef Name="idProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProcessLinkedDoc">
+          <Key>
+            <PropertyRef Name="idPadre" />
+            <PropertyRef Name="idHijo" />
+          </Key>
+          <Property Name="idPadre" Type="Int32" Nullable="false" />
+          <Property Name="idHijo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" FromRole="ProcessLinkedDoc" ToRole="ProcessDocument" />
+        </EntityType>
+        <EntityType Name="ProjectLinkedDoc">
+          <Key>
+            <PropertyRef Name="idPadre" />
+            <PropertyRef Name="idHijo" />
+          </Key>
+          <Property Name="idPadre" Type="Int32" Nullable="false" />
+          <Property Name="idHijo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument" FromRole="ProjectLinkedDoc" ToRole="ProjectDocument" />
+        </EntityType>
+        <Association Name="FK_ProcessLinkedDoc_ProcessDocument">
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessLinkedDoc" Role="ProcessLinkedDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcessDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessLinkedDoc">
+              <PropertyRef Name="idHijo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectDocument">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProyecto" Type="Int32" Nullable="false" />
+          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DocumentType" Relationship="pioneerModel.FK_ProjectDocument_DocumentType" FromRole="ProjectDocument" ToRole="DocumentType" />
+          <NavigationProperty Name="Project" Relationship="pioneerModel.FK_ProjectDocument_Project" FromRole="ProjectDocument" ToRole="Project" />
+          <NavigationProperty Name="ProjectLinkedDoc" Relationship="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument" FromRole="ProjectDocument" ToRole="ProjectLinkedDoc" />
+        </EntityType>
+        <Association Name="FK_ProjectDocument_DocumentType">
+          <End Type="pioneerModel.DocumentType" Role="DocumentType" Multiplicity="1" />
+          <End Type="pioneerModel.ProjectDocument" Role="ProjectDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProjectDocument">
+              <PropertyRef Name="idTipoDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectDocument_Project">
+          <End Type="pioneerModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="pioneerModel.ProjectDocument" Role="ProjectDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProjectDocument">
+              <PropertyRef Name="idProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectLinkedDoc_ProjectDocument">
+          <End Type="pioneerModel.ProjectDocument" Role="ProjectDocument" Multiplicity="1" />
+          <End Type="pioneerModel.ProjectLinkedDoc" Role="ProjectLinkedDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProjectLinkedDoc">
+              <PropertyRef Name="idHijo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -406,37 +510,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProcessDocument">
-            <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
-              <MappingFragment StoreEntitySet="ProcessDocument">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idProceso" ColumnName="idProceso" />
-                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="ruta" ColumnName="ruta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Project">
-            <EntityTypeMapping TypeName="pioneerModel.Project">
-              <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProjectDocument">
-            <EntityTypeMapping TypeName="pioneerModel.ProjectDocument">
-              <MappingFragment StoreEntitySet="ProjectDocument">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
-                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="ruta" ColumnName="ruta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="pioneerModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -473,6 +546,53 @@
                 <ScalarProperty Name="mimetype1" ColumnName="mimetype" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="pioneerModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessDocument">
+            <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
+              <MappingFragment StoreEntitySet="ProcessDocument">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+                <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessLinkedDoc">
+            <EntityTypeMapping TypeName="pioneerModel.ProcessLinkedDoc">
+              <MappingFragment StoreEntitySet="ProcessLinkedDoc">
+                <ScalarProperty Name="idHijo" ColumnName="idHijo" />
+                <ScalarProperty Name="idPadre" ColumnName="idPadre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectLinkedDoc">
+            <EntityTypeMapping TypeName="pioneerModel.ProjectLinkedDoc">
+              <MappingFragment StoreEntitySet="ProjectLinkedDoc">
+                <ScalarProperty Name="idHijo" ColumnName="idHijo" />
+                <ScalarProperty Name="idPadre" ColumnName="idPadre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectDocument">
+            <EntityTypeMapping TypeName="pioneerModel.ProjectDocument">
+              <MappingFragment StoreEntitySet="ProjectDocument">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+                <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

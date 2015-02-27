@@ -39,8 +39,7 @@
                             @Html.DisplayFor(modelItem => item.nombre)
                             @Html.HiddenFor(modelItem => item.id)
                         </td>
-                        <td>
-                            <a href="@Url.Action("Details", "Process", new { id = item.id })" class="sepV_a" title="Ver"><i class="fa fa-eye"></i></a>
+                        <td>                            
                             <a href="@Url.Action("Edit", "Process", new { id = item.id })" class="sepV_a" title="Editar"><i class="fa fa-pencil"></i></a>
                             <a href="@Url.Action("Delete", "Process", new { id = item.id })" title="Eliminar"><i class="fa fa-trash"></i></a>
                         </td>

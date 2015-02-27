@@ -37,11 +37,11 @@ namespace Orkidea.Pioneer.Business
         }
 
         /// <summary>
-        /// Retrieve process list 
+        /// Process documents list by process and document type
         /// </summary>
         /// <param name="schoolTarget"></param>
         /// <returns></returns>
-        public List<ProcessDocument> GetProcessDocumentListByProcessDocumentType(ProcessDocument processDocument)
+        public List<ProcessDocument> GetProcessDocumentList(ProcessDocument processDocument)
         {
 
             List<ProcessDocument> lstProcess = new List<ProcessDocument>();
@@ -52,6 +52,29 @@ namespace Orkidea.Pioneer.Business
                 {
                     ctx.Configuration.ProxyCreationEnabled = false;
                     lstProcess = ctx.ProcessDocument.Where(x => x.idProceso.Equals(processDocument.idProceso) && x.idTipoDocumento.Equals(processDocument.idTipoDocumento)).ToList();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return lstProcess;
+        }
+
+        /// <summary>
+        /// Process documents list by process
+        /// </summary>
+        /// <param name="schoolTarget"></param>
+        /// <returns></returns>
+        public List<ProcessDocument> GetProcessDocumentList(int idProcess)
+        {
+
+            List<ProcessDocument> lstProcess = new List<ProcessDocument>();
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    lstProcess = ctx.ProcessDocument.Where(x => x.idProceso.Equals(idProcess)).ToList();
                 }
             }
             catch (Exception ex) { throw ex; }
@@ -91,7 +114,7 @@ namespace Orkidea.Pioneer.Business
         /// <summary>
         /// Retrieve course information based in the primary key
         /// </summary>
-        /// <param name="processDocumentTarget"></param>
+        /// <param name="Document"></param>
         /// <returns></returns>
         public ProcessDocument GetProcessDocumentbyKey(ProcessDocument processDocumentTarget)
         {
@@ -163,6 +186,81 @@ namespace Orkidea.Pioneer.Business
                         // if exists then edit 
                         ctx.ProcessDocument.Attach(oProcess);
                         ctx.ProcessDocument.Remove(oProcess);
+                        ctx.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        /*CRUD ProcessLinkedDocument*/
+        public List<ProcessLinkedDoc> GetProcessLinkedDocList(int idParentDocument)
+        {
+
+            List<ProcessLinkedDoc> lstDocuments = new List<ProcessLinkedDoc>();
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    lstDocuments = ctx.ProcessLinkedDoc.Where(x => x.idPadre.Equals(idParentDocument)).ToList();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return lstDocuments;
+        }
+
+        public ProcessLinkedDoc GetProcessLinkedDocument(ProcessLinkedDoc Document)
+        {
+            ProcessLinkedDoc oProcess = new ProcessLinkedDoc();
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+
+                    oProcess =
+                        ctx.ProcessLinkedDoc.Where(x => x.idPadre.Equals(Document.idPadre) && x.idHijo.Equals(Document.idHijo)).FirstOrDefault();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return oProcess;
+        }
+
+        public void SaveProcessLinkedDocument(ProcessLinkedDoc Document)
+        {
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    // create
+                    ctx.ProcessLinkedDoc.Add(Document);
+                    ctx.SaveChanges();
+                }
+
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public void DeleteProcessLinkedDocument(ProcessLinkedDoc Document)
+        {
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    //verify if the school exists
+                    ProcessLinkedDoc oProcess = GetProcessLinkedDocument(Document);
+
+                    if (oProcess != null)
+                    {
+                        // if exists then edit 
+                        ctx.ProcessLinkedDoc.Attach(oProcess);
+                        ctx.ProcessLinkedDoc.Remove(oProcess);
                         ctx.SaveChanges();
                     }
                 }

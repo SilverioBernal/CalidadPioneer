@@ -27,6 +27,48 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
             return View("Index", newsPaperBiz.GetNewsList().Take(recordsPerPage));            
         }
+
+        [Authorize]
+        public ActionResult Contact()
+        {            
+            return View();
+        }
+
+        [Authorize]
+        public JsonResult SendSuggestion(string id)
+        {
+            string res = "";
+            string[] message = id.Split('|');
+
+            #region User identification
+            System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+            string user = "";
+
+            if (context.IsAuthenticated)
+            {
+
+                System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                string[] userRole = ci.Ticket.UserData.Split('|');
+                user = ci.Name;
+            }
+
+            #endregion
+
+            CommonBiz commonBiz = new CommonBiz();
+            try
+            {
+                string rootPath = Server.MapPath("~");
+                //bizCommon.sendContactMessage(frontUser.email,idSocio, idSocio + " le envió una sugerencia al Club - " + message[0], message[1]);
+                commonBiz.sendContactMessage(user, string.Format("Sugerencia a través del SGD de {0} - {1} ",user, message[0]), message[1], rootPath);
+                res = "OK";
+            }
+            catch (Exception)
+            {
+                res = "fail";
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
         
         private List<NewsPaper> GetPaginatedNews(int page = 1)
         {
@@ -35,6 +77,23 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             List<NewsPaper> listOfProducts = newsPaperBiz.GetNewsList().Skip(skipRecords).Take(recordsPerPage).ToList();
 
             return listOfProducts;
+        }
+
+        public JsonResult visitante()
+        {
+            string res = "";
+
+            try
+            {
+                List<ActivityLog> lsAL = ActivityLogBiz.GetActivityLogList("Login");
+                res = lsAL.Count().ToString();
+            }
+            catch (Exception)
+            {
+                res = "";
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
     }
 }

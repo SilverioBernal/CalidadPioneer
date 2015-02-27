@@ -164,8 +164,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NewsPaperController.cs" />
+    <Compile Include="Controllers\ParameterController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ProcessDocumentController.cs" />
+    <Compile Include="Controllers\ProcessLinkedDocController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ProjectDocumentController.cs" />
+    <Compile Include="Controllers\ProjectLinkedDocController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -179,6 +184,8 @@
     <Compile Include="Models\vmNews.cs" />
     <Compile Include="Models\vmProcess.cs" />
     <Compile Include="Models\vmProcessDocument.cs" />
+    <Compile Include="Models\vmProject.cs" />
+    <Compile Include="Models\vmProjectDocument.cs" />
     <Compile Include="Models\vmUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -411,6 +418,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\header-bg-low.png" />
     <Content Include="Images\Map\1.png" />
     <Content Include="Images\Map\10.png" />
     <Content Include="Images\Map\11n.png" />
@@ -465,6 +473,10 @@
     <Content Include="Images\Pionero.png" />
     <Content Include="Images\slider\s1.png" />
     <Content Include="Images\slider\s2.png" />
+    <Content Include="MailingTemplates\MailContacto.html" />
+    <Content Include="MailingTemplates\MailContacto.txt" />
+    <Content Include="MailingTemplates\NotificacionNuevoUsuario.html" />
+    <Content Include="MailingTemplates\NotificacionNuevoUsuario.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="datatables\extras\AutoFill\media\docs\media\license\Syntax Highlighter" />
@@ -557,10 +569,28 @@
     <Content Include="Views\DocumentType\Index.cshtml" />
     <Content Include="Views\DocumentType\Create.cshtml" />
     <Content Include="Views\DocumentType\Edit.cshtml" />
+    <Content Include="Views\Process\Details.cshtml" />
+    <Content Include="Views\ProcessDocument\IndexByProcess.cshtml" />
+    <Content Include="Views\ProcessDocument\Index.cshtml" />
+    <Content Include="Views\ProcessDocument\Create.cshtml" />
+    <Content Include="Views\ProcessDocument\Edit.cshtml" />
+    <Content Include="Views\ProcessDocument\ShowRelations.cshtml" />
+    <Content Include="Views\ProcessLinkedDoc\Index.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\List.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\ProjectDocument\Index.cshtml" />
+    <Content Include="Views\ProjectDocument\Create.cshtml" />
+    <Content Include="Views\ProjectDocument\Edit.cshtml" />
+    <Content Include="Views\ProjectDocument\ShowRelations.cshtml" />
+    <Content Include="Views\ProjectDocument\IndexByProject.cshtml" />
+    <Content Include="Views\ProjectLinkedDoc\Index.cshtml" />
+    <Content Include="Views\Parameter\Edit.cshtml" />
+    <Content Include="Views\Security\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ProcessDocument\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
