@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Orkidea.Pioneer.Entities.ProjectDocument>
+@{
+    Layout = null;
+}
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <span><i class="glyphicon glyphicon-paperclip"></i> <a href="@Url.Action("Details", new {archivo = item.nombre })" target=" _blank">@item.descripcion</a></span>
+        </li>
+    }
+</ul>

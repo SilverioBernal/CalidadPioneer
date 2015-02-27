@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="CalidadPioneer" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="AzureStorageAccount-Web.config Connection String" description="" value="DefaultEndpointsProtocol=https;AccountName=calidadpioneer;AccountKey=du7bmEVQIdGXDqY1sA6yFwWchz5pC0RMKUE17tx75Ssu5WftWiBdRN0OLS+0QAD/86DJngyHSaSix9DgFNKaPA==;" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureStorageAccount']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=tcp:h0ehawyllb.database.windows.net,1433;Initial Catalog=CalidadPioneer_db;User Id=usutest@h0ehawyllb;Password=Dialectoplasma4." tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="pioneerEntities-Web.config Connection String" description="" value="metadata=res://*/PioneerModel.csdl|res://*/PioneerModel.ssdl|res://*/PioneerModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tcp:h0ehawyllb.database.windows.net,1433;initial catalog=CalidadPioneer_db;user id=usutest@h0ehawyllb;password=Dialectoplasma4.;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\SILVERIO\\Source\\Repos\\CalidadPioneer\\CalidadPioneer\\Orkidea\.Pioneer\.Webfront\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='pioneerEntities']/@connectionString" />
+  </parameter>
+</parameters>
