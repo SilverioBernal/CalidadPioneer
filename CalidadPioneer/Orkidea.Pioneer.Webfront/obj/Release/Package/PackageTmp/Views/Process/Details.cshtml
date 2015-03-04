@@ -70,4 +70,10 @@
         $(".modal-body").load(url);
         $('#myModal').modal('show')
     });
+
+    $(document).ready(function () {
+        $(".tree li .itemdoc").hide('fast');
+        $(".tree li .btn-warning").attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+    })
+
 </script>

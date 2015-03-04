@@ -58,9 +58,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             CommonBiz commonBiz = new CommonBiz();
             try
             {
-                string rootPath = Server.MapPath("~");
-                //bizCommon.sendContactMessage(frontUser.email,idSocio, idSocio + " le envió una sugerencia al Club - " + message[0], message[1]);
-                commonBiz.sendContactMessage(user, string.Format("Sugerencia a través del SGD de {0} - {1} ",user, message[0]), message[1], rootPath);
+                string rootPath = Server.MapPath("~");                
+                commonBiz.sendContactMessage(message[1], user, string.Format("{0} a través del SGD de {1} - {2} ",user, message[1]), message[2], rootPath);
                 res = "OK";
             }
             catch (Exception)

@@ -28,8 +28,7 @@ h2 {
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
@@ -232,6 +231,6 @@ textarea {
     /*-webkit-box-shadow: 0px 0px 12px 1px rgba(0,0,0,1), 0px 0px 12px 1px rgba(0,0,0,1);
     -moz-box-shadow: 0px 0px 12px 1px rgba(0,0,0,1), 0px 0px 12px 1px rgba(0,0,0,1);*/
     /*box-shadow: 0px 0px 12px 1px rgba(0,0,0,1), 0px 0px 12px 1px rgba(0,0,0,1);*/
-    box-shadow: 6px 0 8px -4px rgba(0,0,0,1), -6px 0 8px -4px rgba(0,0,0,1);
+    /*box-shadow: 6px 0 8px -4px rgba(0,0,0,1), -6px 0 8px -4px rgba(0,0,0,1);*/
     /*padding: 0px 15px 45px 15px;*/
 }

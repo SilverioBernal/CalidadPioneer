@@ -2,20 +2,29 @@
     ViewBag.Title = "Sugerencias";
 }
 <h2>Sugerencias</h2>
-
-<div class="row">
+<div class="row col-md-12">
+    <div id="radio">
+        <label class="inline"><input type="radio" name="tipoMensaje" value="Sugerencia" checked="checked" /> Sugerencia</label>
+        <label class="inline"><input type="radio" name="tipoMensaje" value="Copaso" /> COPASO</label>
+        <label class="inline"><input type="radio" name="tipoMensaje" value="RRHH" /> RRHH</label>
+    </div>
+</div>
+<div class="row col-md-12">
     <div class="form-group">
         <label>Asunto</label>
         <input type="text" id="txtAsunto" class="form-control" />
     </div>
-    <div class="form-group">
-        <label>Mensaje</label>
-        <textarea id="txtMensaje" class="form-control" rows="10"></textarea>
-    </div>
 </div>
 <div class="row">
+    <div class="form-group  col-md-8   ">
+        <label for="txtMensaje">Mensaje</label>
+        <textarea id="txtMensaje" rows="6" class="form-control"></textarea>
+    </div>
+</div>
+
+<div class="row col-md-12">
     <div class="form-group">
-        <input type="button" id="btnSubmit" value="Enviar" class="btn btn-primary" /> | @Html.ActionLink("Volver al Home", "Index","Home")
+        <input type="button" id="btnSubmit" value="Enviar" class="btn btn-primary" /> | @Html.ActionLink("Volver al Home", "Index", "Home")
     </div>
 </div>
 <div class="modal fade" id="myModal">
@@ -36,8 +45,8 @@
 </div><!-- /.modal -->
 
 <script>
-    $('#btnSubmit').click(function () {
-        var mensaje = $("#txtAsunto").val() + "|" + $("#txtMensaje").val()
+    $('#btnSubmit').click(function () {        
+        var mensaje =  $("div input[type='radio']:checked").val() + '|' + $("#txtAsunto").val() + "|" + $("#txtMensaje").val()
         var link = '@Url.Action("SendSuggestion", "Home", new { id = "-1" })';
         link = link.replace("-1", mensaje);
         $.getJSON(link, null, res);

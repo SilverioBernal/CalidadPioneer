@@ -51,7 +51,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Details", "Parameter", new { archivo = "estructura" })">Estructura organizacional</a></li>
                                 <li><a href="@Url.Action("Details", "Parameter", new { archivo = "direccionamiento" })">Direccionamiento estratégico</a></li>
-                                <li><a href="@Url.Action("Details", "Parameter", new { archivo = "normativas" })">Normativas</a></li>
+                                <li><a href="@Url.Action("Details", "Parameter", new { archivo = "normativas" })">Políticas</a></li>
                             </ul>
                         </li>
                         <li><a href="@Url.Action("Index", "Process")">Sistema de Gestión</a></li>
@@ -75,13 +75,11 @@
                                     <li><a href="@Url.Action("Index", "ProjectDocument")">Documentos por proyecto</a></li>
                                 </ul>
                             </li>
-                            <li>
-                                @Html.ActionLink(User.Identity.GetUserName(), "ChangePassword", "Security", routeValues: null, htmlAttributes: new { title = "Cambiar clave" })
-                            </li>
-                            <li><a href="@Url.Action("LogOut", "Security")">Cerrar sesión</a></li>
-
-
                         }
+                        <li>
+                            @Html.ActionLink(User.Identity.GetUserName(), "ChangePassword", "Security", routeValues: null, htmlAttributes: new { title = "Cambiar clave" })
+                        </li>
+                        <li><a href="@Url.Action("LogOut", "Security")">Cerrar sesión</a></li>
                     }
                 </ul>
                 @*@Html.Partial("_LoginPartial")*@

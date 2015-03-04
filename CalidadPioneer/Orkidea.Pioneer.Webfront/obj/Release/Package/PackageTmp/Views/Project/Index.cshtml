@@ -33,7 +33,7 @@
                 @foreach (Orkidea.Pioneer.Webfront.Models.vmProject item in Model.lsProject)
                 {
                     <li>
-                        <span class="btn btn-danger"><i class="glyphicon glyphicon-file"></i>Proyecto/clasificación: @item.nombre</span>
+                        <span class="btn btn-danger"><i class="glyphicon glyphicon-file"></i>@item.nombre</span>
                         <ul>
                             @foreach (Orkidea.Pioneer.Entities.DocumentType pryItem in item.lstDocumentType)
                             {
