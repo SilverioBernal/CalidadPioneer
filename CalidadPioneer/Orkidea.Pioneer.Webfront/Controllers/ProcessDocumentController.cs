@@ -215,7 +215,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         public ActionResult ShowRelations(int id) {
             ProcessDocument oProcessDocument = processDocumentBiz.GetProcessDocumentbyKey(new ProcessDocument() { id = id });
             List<ProcessDocument> lsProcessDocument = processDocumentBiz.GetProcessDocumentList(oProcessDocument.idProceso).Where(x => x.id != id).ToList();
-            List<ProcessLinkedDoc> lsLinkedDocs = processDocumentBiz.GetProcessLinkedDocList(id);
+            List<ProcessLinkedDoc> lsLinkedDocs = processDocumentBiz.GetProcessChildLinkedDocList(id);
 
             List<ProcessDocument> lsDocs = new List<ProcessDocument>();
 

@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="29c04f3531c441efae12ea4e941d7ac3" Name="Diagram1">
-        <EntityTypeShape EntityType="pioneerModel.ActivityLog" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.DocumentType" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.FileType" Width="1.5" PointX="2.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.NewsPaper" Width="1.5" PointX="4.75" PointY="7.5" IsExpanded="true" />
@@ -14,16 +13,17 @@
         <EntityTypeShape EntityType="pioneerModel.FileUpload" Width="1.5" PointX="6.375" PointY="0.75" />
         <EntityTypeShape EntityType="pioneerModel.mimetype" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="pioneerModel.Project" Width="1.5" PointX="8.375" PointY="3.875" />
-        <EntityTypeShape EntityType="pioneerModel.ProcessDocument" Width="1.5" PointX="3.25" PointY="2" />
-        <AssociationConnector Association="pioneerModel.FK_ProcessDocument_DocumentType" />
-        <AssociationConnector Association="pioneerModel.FK_ProcessDocument_Process" />
         <EntityTypeShape EntityType="pioneerModel.ProcessLinkedDoc" Width="1.5" PointX="5.5" PointY="3.5" />
         <EntityTypeShape EntityType="pioneerModel.ProjectLinkedDoc" Width="1.5" PointX="12.875" PointY="4" />
-        <AssociationConnector Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" />
         <EntityTypeShape EntityType="pioneerModel.ProjectDocument" Width="1.5" PointX="10.625" PointY="3.5" />
         <AssociationConnector Association="pioneerModel.FK_ProjectDocument_DocumentType" />
         <AssociationConnector Association="pioneerModel.FK_ProjectDocument_Project" />
         <AssociationConnector Association="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument" />
+        <EntityTypeShape EntityType="pioneerModel.ActivityLog" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="pioneerModel.ProcessDocument" Width="1.5" PointX="3.25" PointY="2" />
+        <AssociationConnector Association="pioneerModel.FK_ProcessDocument_DocumentType" />
+        <AssociationConnector Association="pioneerModel.FK_ProcessDocument_Process" />
+        <AssociationConnector Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

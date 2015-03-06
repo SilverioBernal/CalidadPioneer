@@ -17,7 +17,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         {
             ProcessDocument oProcessDocument = processDocumentBiz.GetProcessDocumentbyKey(new ProcessDocument() { id = id });
             List<ProcessDocument> lsProcessDocument = processDocumentBiz.GetProcessDocumentList(oProcessDocument.idProceso).Where(x => x.id != id).ToList();
-            List<ProcessLinkedDoc> lsLinkedDocs = processDocumentBiz.GetProcessLinkedDocList(id);
+            List<ProcessLinkedDoc> lsLinkedDocs = processDocumentBiz.GetProcessChildLinkedDocList(id);
 
             List<vmProcessDocument> lsDocs = new List<vmProcessDocument>();
 

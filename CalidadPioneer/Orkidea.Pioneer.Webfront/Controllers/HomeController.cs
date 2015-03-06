@@ -59,7 +59,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             try
             {
                 string rootPath = Server.MapPath("~");                
-                commonBiz.sendContactMessage(message[1], user, string.Format("{0} a través del SGD de {1} - {2} ",user, message[1]), message[2], rootPath);
+                commonBiz.sendContactMessage(message[1], user, string.Format("{0} a través del SGD de {1} - {2} ", message[0], user, message[1]), message[2], rootPath);
                 res = "OK";
             }
             catch (Exception)

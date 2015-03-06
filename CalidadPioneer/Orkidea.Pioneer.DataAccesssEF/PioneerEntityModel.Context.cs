@@ -33,8 +33,6 @@ public partial class pioneerEntities : DbContext
     }
 
 
-    public virtual DbSet<ActivityLog> ActivityLog { get; set; }
-
     public virtual DbSet<DocumentType> DocumentType { get; set; }
 
     public virtual DbSet<FileType> FileType { get; set; }
@@ -51,13 +49,15 @@ public partial class pioneerEntities : DbContext
 
     public virtual DbSet<Project> Project { get; set; }
 
-    public virtual DbSet<ProcessDocument> ProcessDocument { get; set; }
-
     public virtual DbSet<ProcessLinkedDoc> ProcessLinkedDoc { get; set; }
 
     public virtual DbSet<ProjectLinkedDoc> ProjectLinkedDoc { get; set; }
 
     public virtual DbSet<ProjectDocument> ProjectDocument { get; set; }
+
+    public virtual DbSet<ActivityLog> ActivityLog { get; set; }
+
+    public virtual DbSet<ProcessDocument> ProcessDocument { get; set; }
 
 }
 

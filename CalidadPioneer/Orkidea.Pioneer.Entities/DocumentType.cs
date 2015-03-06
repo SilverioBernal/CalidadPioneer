@@ -21,9 +21,9 @@ public partial class DocumentType
     public DocumentType()
     {
 
-        this.ProcessDocument = new HashSet<ProcessDocument>();
-
         this.ProjectDocument = new HashSet<ProjectDocument>();
+
+        this.ProcessDocument = new HashSet<ProcessDocument>();
 
     }
 
@@ -34,9 +34,9 @@ public partial class DocumentType
 
 
 
-    public virtual ICollection<ProcessDocument> ProcessDocument { get; set; }
-
     public virtual ICollection<ProjectDocument> ProjectDocument { get; set; }
+
+    public virtual ICollection<ProcessDocument> ProcessDocument { get; set; }
 
 }
 

@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="pioneerModelStoreContainer" CdmEntityContainer="pioneerEntities">
-    <EntitySetMapping Name="ActivityLog">
-      <EntityTypeMapping TypeName="pioneerModel.ActivityLog">
-        <MappingFragment StoreEntitySet="ActivityLog">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="accion" ColumnName="accion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="DocumentType">
       <EntityTypeMapping TypeName="pioneerModel.DocumentType">
         <MappingFragment StoreEntitySet="DocumentType">
@@ -86,17 +76,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProcessDocument">
-      <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
-        <MappingFragment StoreEntitySet="ProcessDocument">
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-          <ScalarProperty Name="idProceso" ColumnName="idProceso" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProcessLinkedDoc">
       <EntityTypeMapping TypeName="pioneerModel.ProcessLinkedDoc">
         <MappingFragment StoreEntitySet="ProcessLinkedDoc">
@@ -120,6 +99,27 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
           <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActivityLog">
+      <EntityTypeMapping TypeName="pioneerModel.ActivityLog">
+        <MappingFragment StoreEntitySet="ActivityLog">
+          <ScalarProperty Name="accion" ColumnName="accion" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProcessDocument">
+      <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
+        <MappingFragment StoreEntitySet="ProcessDocument">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+          <ScalarProperty Name="idProceso" ColumnName="idProceso" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

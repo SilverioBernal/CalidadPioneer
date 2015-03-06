@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivityLog">
           <Key>
             <PropertyRef Name="id" />
@@ -12,7 +12,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="accion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="accion" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="DocumentType">
           <Key>
@@ -232,23 +232,14 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="pioneerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ActivityLog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idUsuario" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityType Name="DocumentType">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="DocumentType" ToRole="ProcessDocument" />
           <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectDocument_DocumentType" FromRole="DocumentType" ToRole="ProjectDocument" />
+          <NavigationProperty Name="ProcessDocument" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="DocumentType" ToRole="ProcessDocument" />
         </EntityType>
         <EntityType Name="FileType">
           <Key>
@@ -277,7 +268,6 @@
           <Property Name="admin" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityContainer Name="pioneerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
           <EntitySet Name="FileType" EntityType="Self.FileType" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
@@ -286,21 +276,8 @@
           <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
           <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
           <EntitySet Name="Project" EntityType="pioneerModel.Project" />
-          <EntitySet Name="ProcessDocument" EntityType="pioneerModel.ProcessDocument" />
-          <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="pioneerModel.FK_ProcessDocument_DocumentType">
-            <End Role="DocumentType" EntitySet="DocumentType" />
-            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProcessDocument_Process" Association="pioneerModel.FK_ProcessDocument_Process">
-            <End Role="Process" EntitySet="Process" />
-            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
-          </AssociationSet>
           <EntitySet Name="ProcessLinkedDoc" EntityType="pioneerModel.ProcessLinkedDoc" />
           <EntitySet Name="ProjectLinkedDoc" EntityType="pioneerModel.ProjectLinkedDoc" />
-          <AssociationSet Name="FK_ProcessLinkedDoc_ProcessDocument" Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument">
-            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
-            <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
-          </AssociationSet>
           <EntitySet Name="ProjectDocument" EntityType="pioneerModel.ProjectDocument" />
           <AssociationSet Name="FK_ProjectDocument_DocumentType" Association="pioneerModel.FK_ProjectDocument_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
@@ -313,6 +290,20 @@
           <AssociationSet Name="FK_ProjectLinkedDoc_ProjectDocument" Association="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument">
             <End Role="ProjectDocument" EntitySet="ProjectDocument" />
             <End Role="ProjectLinkedDoc" EntitySet="ProjectLinkedDoc" />
+          </AssociationSet>
+          <EntitySet Name="ActivityLog" EntityType="pioneerModel.ActivityLog" />
+          <EntitySet Name="ProcessDocument" EntityType="pioneerModel.ProcessDocument" />
+          <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="pioneerModel.FK_ProcessDocument_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessDocument_Process" Association="pioneerModel.FK_ProcessDocument_Process">
+            <End Role="Process" EntitySet="Process" />
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessLinkedDoc_ProcessDocument" Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument">
+            <End Role="ProcessDocument" EntitySet="ProcessDocument" />
+            <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Process">
@@ -351,43 +342,6 @@
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectDocument_Project" FromRole="Project" ToRole="ProjectDocument" />
         </EntityType>
-        <EntityType Name="ProcessDocument">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idProceso" Type="Int32" Nullable="false" />
-          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DocumentType" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
-          <NavigationProperty Name="Process" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
-          <NavigationProperty Name="ProcessLinkedDoc" Relationship="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" FromRole="ProcessDocument" ToRole="ProcessLinkedDoc" />
-        </EntityType>
-        <Association Name="FK_ProcessDocument_DocumentType">
-          <End Type="pioneerModel.DocumentType" Role="DocumentType" Multiplicity="1" />
-          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DocumentType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessDocument">
-              <PropertyRef Name="idTipoDocumento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProcessDocument_Process">
-          <End Type="pioneerModel.Process" Role="Process" Multiplicity="1" />
-          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Process">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessDocument">
-              <PropertyRef Name="idProceso" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProcessLinkedDoc">
           <Key>
             <PropertyRef Name="idPadre" />
@@ -406,18 +360,6 @@
           <Property Name="idHijo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProjectDocument" Relationship="pioneerModel.FK_ProjectLinkedDoc_ProjectDocument" FromRole="ProjectLinkedDoc" ToRole="ProjectDocument" />
         </EntityType>
-        <Association Name="FK_ProcessLinkedDoc_ProcessDocument">
-          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="1" />
-          <End Type="pioneerModel.ProcessLinkedDoc" Role="ProcessLinkedDoc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProcessDocument">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProcessLinkedDoc">
-              <PropertyRef Name="idHijo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProjectDocument">
           <Key>
             <PropertyRef Name="id" />
@@ -467,22 +409,70 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ActivityLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="accion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProcessDocument">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProceso" Type="Int32" Nullable="false" />
+          <Property Name="idTipoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DocumentType" Relationship="pioneerModel.FK_ProcessDocument_DocumentType" FromRole="ProcessDocument" ToRole="DocumentType" />
+          <NavigationProperty Name="Process" Relationship="pioneerModel.FK_ProcessDocument_Process" FromRole="ProcessDocument" ToRole="Process" />
+          <NavigationProperty Name="ProcessLinkedDoc" Relationship="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" FromRole="ProcessDocument" ToRole="ProcessLinkedDoc" />
+        </EntityType>
+        <Association Name="FK_ProcessDocument_DocumentType">
+          <End Type="pioneerModel.DocumentType" Role="DocumentType" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessDocument">
+              <PropertyRef Name="idTipoDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessDocument_Process">
+          <End Type="pioneerModel.Process" Role="Process" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessDocument">
+              <PropertyRef Name="idProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessLinkedDoc_ProcessDocument">
+          <End Type="pioneerModel.ProcessDocument" Role="ProcessDocument" Multiplicity="1" />
+          <End Type="pioneerModel.ProcessLinkedDoc" Role="ProcessLinkedDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcessDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProcessLinkedDoc">
+              <PropertyRef Name="idHijo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="pioneerModelStoreContainer" CdmEntityContainer="pioneerEntities">
-          <EntitySetMapping Name="ActivityLog">
-            <EntityTypeMapping TypeName="pioneerModel.ActivityLog">
-              <MappingFragment StoreEntitySet="ActivityLog">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="accion" ColumnName="accion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DocumentType">
             <EntityTypeMapping TypeName="pioneerModel.DocumentType">
               <MappingFragment StoreEntitySet="DocumentType">
@@ -558,17 +548,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ProcessDocument">
-            <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
-              <MappingFragment StoreEntitySet="ProcessDocument">
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
-                <ScalarProperty Name="idProceso" ColumnName="idProceso" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ProcessLinkedDoc">
             <EntityTypeMapping TypeName="pioneerModel.ProcessLinkedDoc">
               <MappingFragment StoreEntitySet="ProcessLinkedDoc">
@@ -592,6 +571,27 @@
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
                 <ScalarProperty Name="idProyecto" ColumnName="idProyecto" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityLog">
+            <EntityTypeMapping TypeName="pioneerModel.ActivityLog">
+              <MappingFragment StoreEntitySet="ActivityLog">
+                <ScalarProperty Name="accion" ColumnName="accion" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessDocument">
+            <EntityTypeMapping TypeName="pioneerModel.ProcessDocument">
+              <MappingFragment StoreEntitySet="ProcessDocument">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
+                <ScalarProperty Name="idProceso" ColumnName="idProceso" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

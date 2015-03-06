@@ -180,10 +180,26 @@ namespace Orkidea.Pioneer.Business
                 {
                     //verify if the school exists
                     ProcessDocument oProcess = GetProcessDocumentbyKey(ProcessTarget);
-
+                    
                     if (oProcess != null)
                     {
-                        // if exists then edit 
+                        // if exists then remove child items and then remove document
+                        List<ProcessLinkedDoc> lstChildrenLinkedDocuments = GetProcessChildLinkedDocList(ProcessTarget.id);
+                        List<ProcessLinkedDoc> lstParentLinkedDocuments = GetProcessParentLinkedDocList(ProcessTarget.id);
+
+                        if (lstChildrenLinkedDocuments.Count > 0)
+                        {
+                            foreach (ProcessLinkedDoc item in lstChildrenLinkedDocuments)
+                            {
+                                DeleteProcessLinkedDocument(item);
+                            }
+
+                            foreach (ProcessLinkedDoc item in lstParentLinkedDocuments)
+                            {
+                                DeleteProcessLinkedDocument(item);
+                            }
+                        }
+
                         ctx.ProcessDocument.Attach(oProcess);
                         ctx.ProcessDocument.Remove(oProcess);
                         ctx.SaveChanges();
@@ -194,17 +210,33 @@ namespace Orkidea.Pioneer.Business
         }
 
         /*CRUD ProcessLinkedDocument*/
-        public List<ProcessLinkedDoc> GetProcessLinkedDocList(int idParentDocument)
+        public List<ProcessLinkedDoc> GetProcessChildLinkedDocList(int idParentDocument)
         {
 
-            List<ProcessLinkedDoc> lstDocuments = new List<ProcessLinkedDoc>();
-
+            List<ProcessLinkedDoc> lstDocuments = new List<ProcessLinkedDoc>();            
             try
             {
                 using (var ctx = new pioneerEntities())
                 {
                     ctx.Configuration.ProxyCreationEnabled = false;
                     lstDocuments = ctx.ProcessLinkedDoc.Where(x => x.idPadre.Equals(idParentDocument)).ToList();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return lstDocuments;
+        }
+
+        public List<ProcessLinkedDoc> GetProcessParentLinkedDocList(int idChildDocument)
+        {
+
+            List<ProcessLinkedDoc> lstDocuments = new List<ProcessLinkedDoc>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    lstDocuments = ctx.ProcessLinkedDoc.Where(x => x.idHijo.Equals(idChildDocument)).ToList();
                 }
             }
             catch (Exception ex) { throw ex; }
