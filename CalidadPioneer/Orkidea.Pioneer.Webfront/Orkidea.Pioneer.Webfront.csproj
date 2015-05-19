@@ -160,11 +160,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DocumentTypeController.cs" />
+    <Compile Include="Controllers\DrillController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NearMissController.cs" />
     <Compile Include="Controllers\NewsPaperController.cs" />
     <Compile Include="Controllers\ParameterController.cs" />
+    <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ProcessDocumentController.cs" />
     <Compile Include="Controllers\ProcessLinkedDocController.cs" />
@@ -181,6 +184,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\vmFileUpload.cs" />
+    <Compile Include="Models\vmNearMiss.cs" />
     <Compile Include="Models\vmNews.cs" />
     <Compile Include="Models\vmProcess.cs" />
     <Compile Include="Models\vmProcessDocument.cs" />
@@ -588,6 +592,16 @@
     <Content Include="Views\ProjectLinkedDoc\Index.cshtml" />
     <Content Include="Views\Parameter\Edit.cshtml" />
     <Content Include="Views\Security\ChangePassword.cshtml" />
+    <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\Position\Create.cshtml" />
+    <Content Include="Views\Position\Edit.cshtml" />
+    <Content Include="Views\Drill\Index.cshtml" />
+    <Content Include="Views\Drill\Create.cshtml" />
+    <Content Include="Views\Drill\Edit.cshtml" />
+    <Content Include="Views\NearMiss\Create.cshtml" />
+    <Content Include="Views\NearMiss\Details.cshtml" />
+    <Content Include="Views\NearMiss\Edit.cshtml" />
+    <Content Include="Views\NearMiss\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

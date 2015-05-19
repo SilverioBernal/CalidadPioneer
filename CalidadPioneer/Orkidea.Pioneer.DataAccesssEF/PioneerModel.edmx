@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivityLog">
           <Key>
             <PropertyRef Name="id" />
@@ -12,7 +12,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="accion" Type="varchar" MaxLength="250" />
+          <Property Name="accion" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="DocumentType">
           <Key>
@@ -20,6 +20,13 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Drill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="FileType">
           <Key>
@@ -46,6 +53,37 @@
           <Property Name="mimetype" Type="varchar" MaxLength="200" />
           <Property Name="extension" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="NearMiss">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaApertura" Type="datetime" Nullable="false" />
+          <Property Name="idUsuarioAbre" Type="int" Nullable="false" />
+          <Property Name="actividadReporteador" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tipoHallazgo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idUbicacion" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="accionSugeida" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="calidad" Type="varchar" MaxLength="50" />
+          <Property Name="salud" Type="varchar" MaxLength="50" />
+          <Property Name="asuntosAmbientales" Type="varchar" MaxLength="50" />
+          <Property Name="condicionesTrabajo" Type="varchar" MaxLength="50" />
+          <Property Name="usoEpp" Type="varchar" MaxLength="50" />
+          <Property Name="analisisHallazgo" Type="varchar" MaxLength="50" />
+          <Property Name="idUsuarioAnalisis" Type="int" />
+          <Property Name="fechaAnalisis" Type="datetime" />
+          <Property Name="fechaCierre" Type="datetime" />
+          <Property Name="idUsuarioCierra" Type="int" />
+          <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="NearMissParameter">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="valor" Type="varchar" MaxLength="850" Nullable="false" />
+        </EntityType>
         <EntityType Name="NewsPaper">
           <Key>
             <PropertyRef Name="id" />
@@ -54,6 +92,17 @@
           <Property Name="fecha" Type="datetime" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="contenido" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="abreNearMiss" Type="bit" Nullable="false" />
+          <Property Name="cierraNearMiss" Type="bit" Nullable="false" />
+          <Property Name="abreHallazgo" Type="bit" Nullable="false" />
+          <Property Name="cierraHallazgo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Process">
           <Key>
@@ -116,6 +165,7 @@
           <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="clave" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="admin" Type="bit" Nullable="false" />
+          <Property Name="idCargo" Type="int" />
         </EntityType>
         <Association Name="FK_ProcessDocument_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
@@ -192,10 +242,14 @@
         <EntityContainer Name="pioneerModelStoreContainer">
           <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Drill" EntityType="Self.Drill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mimetype" EntityType="Self.mimetype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NearMiss" EntityType="Self.NearMiss" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NearMissParameter" EntityType="Self.NearMissParameter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProcessLinkedDoc" EntityType="Self.ProcessLinkedDoc" Schema="dbo" store:Type="Tables" />
@@ -258,20 +312,10 @@
           <Property Name="titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="admin" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="pioneerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
           <EntitySet Name="FileType" EntityType="Self.FileType" />
           <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
-          <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="Process" EntityType="pioneerModel.Process" />
           <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
           <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
@@ -305,6 +349,11 @@
             <End Role="ProcessDocument" EntitySet="ProcessDocument" />
             <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
           </AssociationSet>
+          <EntitySet Name="NearMissParameter" EntityType="pioneerModel.NearMissParameter" />
+          <EntitySet Name="Drill" EntityType="pioneerModel.Drill" />
+          <EntitySet Name="User" EntityType="pioneerModel.User" />
+          <EntitySet Name="Position" EntityType="pioneerModel.Position" />
+          <EntitySet Name="NearMiss" EntityType="pioneerModel.NearMiss" />
           </EntityContainer>
         <EntityType Name="Process">
           <Key>
@@ -416,7 +465,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="accion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="ProcessDocument">
           <Key>
@@ -467,6 +516,65 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NearMissParameter">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="valor" Type="String" Nullable="false" MaxLength="850" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Drill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="clave" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="admin" Type="Boolean" Nullable="false" />
+          <Property Name="idCargo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="abreNearMiss" Type="Boolean" Nullable="false" />
+          <Property Name="cierraNearMiss" Type="Boolean" Nullable="false" />
+          <Property Name="abreHallazgo" Type="Boolean" Nullable="false" />
+          <Property Name="cierraHallazgo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NearMiss">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaApertura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idUsuarioAbre" Type="Int32" Nullable="false" />
+          <Property Name="actividadReporteador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipoHallazgo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idUbicacion" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="accionSugeida" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="calidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="salud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="asuntosAmbientales" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="condicionesTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usoEpp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="analisisHallazgo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idUsuarioAnalisis" Type="Int32" />
+          <Property Name="fechaAnalisis" Type="DateTime" Precision="3" />
+          <Property Name="fechaCierre" Type="DateTime" Precision="3" />
+          <Property Name="idUsuarioCierra" Type="Int32" />
+          <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -497,16 +605,6 @@
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="titulo" ColumnName="titulo" />
                 <ScalarProperty Name="contenido" ColumnName="contenido" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="pioneerModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="usuario" ColumnName="usuario" />
-                <ScalarProperty Name="clave" ColumnName="clave" />
-                <ScalarProperty Name="admin" ColumnName="admin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -592,6 +690,70 @@
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
                 <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NearMissParameter">
+            <EntityTypeMapping TypeName="pioneerModel.NearMissParameter">
+              <MappingFragment StoreEntitySet="NearMissParameter">
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="parametro" ColumnName="parametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drill">
+            <EntityTypeMapping TypeName="pioneerModel.Drill">
+              <MappingFragment StoreEntitySet="Drill">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="pioneerModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="idCargo" ColumnName="idCargo" />
+                <ScalarProperty Name="admin" ColumnName="admin" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="pioneerModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="cierraHallazgo" ColumnName="cierraHallazgo" />
+                <ScalarProperty Name="abreHallazgo" ColumnName="abreHallazgo" />
+                <ScalarProperty Name="cierraNearMiss" ColumnName="cierraNearMiss" />
+                <ScalarProperty Name="abreNearMiss" ColumnName="abreNearMiss" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NearMiss">
+            <EntityTypeMapping TypeName="pioneerModel.NearMiss">
+              <MappingFragment StoreEntitySet="NearMiss">
+                <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
+                <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
+                <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+                <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
+                <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
+                <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
+                <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
+                <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
+                <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
+                <ScalarProperty Name="salud" ColumnName="salud" />
+                <ScalarProperty Name="calidad" ColumnName="calidad" />
+                <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
+                <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
+                <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
+                <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
+                <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

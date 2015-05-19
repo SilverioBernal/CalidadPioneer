@@ -4,11 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="29c04f3531c441efae12ea4e941d7ac3" Name="Diagram1">
+      <Diagram DiagramId="29c04f3531c441efae12ea4e941d7ac3" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="pioneerModel.DocumentType" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.FileType" Width="1.5" PointX="2.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.NewsPaper" Width="1.5" PointX="4.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="pioneerModel.User" Width="1.5" PointX="6.75" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="pioneerModel.Process" Width="1.5" PointX="1" PointY="1" />
         <EntityTypeShape EntityType="pioneerModel.FileUpload" Width="1.5" PointX="6.375" PointY="0.75" />
         <EntityTypeShape EntityType="pioneerModel.mimetype" Width="1.5" PointX="8.375" PointY="0.75" />
@@ -24,6 +23,11 @@
         <AssociationConnector Association="pioneerModel.FK_ProcessDocument_DocumentType" />
         <AssociationConnector Association="pioneerModel.FK_ProcessDocument_Process" />
         <AssociationConnector Association="pioneerModel.FK_ProcessLinkedDoc_ProcessDocument" />
+        <EntityTypeShape EntityType="pioneerModel.NearMissParameter" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="pioneerModel.Drill" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="pioneerModel.User" Width="1.5" PointX="7.375" PointY="10.75" />
+        <EntityTypeShape EntityType="pioneerModel.Position" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="pioneerModel.NearMiss" Width="1.5" PointX="9.375" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

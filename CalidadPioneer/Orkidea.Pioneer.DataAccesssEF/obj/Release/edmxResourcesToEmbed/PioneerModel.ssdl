@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="ActivityLog">
     <Key>
       <PropertyRef Name="id" />
@@ -7,7 +7,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idUsuario" Type="int" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="accion" Type="varchar" MaxLength="250" />
+    <Property Name="accion" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="DocumentType">
     <Key>
@@ -15,6 +15,13 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Drill">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
   </EntityType>
   <EntityType Name="FileType">
     <Key>
@@ -41,6 +48,37 @@
     <Property Name="mimetype" Type="varchar" MaxLength="200" />
     <Property Name="extension" Type="varchar" MaxLength="10" />
   </EntityType>
+  <EntityType Name="NearMiss">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fechaApertura" Type="datetime" Nullable="false" />
+    <Property Name="idUsuarioAbre" Type="int" Nullable="false" />
+    <Property Name="actividadReporteador" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="tipoHallazgo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idUbicacion" Type="int" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="accionSugeida" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="calidad" Type="varchar" MaxLength="50" />
+    <Property Name="salud" Type="varchar" MaxLength="50" />
+    <Property Name="asuntosAmbientales" Type="varchar" MaxLength="50" />
+    <Property Name="condicionesTrabajo" Type="varchar" MaxLength="50" />
+    <Property Name="usoEpp" Type="varchar" MaxLength="50" />
+    <Property Name="analisisHallazgo" Type="varchar" MaxLength="50" />
+    <Property Name="idUsuarioAnalisis" Type="int" />
+    <Property Name="fechaAnalisis" Type="datetime" />
+    <Property Name="fechaCierre" Type="datetime" />
+    <Property Name="idUsuarioCierra" Type="int" />
+    <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="NearMissParameter">
+    <Key>
+      <PropertyRef Name="parametro" />
+    </Key>
+    <Property Name="parametro" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="valor" Type="varchar" MaxLength="850" Nullable="false" />
+  </EntityType>
   <EntityType Name="NewsPaper">
     <Key>
       <PropertyRef Name="id" />
@@ -49,6 +87,17 @@
     <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="titulo" Type="varchar" MaxLength="150" Nullable="false" />
     <Property Name="contenido" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="abreNearMiss" Type="bit" Nullable="false" />
+    <Property Name="cierraNearMiss" Type="bit" Nullable="false" />
+    <Property Name="abreHallazgo" Type="bit" Nullable="false" />
+    <Property Name="cierraHallazgo" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Process">
     <Key>
@@ -111,6 +160,7 @@
     <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="clave" Type="varchar" MaxLength="250" Nullable="false" />
     <Property Name="admin" Type="bit" Nullable="false" />
+    <Property Name="idCargo" Type="int" />
   </EntityType>
   <Association Name="FK_ProcessDocument_DocumentType">
     <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
@@ -187,10 +237,14 @@
   <EntityContainer Name="pioneerModelStoreContainer">
     <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Drill" EntityType="Self.Drill" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="mimetype" EntityType="Self.mimetype" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NearMiss" EntityType="Self.NearMiss" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NearMissParameter" EntityType="Self.NearMissParameter" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProcessDocument" EntityType="Self.ProcessDocument" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProcessLinkedDoc" EntityType="Self.ProcessLinkedDoc" Schema="dbo" store:Type="Tables" />

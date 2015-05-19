@@ -134,6 +134,28 @@ namespace Orkidea.Pioneer.Business
             catch (Exception ex) { throw ex; }
         }
 
+        public void SaveUser(User UserTarget)
+        {
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    Cryptography oCrypto = new Cryptography();
+
+                    User oUser = GetUserbyKey(UserTarget);
+                    UserTarget.clave = oUser.clave;
+                    if (oUser != null)
+                    {                        
+                        // if exists then edit 
+                        ctx.User.Attach(oUser);
+                        EntityFrameworkHelper.EnumeratePropertyDifferences(oUser, UserTarget);
+                        ctx.SaveChanges();                        
+                    }                    
+                }
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
         /// <summary>
         /// Delete a User
         /// </summary>

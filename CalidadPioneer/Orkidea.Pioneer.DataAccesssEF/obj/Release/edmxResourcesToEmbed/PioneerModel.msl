@@ -28,16 +28,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="User">
-      <EntityTypeMapping TypeName="pioneerModel.User">
-        <MappingFragment StoreEntitySet="User">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="usuario" ColumnName="usuario" />
-          <ScalarProperty Name="clave" ColumnName="clave" />
-          <ScalarProperty Name="admin" ColumnName="admin" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Process">
       <EntityTypeMapping TypeName="pioneerModel.Process">
         <MappingFragment StoreEntitySet="Process">
@@ -120,6 +110,70 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="idTipoDocumento" ColumnName="idTipoDocumento" />
           <ScalarProperty Name="idProceso" ColumnName="idProceso" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NearMissParameter">
+      <EntityTypeMapping TypeName="pioneerModel.NearMissParameter">
+        <MappingFragment StoreEntitySet="NearMissParameter">
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="parametro" ColumnName="parametro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Drill">
+      <EntityTypeMapping TypeName="pioneerModel.Drill">
+        <MappingFragment StoreEntitySet="Drill">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="pioneerModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="idCargo" ColumnName="idCargo" />
+          <ScalarProperty Name="admin" ColumnName="admin" />
+          <ScalarProperty Name="clave" ColumnName="clave" />
+          <ScalarProperty Name="usuario" ColumnName="usuario" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Position">
+      <EntityTypeMapping TypeName="pioneerModel.Position">
+        <MappingFragment StoreEntitySet="Position">
+          <ScalarProperty Name="cierraHallazgo" ColumnName="cierraHallazgo" />
+          <ScalarProperty Name="abreHallazgo" ColumnName="abreHallazgo" />
+          <ScalarProperty Name="cierraNearMiss" ColumnName="cierraNearMiss" />
+          <ScalarProperty Name="abreNearMiss" ColumnName="abreNearMiss" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NearMiss">
+      <EntityTypeMapping TypeName="pioneerModel.NearMiss">
+        <MappingFragment StoreEntitySet="NearMiss">
+          <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
+          <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
+          <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+          <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
+          <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
+          <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
+          <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
+          <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
+          <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
+          <ScalarProperty Name="salud" ColumnName="salud" />
+          <ScalarProperty Name="calidad" ColumnName="calidad" />
+          <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
+          <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
+          <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
+          <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
+          <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

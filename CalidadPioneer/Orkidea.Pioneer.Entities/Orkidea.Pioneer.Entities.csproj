@@ -53,6 +53,9 @@
     <Compile Include="DocumentType.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Drill.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="FileType.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
@@ -62,12 +65,21 @@
     <Compile Include="mimetype.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NearMiss.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NearMissParameter.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="NewsPaper.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PioneerEntityModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Position.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Process.cs">

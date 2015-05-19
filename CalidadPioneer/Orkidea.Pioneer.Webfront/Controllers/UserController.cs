@@ -19,7 +19,23 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            List<User> lstUser = userBiz.GetUserList();
+            PositionBiz pb = new PositionBiz();
+            List<User> lstUsers = userBiz.GetUserList();
+            List<Position> lsPosition = pb.GetPositionList();
+
+            List<vmUser> lstUser = new List<vmUser>();
+
+            foreach (User item in lstUsers)
+            {
+                lstUser.Add(new vmUser()
+                {
+                    id = item.id,
+                    admin = item.admin,
+                    usuario = item.usuario,
+                    idCargo = item.idCargo,
+                    desCargo = item.idCargo != null ? (lsPosition.Where(x => x.id.Equals(item.idCargo)).First()).descripcion : ""
+                });
+            }
 
             return View(lstUser);
         }
@@ -37,9 +53,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            vmUser user = new vmUser(true);
 
-
-            return View();
+            return View(user);
         }
 
         //
@@ -49,12 +65,12 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         public ActionResult Create(User user)
         {
             try
-            {                
+            {
                 User oUser = userBiz.GetUserbyName(new User() { usuario = user.usuario });
-                string rootPath = Server.MapPath("~"); 
+                string rootPath = Server.MapPath("~");
 
                 if (oUser == null)
-                    userBiz.SaveUser(user, rootPath);                
+                    userBiz.SaveUser(user, rootPath);
                 return RedirectToAction("Index");
             }
             catch
@@ -69,9 +85,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         public ActionResult Edit(int id)
         {
             User oUser = userBiz.GetUserbyKey(new User() { id = id });
-            vmUser user = new vmUser() { admin = oUser.admin, clave = oUser.clave, id = oUser.id, usuario = oUser.usuario };
-            //return View(user);
-            return View();
+            vmUser user = new vmUser(true) { admin = oUser.admin, clave = oUser.clave, id = oUser.id, usuario = oUser.usuario };
+            return View(user);
+            //return View();
         }
 
         //
@@ -82,16 +98,16 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         {
             try
             {
-                string rootPath = Server.MapPath("~"); 
+                string rootPath = Server.MapPath("~");
 
                 user.id = id;
-                userBiz.SaveUser(user, rootPath);
+                userBiz.SaveUser(user);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Edit", new { id = id});
             }
         }
 

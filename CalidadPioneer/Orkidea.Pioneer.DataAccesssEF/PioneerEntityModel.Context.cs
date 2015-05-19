@@ -39,8 +39,6 @@ public partial class pioneerEntities : DbContext
 
     public virtual DbSet<NewsPaper> NewsPaper { get; set; }
 
-    public virtual DbSet<User> User { get; set; }
-
     public virtual DbSet<Process> Process { get; set; }
 
     public virtual DbSet<FileUpload> FileUpload { get; set; }
@@ -58,6 +56,16 @@ public partial class pioneerEntities : DbContext
     public virtual DbSet<ActivityLog> ActivityLog { get; set; }
 
     public virtual DbSet<ProcessDocument> ProcessDocument { get; set; }
+
+    public virtual DbSet<NearMissParameter> NearMissParameter { get; set; }
+
+    public virtual DbSet<Drill> Drill { get; set; }
+
+    public virtual DbSet<User> User { get; set; }
+
+    public virtual DbSet<Position> Position { get; set; }
+
+    public virtual DbSet<NearMiss> NearMiss { get; set; }
 
 }
 

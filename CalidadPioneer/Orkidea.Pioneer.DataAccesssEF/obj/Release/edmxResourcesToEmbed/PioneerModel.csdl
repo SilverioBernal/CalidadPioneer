@@ -26,20 +26,10 @@
     <Property Name="titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="admin" Type="Boolean" Nullable="false" />
-  </EntityType>
   <EntityContainer Name="pioneerEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="DocumentType" EntityType="Self.DocumentType" />
     <EntitySet Name="FileType" EntityType="Self.FileType" />
     <EntitySet Name="NewsPaper" EntityType="Self.NewsPaper" />
-    <EntitySet Name="User" EntityType="Self.User" />
     <EntitySet Name="Process" EntityType="pioneerModel.Process" />
     <EntitySet Name="FileUpload" EntityType="pioneerModel.FileUpload" />
     <EntitySet Name="mimetype" EntityType="pioneerModel.mimetype" />
@@ -73,6 +63,11 @@
       <End Role="ProcessDocument" EntitySet="ProcessDocument" />
       <End Role="ProcessLinkedDoc" EntitySet="ProcessLinkedDoc" />
     </AssociationSet>
+    <EntitySet Name="NearMissParameter" EntityType="pioneerModel.NearMissParameter" />
+    <EntitySet Name="Drill" EntityType="pioneerModel.Drill" />
+    <EntitySet Name="User" EntityType="pioneerModel.User" />
+    <EntitySet Name="Position" EntityType="pioneerModel.Position" />
+    <EntitySet Name="NearMiss" EntityType="pioneerModel.NearMiss" />
   </EntityContainer>
   <EntityType Name="Process">
     <Key>
@@ -184,7 +179,7 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="idUsuario" Type="Int32" Nullable="false" />
     <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="accion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
   <EntityType Name="ProcessDocument">
     <Key>
@@ -235,4 +230,63 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="NearMissParameter">
+    <Key>
+      <PropertyRef Name="parametro" />
+    </Key>
+    <Property Name="parametro" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="valor" Type="String" Nullable="false" MaxLength="850" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Drill">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="clave" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="admin" Type="Boolean" Nullable="false" />
+    <Property Name="idCargo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="abreNearMiss" Type="Boolean" Nullable="false" />
+    <Property Name="cierraNearMiss" Type="Boolean" Nullable="false" />
+    <Property Name="abreHallazgo" Type="Boolean" Nullable="false" />
+    <Property Name="cierraHallazgo" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NearMiss">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fechaApertura" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="idUsuarioAbre" Type="Int32" Nullable="false" />
+    <Property Name="actividadReporteador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="tipoHallazgo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idUbicacion" Type="Int32" Nullable="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="accionSugeida" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="calidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="salud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="asuntosAmbientales" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="condicionesTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="usoEpp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="analisisHallazgo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idUsuarioAnalisis" Type="Int32" />
+    <Property Name="fechaAnalisis" Type="DateTime" Precision="3" />
+    <Property Name="fechaCierre" Type="DateTime" Precision="3" />
+    <Property Name="idUsuarioCierra" Type="Int32" />
+    <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

@@ -26,6 +26,8 @@ public partial class User
 
     public bool admin { get; set; }
 
+    public Nullable<int> idCargo { get; set; }
+
 }
 
 }
