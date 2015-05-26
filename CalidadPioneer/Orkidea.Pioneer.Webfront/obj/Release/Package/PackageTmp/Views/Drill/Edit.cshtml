@@ -1,0 +1,28 @@
+﻿@model Orkidea.Pioneer.Entities.Drill
+
+@{
+    ViewBag.Title = "Sistema de gestión - Edición de taladros u oficinas";
+}
+@using (Html.BeginForm("Edit", "Drill", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h2>Sistema de gestión - Edición de taladros u oficinas</h2>
+
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.descripcion, new { @for = "nombre" })
+        @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.descripcion)
+    </div>
+    <div class="row">
+    </div>
+    <p>
+        <input type='submit' id='upload-files' value=' Guardar ' class="btn btn-info" />
+        | @Html.ActionLink("Volver a la lista", "List")
+    </p>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

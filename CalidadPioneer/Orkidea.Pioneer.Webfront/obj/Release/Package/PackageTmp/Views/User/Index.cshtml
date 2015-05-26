@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Orkidea.Pioneer.Entities.User>
+﻿@model IEnumerable<Orkidea.Pioneer.Webfront.Models.vmUser>
 
 @{
     ViewBag.Title = "Usuarios - Listado general";
@@ -13,6 +13,7 @@
             <thead>
                 <tr>
                     <th>Usuario</th>
+                    <th>Cargo</th>
                     <th>Administrador</th>
                     <th></th>
                 </tr>
@@ -25,6 +26,7 @@
                             @Html.DisplayFor(modelItem => item.usuario)
                             @Html.HiddenFor(modelItem => item.id)
                         </td>
+                        <td>@Html.DisplayFor(modelItem => item.desCargo)</td>
                         <td>@Html.DisplayFor(modelItem => item.admin)</td>
                         <td>                            
                             <a href="@Url.Action("Edit", "User", new { id = item.id })" class="sepV_a" title="Editar"><i class="fa fa-pencil"></i></a>

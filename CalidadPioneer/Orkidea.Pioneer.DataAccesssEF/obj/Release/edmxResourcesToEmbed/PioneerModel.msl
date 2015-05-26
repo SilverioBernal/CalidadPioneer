@@ -178,5 +178,39 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Issue">
+      <EntityTypeMapping TypeName="pioneerModel.Issue">
+        <MappingFragment StoreEntitySet="Issue">
+          <ScalarProperty Name="comentariosCierre" ColumnName="comentariosCierre" />
+          <ScalarProperty Name="idUsuarioCierre" ColumnName="idUsuarioCierre" />
+          <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+          <ScalarProperty Name="idUsuarioCrea" ColumnName="idUsuarioCrea" />
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+          <ScalarProperty Name="fotoDespues" ColumnName="fotoDespues" />
+          <ScalarProperty Name="fotoAntes" ColumnName="fotoAntes" />
+          <ScalarProperty Name="empresaReportador" ColumnName="empresaReportador" />
+          <ScalarProperty Name="cargoReportador" ColumnName="cargoReportador" />
+          <ScalarProperty Name="fechaReporte" ColumnName="fechaReporte" />
+          <ScalarProperty Name="nombreReportador" ColumnName="nombreReportador" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fuente" ColumnName="fuente" />
+          <ScalarProperty Name="idTaladro" ColumnName="idTaladro" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IssueDetail">
+      <EntityTypeMapping TypeName="pioneerModel.IssueDetail">
+        <MappingFragment StoreEntitySet="IssueDetail">
+          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+          <ScalarProperty Name="idUsuarioRegistra" ColumnName="idUsuarioRegistra" />
+          <ScalarProperty Name="fechaPropuestaCierre" ColumnName="fechaPropuestaCierre" />
+          <ScalarProperty Name="responsable" ColumnName="responsable" />
+          <ScalarProperty Name="accion" ColumnName="accion" />
+          <ScalarProperty Name="idHallazgo" ColumnName="idHallazgo" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

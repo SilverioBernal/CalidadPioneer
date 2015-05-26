@@ -56,6 +56,7 @@
     <Compile Include="DrillBiz.cs" />
     <Compile Include="FileTypeBiz.cs" />
     <Compile Include="FileUploadBiz.cs" />
+    <Compile Include="IssueBiz.cs" />
     <Compile Include="MimeTypeBiz.cs" />
     <Compile Include="NearMissBiz.cs" />
     <Compile Include="NearMissParameterBiz.cs" />

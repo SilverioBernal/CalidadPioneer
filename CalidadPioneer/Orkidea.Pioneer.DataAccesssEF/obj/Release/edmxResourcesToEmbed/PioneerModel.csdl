@@ -68,6 +68,12 @@
     <EntitySet Name="User" EntityType="pioneerModel.User" />
     <EntitySet Name="Position" EntityType="pioneerModel.Position" />
     <EntitySet Name="NearMiss" EntityType="pioneerModel.NearMiss" />
+    <EntitySet Name="Issue" EntityType="pioneerModel.Issue" />
+    <EntitySet Name="IssueDetail" EntityType="pioneerModel.IssueDetail" />
+    <AssociationSet Name="FK_IssueDetail_Issue" Association="pioneerModel.FK_IssueDetail_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="IssueDetail" EntitySet="IssueDetail" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Process">
     <Key>
@@ -289,4 +295,50 @@
     <Property Name="idUsuarioCierra" Type="Int32" />
     <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idTaladro" Type="Int32" Nullable="false" />
+    <Property Name="fuente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="nombreReportador" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fechaReporte" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="cargoReportador" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="empresaReportador" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fotoAntes" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fotoDespues" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="idUsuarioCrea" Type="Int32" Nullable="false" />
+    <Property Name="fechaCierre" Type="DateTime" Precision="3" />
+    <Property Name="idUsuarioCierre" Type="Int32" />
+    <Property Name="comentariosCierre" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="IssueDetail" Relationship="pioneerModel.FK_IssueDetail_Issue" FromRole="Issue" ToRole="IssueDetail" />
+  </EntityType>
+  <EntityType Name="IssueDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idHallazgo" Type="Int32" Nullable="false" />
+    <Property Name="accion" Type="String" Nullable="false" MaxLength="550" FixedLength="false" Unicode="false" />
+    <Property Name="responsable" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fechaPropuestaCierre" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="idUsuarioRegistra" Type="Int32" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Issue" Relationship="pioneerModel.FK_IssueDetail_Issue" FromRole="IssueDetail" ToRole="Issue" />
+  </EntityType>
+  <Association Name="FK_IssueDetail_Issue">
+    <End Type="pioneerModel.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="pioneerModel.IssueDetail" Role="IssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="IssueDetail">
+        <PropertyRef Name="idHallazgo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

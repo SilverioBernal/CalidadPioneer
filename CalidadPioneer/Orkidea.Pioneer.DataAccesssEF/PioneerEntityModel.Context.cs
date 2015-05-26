@@ -67,6 +67,10 @@ public partial class pioneerEntities : DbContext
 
     public virtual DbSet<NearMiss> NearMiss { get; set; }
 
+    public virtual DbSet<Issue> Issue { get; set; }
+
+    public virtual DbSet<IssueDetail> IssueDetail { get; set; }
+
 }
 
 }

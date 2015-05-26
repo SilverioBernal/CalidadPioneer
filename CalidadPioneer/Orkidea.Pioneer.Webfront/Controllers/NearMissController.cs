@@ -40,7 +40,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             if (oUser.idCargo != null)
             {
                 Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)oUser.idCargo });
-                if(!position.cierraNearMiss)
+                if (!position.cierraNearMiss)
                     return RedirectToAction("Index", "Home");
             }
             else
@@ -55,7 +55,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                     {
                         id = item.id,
                         fechaApertura = item.fechaApertura,
-                        usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario
+                        usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
+                        fechaAnalisis = item.fechaAnalisis
                     });
             }
 
@@ -91,7 +92,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             #endregion
 
             UserBiz userBiz = new UserBiz();
-            User oUser = userBiz.GetUserbyKey(new User() { id = user });            
+            User oUser = userBiz.GetUserbyKey(new User() { id = user });
             PositionBiz positionBiz = new PositionBiz();
 
             if (oUser.idCargo != null)
@@ -144,7 +145,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
         // GET: NearMiss/Edit/5
         [Authorize]
-        public ActionResult Edit(int id)
+        public ActionResult Analize(int id)
         {
             #region User identification
             System.Security.Principal.IIdentity context = HttpContext.User.Identity;
@@ -163,7 +164,103 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
             UserBiz userBiz = new UserBiz();
             User oUser = userBiz.GetUserbyKey(new User() { id = user });
-            
+
+            PositionBiz positionBiz = new PositionBiz();
+
+            if (oUser.idCargo != null)
+            {
+                Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)oUser.idCargo });
+                if (!position.cierraNearMiss)
+                    return RedirectToAction("Index", "Home");
+            }
+            else
+                return RedirectToAction("Index", "Home");
+
+            NearMiss oNearMiss = nearMissBiz.GetNearMissbyKey(new NearMiss() { id = id });
+
+            vmNearMiss nearMiss = new vmNearMiss(true)
+            {
+                id = id,
+                tipoHallazgo = oNearMiss.tipoHallazgo,
+                actividadReporteador = oNearMiss.actividadReporteador,
+                idUbicacion = oNearMiss.idUbicacion,
+                descripcion = oNearMiss.descripcion,
+                accionSugeida = oNearMiss.accionSugeida,
+                usuarioCrea = (userBiz.GetUserbyKey(new User() { id = oNearMiss.idUsuarioAbre })).usuario,
+                fechaApertura = oNearMiss.fechaApertura,
+                fechaAnalisis = oNearMiss.fechaAnalisis                
+            };
+
+            return View(nearMiss);
+        }
+
+        // POST: NearMiss/Edit/5
+        [HttpPost]
+        [Authorize]
+        public ActionResult Analize(int id, NearMiss nearMiss)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                #region User identification
+                System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+                int user = 0;
+
+                if (context.IsAuthenticated)
+                {
+
+                    System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                    string[] userRole = ci.Ticket.UserData.Split('|');
+                    user = int.Parse(userRole[0]);
+                }
+
+                #endregion
+
+                nearMiss.id = id;
+                NearMiss nm = nearMissBiz.GetNearMissbyKey(nearMiss);
+
+
+                nm.idUsuarioAnalisis = user;
+                nm.fechaAnalisis = DateTime.Now;
+                nm.calidad = string.IsNullOrEmpty(nearMiss.calidad) ? "" : nearMiss.calidad;
+                nm.salud = string.IsNullOrEmpty(nearMiss.salud) ? "" : nearMiss.salud;
+                nm.asuntosAmbientales = string.IsNullOrEmpty(nearMiss.asuntosAmbientales) ? "" : nearMiss.asuntosAmbientales;
+                nm.usoEpp = string.IsNullOrEmpty(nearMiss.usoEpp) ? "" : nearMiss.usoEpp;
+                nm.condicionesTrabajo = string.IsNullOrEmpty(nearMiss.condicionesTrabajo) ? "" : nearMiss.condicionesTrabajo;
+                nm.analisisHallazgo = string.IsNullOrEmpty(nearMiss.analisisHallazgo) ? "Bajo" : nearMiss.analisisHallazgo;
+
+                nearMissBiz.SaveNearMiss(nm);
+                //return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [Authorize]
+        public ActionResult Close(int id)
+        {
+            #region User identification
+            System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+            int user = 0;
+
+            if (context.IsAuthenticated)
+            {
+
+                System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                string[] userRole = ci.Ticket.UserData.Split('|');
+                user = int.Parse(userRole[0]);
+            }
+
+            #endregion
+
+            UserBiz userBiz = new UserBiz();
+            User oUser = userBiz.GetUserbyKey(new User() { id = user });
+
             PositionBiz positionBiz = new PositionBiz();
 
             if (oUser.idCargo != null)
@@ -185,7 +282,13 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 descripcion = oNearMiss.descripcion,
                 accionSugeida = oNearMiss.accionSugeida,
                 usuarioCrea = (userBiz.GetUserbyKey(new User() { id = oNearMiss.idUsuarioAbre })).usuario,
-                fechaApertura = oNearMiss.fechaApertura
+                fechaApertura = oNearMiss.fechaApertura,
+                asuntosAmbientales = oNearMiss.asuntosAmbientales,
+                analisisHallazgo = oNearMiss.analisisHallazgo,
+                salud = oNearMiss.salud,
+                calidad = oNearMiss.calidad,
+                condicionesTrabajo = oNearMiss.condicionesTrabajo,
+                usoEpp = oNearMiss.usoEpp
             };
 
             return View(nearMiss);
@@ -194,7 +297,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
         // POST: NearMiss/Edit/5
         [HttpPost]
         [Authorize]
-        public ActionResult Edit(int id, NearMiss nearMiss)
+        public ActionResult Close(int id, NearMiss nearMiss)
         {
             try
             {
@@ -214,9 +317,27 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
                 #endregion
 
+                UserBiz userBiz = new UserBiz();
+                User oUser = userBiz.GetUserbyKey(new User() { id = user });
+                PositionBiz positionBiz = new PositionBiz();
+
+                if (oUser.idCargo != null)
+                {
+                    Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)oUser.idCargo });
+                    if (!position.cierraNearMiss)
+                        return RedirectToAction("Index", "Home");
+                }
+                else
+                    return RedirectToAction("Index", "Home");
+
                 nearMiss.id = id;
-                nearMiss.idUsuarioAnalisis = user;
-                nearMiss.fechaAnalisis = DateTime.Now;
+                NearMiss nm = nearMissBiz.GetNearMissbyKey(nearMiss);
+
+                nm.idUsuarioCierra = user;
+                nm.fechaCierre = DateTime.Now;
+                nm.observacionesCierre = nearMiss.observacionesCierre;
+
+                nearMissBiz.SaveNearMiss(nm);
 
                 return RedirectToAction("Index");
             }

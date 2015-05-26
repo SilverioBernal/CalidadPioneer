@@ -39,6 +39,38 @@
     <Property Name="fileName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="250" />
   </EntityType>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idTaladro" Type="int" Nullable="false" />
+    <Property Name="fuente" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="nombreReportador" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="fechaReporte" Type="datetime" Nullable="false" />
+    <Property Name="cargoReportador" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="empresaReportador" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="fotoAntes" Type="varchar" MaxLength="250" />
+    <Property Name="fotoDespues" Type="varchar" MaxLength="250" />
+    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="idUsuarioCrea" Type="int" Nullable="false" />
+    <Property Name="fechaCierre" Type="datetime" />
+    <Property Name="idUsuarioCierre" Type="int" />
+    <Property Name="comentariosCierre" Type="varchar" MaxLength="800" />
+  </EntityType>
+  <EntityType Name="IssueDetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idHallazgo" Type="int" Nullable="false" />
+    <Property Name="accion" Type="varchar" MaxLength="550" Nullable="false" />
+    <Property Name="responsable" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="fechaPropuestaCierre" Type="date" Nullable="false" />
+    <Property Name="idUsuarioRegistra" Type="int" Nullable="false" />
+    <Property Name="fechaRegistro" Type="date" Nullable="false" />
+  </EntityType>
   <EntityType Name="mimetype">
     <Key>
       <PropertyRef Name="Id" />
@@ -162,6 +194,18 @@
     <Property Name="admin" Type="bit" Nullable="false" />
     <Property Name="idCargo" Type="int" />
   </EntityType>
+  <Association Name="FK_IssueDetail_Issue">
+    <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+    <End Role="IssueDetail" Type="Self.IssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="IssueDetail">
+        <PropertyRef Name="idHallazgo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProcessDocument_DocumentType">
     <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="1" />
     <End Role="ProcessDocument" Type="Self.ProcessDocument" Multiplicity="*" />
@@ -240,6 +284,8 @@
     <EntitySet Name="Drill" EntityType="Self.Drill" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileType" EntityType="Self.FileType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IssueDetail" EntityType="Self.IssueDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="mimetype" EntityType="Self.mimetype" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NearMiss" EntityType="Self.NearMiss" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NearMissParameter" EntityType="Self.NearMissParameter" Schema="dbo" store:Type="Tables" />
@@ -252,6 +298,10 @@
     <EntitySet Name="ProjectDocument" EntityType="Self.ProjectDocument" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProjectLinkedDoc" EntityType="Self.ProjectLinkedDoc" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_IssueDetail_Issue" Association="Self.FK_IssueDetail_Issue">
+      <End Role="Issue" EntitySet="Issue" />
+      <End Role="IssueDetail" EntitySet="IssueDetail" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProcessDocument_DocumentType" Association="Self.FK_ProcessDocument_DocumentType">
       <End Role="DocumentType" EntitySet="DocumentType" />
       <End Role="ProcessDocument" EntitySet="ProcessDocument" />

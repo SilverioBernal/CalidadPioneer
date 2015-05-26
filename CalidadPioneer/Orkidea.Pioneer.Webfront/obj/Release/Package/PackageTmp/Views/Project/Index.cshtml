@@ -37,7 +37,7 @@
                         <ul>
                             @foreach (Orkidea.Pioneer.Entities.DocumentType pryItem in item.lstDocumentType)
                             {
-                                <li>
+                                <li class="itemProj">
                                     <span class="btn btn-warning"><i class="glyphicon glyphicon-minus-sign"></i> @pryItem.nombre</span>
                                     @{Html.RenderAction("IndexByProject", "ProjectDocument", new { idProyecto = item.id, idTipoDocumento = pryItem.id });}
                                 </li>
@@ -84,6 +84,7 @@
     });
 
     $(document).ready(function () {
+        $(".tree li .itemProj").hide('fast');
         $(".tree li .itemdoc").hide('fast');
         $(".tree li .btn-warning").attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
     })

@@ -13,20 +13,42 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
     <!-- jQuery -->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
     <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <!-- DataTables -->
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
     <!-- font icons -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css" />
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>        
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>*@
+
+    
+        @*<script type="text/javascript" src="~/scripts/moment.min.js"></script>
+        <script type="text/javascript" src="~/scripts/bootstrap-datetimepicker.js"></script>
+        <link rel="stylesheet" href="~/Content/bootstrap-datetimepicker.css" />*@
+
     @{
         System.Security.Principal.IIdentity context = Context.User.Identity;
         bool admin = false;
+        bool openNearMiss = false;
+        bool closeNearMiss = false;
+        bool openIssues = false;
+        bool closeIssues = false;
         string userName = "";
         if (context.IsAuthenticated)
         {
             System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)Context.User.Identity;
             string[] userRole = ci.Ticket.UserData.Split('|');
             admin = int.Parse(userRole[1]) == 1 ? true : false;
+            openNearMiss = int.Parse(userRole[2]) == 1 ? true : false;
+            closeNearMiss = int.Parse(userRole[3]) == 1 ? true : false;
+            openIssues = int.Parse(userRole[4]) == 1 ? true : false;
+            closeIssues = int.Parse(userRole[5]) == 1 ? true : false;
             userName = ci.Name;
         }
     }
@@ -47,14 +69,33 @@
                     @if (context.IsAuthenticated)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acerca del SGC<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sistema de Gestión<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Details", "Process", new { id = 13 })">Estructura organizacional</a></li>
                                 <li><a href="@Url.Action("Details", "Process", new { id = 14 })">Direccionamiento estratégico</a></li>
                                 <li><a href="@Url.Action("Details", "Process", new { id = 15 })">Políticas</a></li>
+                                <li><a href="@Url.Action("Index", "Process")">Mapa de procesos</a></li>
+                                @if (openNearMiss)
+                                {
+                                    <li class="nav-divider"></li>
+                                    <li><a href="@Url.Action("Create", "NearMiss")">Reportar Near Miss</a></li>
+                                    if (closeNearMiss)
+                                    {
+                                        <li><a href="@Url.Action("Index", "NearMiss")">Gestionar Near Miss</a></li>
+                                    }
+                                }
+                                @if (openIssues)
+                                {
+                                    <li class="nav-divider"></li>
+                                    <li><a href="@Url.Action("Create", "Issue")">Reportar Hallazgos</a></li>
+                                    if (closeNearMiss)
+                                    {
+                                        <li><a href="@Url.Action("Index", "NearMiss")">Gestionar Hallazgos</a></li>
+                                    }
+                                }
                             </ul>
                         </li>
-                        <li><a href="@Url.Action("Index", "Process")">Sistema de Gestión</a></li>
+
                         <li><a href="@Url.Action("Contact", "Home")">Sugerencias</a></li>
                         if (admin)
                         {
@@ -62,6 +103,9 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="@Url.Action("Index", "User")">Usuarios</a></li>
+                                    <li><a href="@Url.Action("Index", "Position")">Cargos</a></li>
+                                    <li><a href="@Url.Action("Index", "Drill")">Ubicaciones</a></li>
+                                    <li class="divider"></li>
                                     <li><a href="@Url.Action("Index", "NewsPaper")">Noticias</a></li>
                                     <li><a href="@Url.Action("Index", "FileUpload")">Medios</a></li>
                                     <li class="divider"></li>

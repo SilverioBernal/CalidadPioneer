@@ -45,8 +45,30 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
                     int id = userTarget.id;
                     int isAdmin = userTarget.admin ? 1 : 0;
+                    int openNearMiss = 0;
+                    int closeNearMiss = 0;
+                    int openIssues = 0;
+                    int closeIssues = 0;
 
-                    string userData = id.ToString().Trim() + "|" + isAdmin.ToString().Trim();
+                    if (userTarget.idCargo != null)
+                    {
+                        PositionBiz positionBiz = new PositionBiz();
+                        Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)userTarget.idCargo });
+                        openNearMiss = position.abreNearMiss ? 1 : 0;
+                        closeNearMiss = position.cierraNearMiss ? 1 : 0;
+                        openIssues = position.abreHallazgo ? 1 : 0;
+                        closeIssues = position.cierraHallazgo ? 1 : 0;
+                    }
+
+                    string userData = string.Format("{0}|{1}|{2}|{3}|{4}|{5}", 
+                        id.ToString().Trim(), 
+                        isAdmin.ToString().Trim(), 
+                        openNearMiss.ToString().Trim(), 
+                        closeIssues.ToString().Trim(), 
+                        openIssues.ToString().Trim(),
+                        closeIssues.ToString().Trim());
+                    
+                    //string userData = id.ToString().Trim() + "|" + isAdmin.ToString().Trim();
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.UserName, DateTime.Now, DateTime.Now.AddMinutes(30), false, userData);
 
                     string encTicket = FormsAuthentication.Encrypt(ticket);

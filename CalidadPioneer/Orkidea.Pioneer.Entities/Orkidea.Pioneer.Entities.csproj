@@ -62,6 +62,12 @@
     <Compile Include="FileUpload.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Issue.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IssueDetail.cs">
+      <DependentUpon>PioneerEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="mimetype.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>

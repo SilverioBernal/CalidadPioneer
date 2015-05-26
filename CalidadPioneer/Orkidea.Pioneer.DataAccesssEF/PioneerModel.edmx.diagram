@@ -28,6 +28,9 @@
         <EntityTypeShape EntityType="pioneerModel.User" Width="1.5" PointX="7.375" PointY="10.75" />
         <EntityTypeShape EntityType="pioneerModel.Position" Width="1.5" PointX="3.375" PointY="10.75" />
         <EntityTypeShape EntityType="pioneerModel.NearMiss" Width="1.5" PointX="9.375" PointY="10.75" />
+        <EntityTypeShape EntityType="pioneerModel.Issue" Width="1.5" PointX="11.375" PointY="8" />
+        <EntityTypeShape EntityType="pioneerModel.IssueDetail" Width="1.5" PointX="13.625" PointY="8.75" />
+        <AssociationConnector Association="pioneerModel.FK_IssueDetail_Issue" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
