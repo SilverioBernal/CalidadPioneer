@@ -95,8 +95,8 @@
           <Property Name="actividadReporteador" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="tipoHallazgo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idUbicacion" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="accionSugeida" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="accionSugeida" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="calidad" Type="varchar" MaxLength="50" />
           <Property Name="salud" Type="varchar" MaxLength="50" />
           <Property Name="asuntosAmbientales" Type="varchar" MaxLength="50" />
@@ -403,13 +403,13 @@
           <EntitySet Name="Drill" EntityType="pioneerModel.Drill" />
           <EntitySet Name="User" EntityType="pioneerModel.User" />
           <EntitySet Name="Position" EntityType="pioneerModel.Position" />
-          <EntitySet Name="NearMiss" EntityType="pioneerModel.NearMiss" />
           <EntitySet Name="Issue" EntityType="pioneerModel.Issue" />
           <EntitySet Name="IssueDetail" EntityType="pioneerModel.IssueDetail" />
           <AssociationSet Name="FK_IssueDetail_Issue" Association="pioneerModel.FK_IssueDetail_Issue">
             <End Role="Issue" EntitySet="Issue" />
             <End Role="IssueDetail" EntitySet="IssueDetail" />
           </AssociationSet>
+          <EntitySet Name="NearMiss" EntityType="pioneerModel.NearMiss" />
           </EntityContainer>
         <EntityType Name="Process">
           <Key>
@@ -607,30 +607,6 @@
           <Property Name="abreHallazgo" Type="Boolean" Nullable="false" />
           <Property Name="cierraHallazgo" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="NearMiss">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fechaApertura" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="idUsuarioAbre" Type="Int32" Nullable="false" />
-          <Property Name="actividadReporteador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="tipoHallazgo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idUbicacion" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="accionSugeida" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="calidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="salud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="asuntosAmbientales" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="condicionesTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="usoEpp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="analisisHallazgo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idUsuarioAnalisis" Type="Int32" />
-          <Property Name="fechaAnalisis" Type="DateTime" Precision="3" />
-          <Property Name="fechaCierre" Type="DateTime" Precision="3" />
-          <Property Name="idUsuarioCierra" Type="Int32" />
-          <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Issue">
           <Key>
             <PropertyRef Name="id" />
@@ -677,6 +653,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NearMiss">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaApertura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idUsuarioAbre" Type="Int32" Nullable="false" />
+          <Property Name="actividadReporteador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipoHallazgo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idUbicacion" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="accionSugeida" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="calidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="salud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="asuntosAmbientales" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="condicionesTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usoEpp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="analisisHallazgo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idUsuarioAnalisis" Type="Int32" />
+          <Property Name="fechaAnalisis" Type="DateTime" Precision="3" />
+          <Property Name="fechaCierre" Type="DateTime" Precision="3" />
+          <Property Name="idUsuarioCierra" Type="Int32" />
+          <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -835,31 +835,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="NearMiss">
-            <EntityTypeMapping TypeName="pioneerModel.NearMiss">
-              <MappingFragment StoreEntitySet="NearMiss">
-                <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
-                <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
-                <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
-                <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
-                <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
-                <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
-                <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
-                <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
-                <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
-                <ScalarProperty Name="salud" ColumnName="salud" />
-                <ScalarProperty Name="calidad" ColumnName="calidad" />
-                <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
-                <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
-                <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
-                <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
-                <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Issue">
             <EntityTypeMapping TypeName="pioneerModel.Issue">
               <MappingFragment StoreEntitySet="Issue">
@@ -890,6 +865,31 @@
                 <ScalarProperty Name="responsable" ColumnName="responsable" />
                 <ScalarProperty Name="accion" ColumnName="accion" />
                 <ScalarProperty Name="idHallazgo" ColumnName="idHallazgo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NearMiss">
+            <EntityTypeMapping TypeName="pioneerModel.NearMiss">
+              <MappingFragment StoreEntitySet="NearMiss">
+                <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
+                <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
+                <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+                <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
+                <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
+                <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
+                <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
+                <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
+                <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
+                <ScalarProperty Name="salud" ColumnName="salud" />
+                <ScalarProperty Name="calidad" ColumnName="calidad" />
+                <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
+                <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
+                <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
+                <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
+                <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

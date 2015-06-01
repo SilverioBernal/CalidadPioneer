@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Sugerencias";
+}
+<h2>Sugerencias</h2>
+<div class="row col-md-12">
+    <div id="radio">
+        <label class="inline"><input type="radio" name="tipoMensaje" value="Sugerencia" checked="checked" /> Sugerencia</label>
+        <label class="inline"><input type="radio" name="tipoMensaje" value="Copaso" /> COPASO</label>
+        <label class="inline"><input type="radio" name="tipoMensaje" value="RRHH" /> RRHH</label>
+    </div>
+</div>
+<div class="row col-md-12">
+    <div class="form-group">
+        <label>Asunto</label>
+        <input type="text" id="txtAsunto" class="form-control" />
+    </div>
+</div>
+<div class="row">
+    <div class="form-group  col-md-8   ">
+        <label for="txtMensaje">Mensaje</label>
+        <textarea id="txtMensaje" rows="6" class="form-control"></textarea>
+    </div>
+</div>
+
+<div class="row col-md-12">
+    <div class="form-group">
+        <input type="button" id="btnSubmit" value="Enviar" class="btn btn-primary" /> | @Html.ActionLink("Volver al Home", "Index", "Home")
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Sugerencias</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $('#btnSubmit').click(function () {        
+        var mensaje =  $("div input[type='radio']:checked").val() + '|' + $("#txtAsunto").val() + "|" + $("#txtMensaje").val()
+        var link = '@Url.Action("SendSuggestion", "Home", new { id = "-1" })';
+        link = link.replace("-1", mensaje);
+        $.getJSON(link, null, res);
+        var mensaje = "";
+        function res(data) {
+            if (data == "OK")
+                mensaje = "Sugerencia enviada con exito";
+            else
+                mensaje = "No se pudo enviar el mensaje. ";
+            $('.modal-body').html(mensaje);
+            $('#myModal').modal()
+        }
+    });
+</script>

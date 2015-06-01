@@ -1,0 +1,53 @@
+﻿@model Orkidea.Pioneer.Entities.IssueDetail
+
+
+@using (Html.BeginForm("ManageRecord", "Issue", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-horizontal">
+        <h4>Gestión del hallazgo</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.responsable, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.responsable, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.responsable, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.fechaPropuestaCierre, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group date" id="datetimepicker1">
+                        @Html.TextBoxFor(model => model.fechaPropuestaCierre, new { type = "text", @class = "form-control" })
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.accion, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.accion, new { @class = "form-control col-md-12"})
+                    @Html.ValidationMessageFor(model => model.accion, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.idHallazgo)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            
+                <input type="submit" value="Guardar" class="btn btn-info" /> | @Html.ActionLink("Cerrar", "Close", "Issue", new { id = Model.idHallazgo }, new {@class= "btn btn-warning" }) | @Html.ActionLink("Volver al listado", "Index", "Issue")
+            
+        </div>
+    </div>
+}

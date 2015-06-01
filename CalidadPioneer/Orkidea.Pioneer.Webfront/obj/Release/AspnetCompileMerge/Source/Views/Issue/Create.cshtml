@@ -1,0 +1,185 @@
+﻿@model Orkidea.Pioneer.Webfront.Models.vmIssue
+
+@{
+    ViewBag.Title = "Sistema de gestión - Creación de Hallazgos";
+}
+
+<style>
+    .error {
+        color: red;
+        font-weight: normal;
+    }
+</style>
+
+@using (Html.BeginForm("Create", "Issue", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h2>Sistema de gestión - Creación de Hallazgos</h2>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.idTaladro, "Ubicacion", new { @for = "idUbicacion", @class = "control-label" })
+                        @Html.DropDownListFor(model => model.idTaladro, new SelectList(Model.lsUbicaion, "id", "descripcion"), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
+                        @Html.ValidationMessageFor(model => model.idTaladro, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.fuente, "Fuente", new { @for = "fuente" })
+                        @Html.DropDownListFor(model => model.fuente, new SelectList(Model.lsFuentes), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.nombreReportador, "Nombre de quien reporta", new { @for = "nombreReportador" })
+                        @Html.TextBoxFor(model => model.nombreReportador, new { @class = "form-control", style = "max-width:100%" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.cargoReportador, "Cargo reportador", new { @for = "cargoReportador" })
+                        @Html.TextBoxFor(model => model.cargoReportador, new { @class = "form-control", style = "max-width:100%" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.empresaReportador, "Empresa reportador", new { @for = "empresaReportador" })
+                        @Html.TextBoxFor(model => model.empresaReportador, new { @class = "form-control", style = "max-width:100%" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.fechaReporte, "Fecha reporte", new { @for = "fechaReporte" })
+                        <div class="input-group date" id="datetimepicker1">
+                            @Html.TextBoxFor(model => model.fechaReporte, new { type = "text", @class = "form-control" })
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.fotoAntes, "Foto", new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.File, new { type = "file", @class = "btn btn-primary", title = "Seleccione la foto", accept = "image/*" })
+                    </div>
+                </div>                
+            </div>
+            <div id="uploaded" class="row">
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.descripcion, "Descripción", new
+       {
+           @for = "descripcion",
+           @class = "required"@*, style = "height: 350px;"*@ })
+            @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control col-md-12", style = "height: 167px;" })
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type='submit' id='upload-files' value=' Guardar ' class="btn btn-info" />
+                | @Html.ActionLink("Volver al inicio", "Index", "Home")
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<!-- plupload and all it's runtimes and the jQuery queue widget (attachments) -->
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>*@
+<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+
+
+<script>
+    //<![CDATA[
+    $(function () {
+        $.fn.bootstrapFileInput = function () {
+            this.each(function (i, elem) {
+                var $elem = $(elem); if (typeof $elem.attr('data-bfi-disabled') != 'undefined') { return; }
+                var buttonWord = 'Browse'; if (typeof $elem.attr('title') != 'undefined') { buttonWord = $elem.attr('title'); }
+                var className = ''; if (!!$elem.attr('class')) { className = ' ' + $elem.attr('class'); }
+                $elem.wrap('<a class="file-input-wrapper btn btn-default ' + className + '"></a>').parent().prepend(buttonWord);
+            }).promise().done(function () {
+                $('.file-input-wrapper').mousemove(function (cursor) { var input, wrapper, wrapperX, wrapperY, inputWidth, inputHeight, cursorX, cursorY; wrapper = $(this); input = wrapper.find("input"); wrapperX = wrapper.offset().left; wrapperY = wrapper.offset().top; inputWidth = input.width(); inputHeight = input.height(); cursorX = cursor.pageX; cursorY = cursor.pageY; moveInputX = cursorX - wrapperX - inputWidth + 20; moveInputY = cursorY - wrapperY - (inputHeight / 2); input.css({ left: moveInputX, top: moveInputY }); }); $('body').on('change', '.file-input-wrapper input[type=file]', function () {
+                    var fileName; fileName = $(this).val(); $(this).parent().next('.file-input-name').remove(); if (!!$(this).prop('files') && $(this).prop('files').length > 1) { fileName = $(this)[0].files.length + ' files'; }
+                    else { fileName = fileName.substring(fileName.lastIndexOf('\\') + 1, fileName.length); }
+                    $(this).parent().after('<span class="file-input-name">' + fileName + '</span>');
+                });
+            });
+        }; var cssHtml = '<style>' + '.file-input-wrapper { overflow: hidden; position: relative; cursor: pointer; z-index: 1; }' + '.file-input-wrapper input[type=file], .file-input-wrapper input[type=file]:focus, .file-input-wrapper input[type=file]:hover { position: absolute; top: 0; left: 0; cursor: pointer; opacity: 0; filter: alpha(opacity=0); z-index: 99; outline: 0; }' + '.file-input-name { margin-left: 8px; }' + '</style>'; $('link[rel=stylesheet]').eq(0).before(cssHtml);
+    });
+    //]]></script>
+<script>$(document).ready(function () { $('input[type=file]').bootstrapFileInput(); });</script>
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+        //$('#datetimepicker2').datepicker();
+
+        $('form').validate({
+            rules: {
+                tipoHallazgo: {
+                    required: true
+                },
+                actividadReporteador: {
+                    required: true
+                },
+                idUbicacion: {
+                    required: true
+                },
+                descripcion: {
+                    minlength: 2,
+                    required: true
+                },
+                accionSugeida: {
+                    minlength: 2,
+                    required: true
+                }
+            },
+            messages: {
+                tipoHallazgo: {
+                    required: "Ingrese un tipo de hallazgo"
+                },
+                actividadReporteador: {
+                    required: "Ingrese una actividad"
+                },
+                idUbicacion: {
+                    required: "Ingrese una ubicación"
+                },
+                descripcion: {
+                    required: "Ingrese una descripción"
+                },
+                accionSugeida: {
+                    required: "Ingrese una acción sugerida"
+                },
+            },
+        });
+    });
+</script>

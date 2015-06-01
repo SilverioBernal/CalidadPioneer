@@ -1,0 +1,36 @@
+﻿@model Orkidea.Pioneer.Webfront.Models.vmProcess
+
+@{
+    ViewBag.Title = "Sistema de gestión - Edición de procesos";
+}
+
+@using (Html.BeginForm("Edit", "Process", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h2>Sistema de gestión - Creación de procesos</h2>
+
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.nombre, new { @for = "nombre" })
+        @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.nombre)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.descripcion, new { @for = "descripcion" })
+        @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.archivoCaracterizacion, new { @for = "archivoCaracterizacion" })
+        @Html.TextBoxFor(model => model.archivoCaracterizacion, new { @class = "form-control" })
+    </div>
+
+    <div class="row">
+    </div>
+    <p>
+        <input type='submit' id='upload-files' value=' Guardar ' class="btn btn-primary" />
+        | @Html.ActionLink("Volver a la lista", "List")
+    </p>
+
+}

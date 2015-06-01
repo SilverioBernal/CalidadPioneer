@@ -1,0 +1,107 @@
+﻿@model Orkidea.Pioneer.Webfront.Models.vmProcess
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Sistema de gestión</h2>
+<h3></h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="tree">
+            <ul>
+                <li>
+                    <span class="btn btn-danger"><i class="glyphicon glyphicon-file"></i> @Model.nombre</span>
+                    <ul>
+                        @foreach (Orkidea.Pioneer.Entities.DocumentType item in Model.lstDocumentType)
+                        {
+                            <li>
+                                <span class="btn btn-warning"><i class="glyphicon glyphicon-minus-sign"></i> @item.nombre</span>
+                                @{Html.RenderAction("IndexByProcess", "ProcessDocument", new { idProceso = Model.id, idTipoDocumento = item.id });}
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">        
+        <div class="tree">
+            <span class="btn btn-success"><i class="glyphicon glyphicon-file"></i>Documentos por proyectos/clasificación</span>
+            <ul>
+                @foreach (Orkidea.Pioneer.Webfront.Models.vmProject item in Model.lsProject)
+                {
+                    <li>
+                        <span class="btn btn-danger"><i class="glyphicon glyphicon-file"></i>@item.nombre</span>
+                        <ul>
+                            @foreach (Orkidea.Pioneer.Entities.DocumentType pryItem in item.lstDocumentType)
+                            {
+                                <li class="itemProj">
+                                    <span class="btn btn-warning"><i class="glyphicon glyphicon-minus-sign"></i> @pryItem.nombre</span>
+                                    @{Html.RenderAction("IndexByProject", "ProjectDocument", new { idProyecto = item.id, idTipoDocumento = pryItem.id });}
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Documentos relacionados</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll; max-height:500px;">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@Html.ActionLink("Volver al mapa", "Index", "Process")
+
+<script>
+    $(function () {
+        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+        $('.tree li.parent_li > span').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find(' > ul > li');
+            if (children.is(":visible")) {
+                children.hide('fast');
+                $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+            } else {
+                children.show('fast');
+                $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
+            }
+            e.stopPropagation();
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tree li .itemProj").hide('fast');
+        $(".tree li .itemdoc").hide('fast');
+        $(".tree li .btn-warning").attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+    })
+
+    $(".linkDoc").click(function () {
+        var id = this.id;
+        var url = '@Url.Action("ShowRelations", "ProcessDocument")' + '/' + id;
+
+        $(".modal-body").load(url);
+        $('#myModal').modal('show')
+    });
+
+    $(".linkDoc1").click(function () {
+        var id = this.id;
+        var url = '@Url.Action("ShowRelations", "ProjectDocument")' + '/' + id;
+
+        $(".modal-body").load(url);
+        $('#myModal').modal('show')
+    });
+</script>

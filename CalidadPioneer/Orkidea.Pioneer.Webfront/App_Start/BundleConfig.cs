@@ -21,9 +21,11 @@ namespace Orkidea.Pioneer.Webfront
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                       "~/Scripts/bootstrap-datepicker.js",
-                       "~/Scripts/locales/bootstrap-datepicker.es.min.js",
+                      "~/Scripts/bootstrap-datepicker.js",
+                      "~/Scripts/locales/bootstrap-datepicker.es.min.js",
                       "~/Scripts/respond.js"));
+
+
 
             //bundles.Add(new ScriptBundle("~/bundles/DataTables").Include(
             //    "~/DataTables/jquery.dataTables.js",
@@ -32,8 +34,9 @@ namespace Orkidea.Pioneer.Webfront
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/bootstrap-datepicker.css",
                       "~/Content/site.css"));
+
+            //                      "~/Content/bootstrap-datepicker.css",
 
             //bundles.Add(new StyleBundle("~/Content/DataTables").Include(
             //    "~/Datatables/css/demo_page.css",

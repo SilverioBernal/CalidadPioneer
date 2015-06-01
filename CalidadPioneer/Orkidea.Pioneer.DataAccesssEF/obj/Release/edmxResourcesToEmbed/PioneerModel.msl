@@ -153,31 +153,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NearMiss">
-      <EntityTypeMapping TypeName="pioneerModel.NearMiss">
-        <MappingFragment StoreEntitySet="NearMiss">
-          <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
-          <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
-          <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
-          <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
-          <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
-          <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
-          <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
-          <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
-          <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
-          <ScalarProperty Name="salud" ColumnName="salud" />
-          <ScalarProperty Name="calidad" ColumnName="calidad" />
-          <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
-          <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
-          <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
-          <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
-          <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Issue">
       <EntityTypeMapping TypeName="pioneerModel.Issue">
         <MappingFragment StoreEntitySet="Issue">
@@ -208,6 +183,31 @@
           <ScalarProperty Name="responsable" ColumnName="responsable" />
           <ScalarProperty Name="accion" ColumnName="accion" />
           <ScalarProperty Name="idHallazgo" ColumnName="idHallazgo" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NearMiss">
+      <EntityTypeMapping TypeName="pioneerModel.NearMiss">
+        <MappingFragment StoreEntitySet="NearMiss">
+          <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
+          <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
+          <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+          <ScalarProperty Name="fechaAnalisis" ColumnName="fechaAnalisis" />
+          <ScalarProperty Name="idUsuarioAnalisis" ColumnName="idUsuarioAnalisis" />
+          <ScalarProperty Name="analisisHallazgo" ColumnName="analisisHallazgo" />
+          <ScalarProperty Name="usoEpp" ColumnName="usoEpp" />
+          <ScalarProperty Name="condicionesTrabajo" ColumnName="condicionesTrabajo" />
+          <ScalarProperty Name="asuntosAmbientales" ColumnName="asuntosAmbientales" />
+          <ScalarProperty Name="salud" ColumnName="salud" />
+          <ScalarProperty Name="calidad" ColumnName="calidad" />
+          <ScalarProperty Name="accionSugeida" ColumnName="accionSugeida" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="idUbicacion" ColumnName="idUbicacion" />
+          <ScalarProperty Name="tipoHallazgo" ColumnName="tipoHallazgo" />
+          <ScalarProperty Name="actividadReporteador" ColumnName="actividadReporteador" />
+          <ScalarProperty Name="idUsuarioAbre" ColumnName="idUsuarioAbre" />
+          <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>

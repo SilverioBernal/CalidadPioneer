@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Orkidea.Pioneer.Entities.Issue>
+
+@{
+    ViewBag.Title = "Sistema de gestión - Hallazgos abiertas";
+}
+<h2>Hallazgos abiertos- Listado general</h2>
+<p>
+    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-info" }) | @Html.ActionLink("Volver al home", "Index", "Home")
+</p>
+<div class="container-fluid">
+    <div class="span12">
+        <table class="table table-bordered table-striped table_vam" id="dt">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha apertura</th>
+                    <th>Usuario que reporta</th>
+                    <th>Resumen</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.fechaCreacion.ToString("yyyy-MM-dd")</td>
+                        <td>@item.nombreReportador</td>
+                        <td>@string.Format("{0}...", item.descripcion.Length > 49 ? item.descripcion.Substring(0, 50) : item.descripcion)</td>
+                        <td>
+                            <a href="@Url.Action("Manage", "Issue", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a>
+                            <a href="@Url.Action("Close", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#dt').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "Ningun resultado encontrado",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primera",
+                "last": "Ultima",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        }
+    });
+</script>

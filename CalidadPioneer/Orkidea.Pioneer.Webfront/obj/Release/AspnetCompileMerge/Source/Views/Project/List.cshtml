@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Orkidea.Pioneer.Webfront.Models.vmProject>
+
+@{
+    ViewBag.Title = "Lista de proyectos";
+}
+
+<h2>Sistema de gestión - Lista de proyectos</h2>
+<p>
+    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-info" }) | @Html.ActionLink("Volver al home", "Index", "Home")
+</p>
+<div class="container-fluid">
+    <div class="span12">
+        <table class="table table-bordered table-striped table_vam" id="dt">
+            <thead>
+                <tr>
+                    <th>Nombre del proceso</th>
+                    <th>Nombre del proyecto</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombreProceso)                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre)                            
+                        </td>
+                        <td>                            
+                            <a href="@Url.Action("Edit", "Project", new { id = item.id })" class="sepV_a" title="Editar"><i class="fa fa-pencil"></i></a>
+                            <a href="@Url.Action("Delete", "Project", new { id = item.id })" title="Eliminar"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#dt').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "Ningun resultado encontrado",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primera",
+                "last": "Ultima",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        }
+    });
+</script>

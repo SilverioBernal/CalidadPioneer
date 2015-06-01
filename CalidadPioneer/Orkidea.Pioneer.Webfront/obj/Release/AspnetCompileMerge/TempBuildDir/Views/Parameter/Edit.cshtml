@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Parámetros generales</h2>
+
+<div class="form-group">
+    <label>Estructura Organizacional</label>
+    <input type="text" id="txtEstructura" class="form-control" value="@ViewBag.estructura" />
+</div>
+<div class="form-group">
+    <label>Direccionamiento estratégico</label>
+    <input type="text" id="txtDireccionamiento" class="form-control" value="@ViewBag.direccionamiento" />
+</div>
+<div class="form-group">
+    <label>Políticas</label>
+    <input type="text" id="txtNormatividad" class="form-control" value="@ViewBag.normativas" />
+</div>
+<div class="row">
+    <div class="form-group">
+        <input type="button" id="btnSubmit" value="Enviar" class="btn btn-primary" /> | @Html.ActionLink("Volver al Home", "Index", "Home")
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Parámetros genarales</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $('#btnSubmit').click(function () {
+        var mensaje = $("#txtEstructura").val().replace(".", "_") + "|" + $("#txtDireccionamiento").val().replace(".", "_") + "|" + $("#txtNormatividad").val().replace(".", "_");
+
+        var link = '@Url.Action("GuardaParametros", "Parameter", new { id = "-1" })';
+        link = link.replace("-1", mensaje);
+
+        $.getJSON(link, null, res);
+        var mensaje = "";
+        function res(data) {
+            if (data == "Ok")
+                mensaje = "Parámetros guardados con exito";
+            else
+                mensaje = "No se pudo guardar los parámetros. ";
+            $('.modal-body').html(mensaje);
+            $('#myModal').modal()
+        }
+    });
+</script>
