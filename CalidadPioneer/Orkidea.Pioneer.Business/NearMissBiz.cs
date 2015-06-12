@@ -2,6 +2,7 @@
 using Orkidea.Pioneer.Entities;
 using Orkidea.Pioneer.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -57,6 +58,47 @@ namespace Orkidea.Pioneer.Business
             catch (Exception ex) { throw ex; }
 
             return lstNearMiss;
+        }
+
+        public List<NearMiss> GetNearMissList(bool estado, DateTime desde, DateTime hasta)
+        {
+
+            List<NearMiss> lstNearMiss = new List<NearMiss>();
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+
+                    if (estado)
+                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra == null && x.fechaApertura >= desde && x.fechaApertura<= hasta).ToList();
+                    else
+                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra != null && x.fechaApertura >= desde && x.fechaApertura<= hasta).ToList();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return lstNearMiss;
+        }
+
+        public IEnumerable GetReporteGenerico(bool estado)
+        {
+            List<ReporteGenericoNearMissHallazgo> lsRep = new List<ReporteGenericoNearMissHallazgo>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    if (estado)
+                        lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwNearMissAbiertas").ToList();
+                    else
+                        lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwNearMissCerradas").ToList();
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
         }
 
         /// <summary>

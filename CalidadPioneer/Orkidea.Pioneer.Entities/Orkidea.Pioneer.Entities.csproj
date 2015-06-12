@@ -107,6 +107,8 @@
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReporteComparativoIssue.cs" />
+    <Compile Include="ReporteGenericoNearMissHallazgo.cs" />
     <Compile Include="User.cs">
       <DependentUpon>PioneerEntityModel.tt</DependentUpon>
     </Compile>

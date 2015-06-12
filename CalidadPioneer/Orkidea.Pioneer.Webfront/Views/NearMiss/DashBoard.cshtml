@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = null;
+}
+
+@*<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>  
+
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+</script>
+  
+
+<script type="text/javascript">
+
+    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = true})', null, abiertas);
+    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = false})', null, cerradas);
+
+    function abiertas(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'rig');
+        data.addColumn('number', 'cantidad');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+        }
+
+        // Instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('abiertasDiv'));
+
+        var options = {
+            'title': 'Near miss abiertas',
+            //'width': 600,
+            'height': 400
+        };
+
+        chart.draw(data, options);
+    }    
+
+    function cerradas(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'rig');
+        data.addColumn('number', 'cantidad');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+        }
+
+        // Instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('cerradasDiv'));
+
+        var options = {
+            'title': 'Near miss cerradas',
+            //'width': 600,
+            'height': 400
+        };
+
+        chart.draw(data, options);
+    }
+
+</script>
+  
+<div class="row">
+    <div id="abiertasDiv" class="col-md-6">
+    </div>
+    <div id="cerradasDiv" class="col-md-6">
+    </div>
+</div>

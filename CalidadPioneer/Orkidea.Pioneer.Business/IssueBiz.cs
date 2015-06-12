@@ -2,6 +2,7 @@
 using Orkidea.Pioneer.Entities;
 using Orkidea.Pioneer.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -52,6 +53,28 @@ namespace Orkidea.Pioneer.Business
                         lstIssue = ctx.Issue.Where(x => x.idUsuarioCierre == null).ToList();
                     else
                         lstIssue = ctx.Issue.Where(x => x.idUsuarioCierre != null).ToList();
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return lstIssue;
+        }
+
+        public List<Issue> GetIssueList(bool estado, DateTime desde, DateTime hasta)
+        {
+
+            List<Issue> lstIssue = new List<Issue>();
+
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+
+                    if (estado)
+                        lstIssue = ctx.Issue.Where(x => x.idUsuarioCierre == null && x.fechaCreacion >= desde && x.fechaCreacion <= hasta).ToList();
+                    else
+                        lstIssue = ctx.Issue.Where(x => x.idUsuarioCierre != null && x.fechaCreacion >= desde && x.fechaCreacion <= hasta).ToList();
                 }
             }
             catch (Exception ex) { throw ex; }
@@ -187,10 +210,10 @@ namespace Orkidea.Pioneer.Business
             try
             {
                 using (var ctx = new pioneerEntities())
-                {                    
-                        // else create
+                {
+                    // else create
                     ctx.IssueDetail.Add(issueDetail);
-                        ctx.SaveChanges();                                        
+                    ctx.SaveChanges();
                 }
 
             }
@@ -233,6 +256,58 @@ namespace Orkidea.Pioneer.Business
                 }
             }
             catch (Exception ex) { throw ex; }
+        }
+
+        public IEnumerable GetReporteGenerico(bool estado)
+        {
+            List<ReporteGenericoNearMissHallazgo> lsRep = new List<ReporteGenericoNearMissHallazgo>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    if (estado)
+                        lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwIssuesAbiertas").ToList();
+                    else
+                        lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwIssuesCerradas").ToList();
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
+        }
+
+        public IEnumerable GetReporteGenerico()
+        {
+            List<ReporteComparativoIssue> lsRep = new List<ReporteComparativoIssue>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+
+                    lsRep = ctx.Database.SqlQuery<ReporteComparativoIssue>("Select * from vwIssuesAbiertasCerradas").ToList();
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
+        }
+
+        public IEnumerable GetReporteFuentes()
+        {
+            List<ReporteGenericoNearMissHallazgo> lsRep = new List<ReporteGenericoNearMissHallazgo>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("select fuente rig, count(1) cantidad from issue group by fuente").ToList();                    
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
         }
     }
 }

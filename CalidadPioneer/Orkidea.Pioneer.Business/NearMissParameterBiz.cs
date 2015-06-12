@@ -35,7 +35,7 @@ namespace Orkidea.Pioneer.Business
             catch (Exception ex) { throw ex; }
 
             return lstNearMissParameter;
-        }
+        }        
 
         /// <summary>
         /// Retrieve course information based in the primary key
@@ -53,7 +53,7 @@ namespace Orkidea.Pioneer.Business
                     ctx.Configuration.ProxyCreationEnabled = false;
 
                     oNearMissParameter =
-                        ctx.NearMissParameter.Where(x => x.parametro== nearMissParameterTarget.parametro).FirstOrDefault();
+                        ctx.NearMissParameter.Where(x => x.parametro == nearMissParameterTarget.parametro).FirstOrDefault();
                 }
             }
             catch (Exception) { }

@@ -1,0 +1,85 @@
+﻿@model Orkidea.Pioneer.Webfront.Models.vmIssueQuery
+@{
+    ViewBag.Title = "Consulta de hallazgos";
+}
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
+<h2>Sistema de gestión - Consulta de Hallazgos</h2>
+
+@using (Ajax.BeginForm("QueryExecute", null, null, new AjaxOptions { UpdateTargetId = "divQueryData" }, new { id = "formQueryIssues" }))
+{
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.Label("Desde", new { @for = "desde", @class = "control-label" })
+                <div class="input-group date" id="datetimepicker1">
+                    @Html.TextBoxFor(model => model.desde, new { type = "text", @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Hasta", new { @for = "hasta", @class = "control-label" })
+                <div class="input-group date" id="datetimepicker2">
+                    @Html.TextBoxFor(model => model.hasta, new { type = "text", @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Abiertas", new { @for = "abierto", @class = "control-label" })
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.abierto)
+                </div>
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Cerradas", new { @for = "cerrado", @class = "control-label" })
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.cerrado)
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <br />
+                <input type="submit" value="Buscar" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+<hr />
+<h3>Resultados</h3>
+<div class="row" id="divQueryData">
+    @{Html.RenderAction("QueryData", "Issue", new { abierto = Model.abierto, cerrado = Model.cerrado, desde = Model.desde, hasta = Model.hasta });}
+</div>
+<div class="row">
+    @{Html.RenderAction("DashBoard", "Issue");}
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+
+        $('#datetimepicker2').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+
+        $('#desde').val('@Model.desde.ToString("yyyy-MM-dd")')
+        $('#hasta').val('@Model.hasta.ToString("yyyy-MM-dd")')
+    });
+</script>

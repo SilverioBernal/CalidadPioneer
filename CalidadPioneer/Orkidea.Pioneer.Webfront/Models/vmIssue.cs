@@ -11,6 +11,9 @@ namespace Orkidea.Pioneer.Webfront.Models
     public class vmIssue : Issue
     {
         public List<Drill> lsUbicaion { get; set; }
+
+        public string descripcionRig { get; set; }
+        
         public string[] lsFuentes { get; set; }
 
         [Required]
@@ -47,6 +50,9 @@ namespace Orkidea.Pioneer.Webfront.Models
             empresaReportador = oIssue.empresaReportador;            
             fechaReporte = oIssue.fechaReporte;
             fotoAntes = oIssue.fotoAntes;
+            fotoDespues = oIssue.fotoDespues;
+            comentariosCierre = oIssue.comentariosCierre;
+            fechaCierre = oIssue.fechaCierre;
             id = oIssue.id;
 
             NearMissParameterBiz nmPar = new NearMissParameterBiz();

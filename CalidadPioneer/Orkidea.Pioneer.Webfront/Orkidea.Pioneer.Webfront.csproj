@@ -186,6 +186,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\vmFileUpload.cs" />
     <Compile Include="Models\vmIssue.cs" />
+    <Compile Include="Models\vmIssueQuery.cs" />
     <Compile Include="Models\vmNearMiss.cs" />
     <Compile Include="Models\vmNews.cs" />
     <Compile Include="Models\vmProcess.cs" />
@@ -528,6 +529,8 @@
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -685,6 +688,14 @@
     <Content Include="Views\Issue\Manage.cshtml" />
     <Content Include="Views\Issue\ManageRecord.cshtml" />
     <Content Include="Views\Issue\Close.cshtml" />
+    <Content Include="Views\Issue\Query.cshtml" />
+    <Content Include="Views\Issue\QueryData.cshtml" />
+    <Content Include="Views\Issue\Details.cshtml" />
+    <Content Include="Views\NearMiss\Query.cshtml" />
+    <Content Include="Views\NearMiss\QueryData.cshtml" />
+    <Content Include="Views\NearMiss\View.cshtml" />
+    <Content Include="Views\NearMiss\DashBoard.cshtml" />
+    <Content Include="Views\Issue\DashBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,6 +19,7 @@ namespace Orkidea.Pioneer.Webfront.Models
         public string[] lsClasificacion { get; set; }
         public List<Drill> lsUbicaion { get; set; }
         public string usuarioCrea { get; set; }
+        public string descripcionRig { get; set; }
         public vmNearMiss()
         {
             lsUbicaion = new List<Drill>();

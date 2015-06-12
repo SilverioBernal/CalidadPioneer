@@ -72,6 +72,11 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             return View();
         }
 
+        public ActionResult DashBoard()
+        {
+            return View();
+        }
+
         // GET: NearMiss/Create
         [Authorize]
         public ActionResult Create()
@@ -188,7 +193,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 accionSugeida = oNearMiss.accionSugeida,
                 usuarioCrea = (userBiz.GetUserbyKey(new User() { id = oNearMiss.idUsuarioAbre })).usuario,
                 fechaApertura = oNearMiss.fechaApertura,
-                fechaAnalisis = oNearMiss.fechaAnalisis                
+                fechaAnalisis = oNearMiss.fechaAnalisis
             };
 
             return View(nearMiss);
@@ -345,6 +350,144 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult View(int id)
+        {
+            #region User identification
+            System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+            int user = 0;
+
+            if (context.IsAuthenticated)
+            {
+
+                System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                string[] userRole = ci.Ticket.UserData.Split('|');
+                user = int.Parse(userRole[0]);
+            }
+
+            #endregion
+
+            UserBiz userBiz = new UserBiz();
+            User oUser = userBiz.GetUserbyKey(new User() { id = user });
+
+            PositionBiz positionBiz = new PositionBiz();
+
+            if (oUser.idCargo != null)
+            {
+                Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)oUser.idCargo });
+                if (!position.cierraNearMiss)
+                    return RedirectToAction("Index", "Home");
+            }
+            else
+                return RedirectToAction("Index", "Home");
+            NearMiss oNearMiss = nearMissBiz.GetNearMissbyKey(new NearMiss() { id = id });
+
+            vmNearMiss nearMiss = new vmNearMiss(true)
+            {
+                id = id,
+                tipoHallazgo = oNearMiss.tipoHallazgo,
+                actividadReporteador = oNearMiss.actividadReporteador,
+                idUbicacion = oNearMiss.idUbicacion,
+                descripcion = oNearMiss.descripcion,
+                accionSugeida = oNearMiss.accionSugeida,
+                usuarioCrea = (userBiz.GetUserbyKey(new User() { id = oNearMiss.idUsuarioAbre })).usuario,
+                fechaApertura = oNearMiss.fechaApertura,
+                asuntosAmbientales = oNearMiss.asuntosAmbientales,
+                analisisHallazgo = oNearMiss.analisisHallazgo,
+                salud = oNearMiss.salud,
+                calidad = oNearMiss.calidad,
+                condicionesTrabajo = oNearMiss.condicionesTrabajo,
+                usoEpp = oNearMiss.usoEpp,
+                fechaCierre = oNearMiss.fechaCierre,
+                observacionesCierre = oNearMiss.observacionesCierre
+            };
+
+            return View(nearMiss);
+        }
+
+        public ActionResult Query()
+        {
+            #region User identification
+            System.Security.Principal.IIdentity context = HttpContext.User.Identity;
+
+            int user = 0;
+
+            if (context.IsAuthenticated)
+            {
+
+                System.Web.Security.FormsIdentity ci = (System.Web.Security.FormsIdentity)HttpContext.User.Identity;
+                string[] userRole = ci.Ticket.UserData.Split('|');
+                user = int.Parse(userRole[0]);
+            }
+
+            #endregion
+
+            UserBiz userBiz = new UserBiz();
+            User oUser = userBiz.GetUserbyKey(new User() { id = user });
+            List<User> lsUser = userBiz.GetUserList();
+            PositionBiz positionBiz = new PositionBiz();
+
+            if (oUser.idCargo != null)
+            {
+                Position position = positionBiz.GetPositionbyKey(new Position() { id = (int)oUser.idCargo });
+                if (!position.cierraNearMiss)
+                    return RedirectToAction("Index", "Home");
+            }
+            else
+                return RedirectToAction("Index", "Home");
+
+            vmIssueQuery issue = new vmIssueQuery() { abierto = true, cerrado = true, desde = DateTime.Now, hasta = DateTime.Now };
+            return View(issue);
+        }
+
+        public ActionResult QueryData(bool abierto, bool cerrado, DateTime desde, DateTime hasta)
+        {
+            UserBiz userBiz = new UserBiz();
+            List<User> lsUser = userBiz.GetUserList();
+            DrillBiz drillBiz = new DrillBiz();
+
+            List<NearMiss> lsNearMiss = GetNMQuery(abierto, cerrado, desde, hasta);
+            List<vmNearMiss> lsNM = new List<vmNearMiss>();
+            List<Drill> lsDrill = drillBiz.GetDrillList();
+
+            foreach (NearMiss item in lsNearMiss)
+            {
+                string rig = "";
+                if (lsDrill.Where(x => x.id.Equals(item.idUbicacion)).FirstOrDefault() != null)
+                    rig = (lsDrill.Where(x => x.id.Equals(item.idUbicacion)).FirstOrDefault()).descripcion;
+
+                lsNM.Add(new vmNearMiss()
+                {
+                    id = item.id,
+                    fechaApertura = item.fechaApertura,
+                    usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
+                    fechaAnalisis = item.fechaAnalisis,
+                    descripcionRig = rig
+                });
+            }
+
+            return PartialView("QueryData", lsNM);
+        }
+
+        private List<NearMiss> GetNMQuery(bool abierto, bool cerrado, DateTime desde, DateTime hasta)
+        {
+            List<NearMiss> lsNM = new List<NearMiss>();
+            if (abierto)
+                lsNM.AddRange(nearMissBiz.GetNearMissList(true, desde, hasta));
+
+            if (cerrado)
+                lsNM.AddRange(nearMissBiz.GetNearMissList(false, desde, hasta));
+
+            return lsNM;
+        }
+
+        public JsonResult OpenCloseGraph(bool estado)
+        {
+            var chartsdata = nearMissBiz.GetReporteGenerico(estado);
+
+            return Json(chartsdata, JsonRequestBehavior.AllowGet);
         }
     }
 }

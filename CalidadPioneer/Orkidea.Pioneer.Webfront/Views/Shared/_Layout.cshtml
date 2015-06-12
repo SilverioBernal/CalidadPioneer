@@ -10,10 +10,10 @@
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")">
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/site.css")">
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap-datepicker.css")">
-    
+
     @*@Styles.Render("~/Content/css")*@
     @*@Scripts.Render("~/bundles/modernizr")*@
-    
+
     <link href='http://fonts.googleapis.com/css?family=Russo+One|Patua+One|Exo' rel='stylesheet' type='text/css'>
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
@@ -76,6 +76,7 @@
                                     if (closeNearMiss)
                                     {
                                         <li><a href="@Url.Action("Index", "NearMiss")">Gestionar Near Miss</a></li>
+                                        <li><a href="@Url.Action("Query", "NearMiss")">Consultar Near Miss</a></li>
                                     }
                                 }
                                 @if (openIssues)
@@ -85,6 +86,7 @@
                                     if (closeNearMiss)
                                     {
                                         <li><a href="@Url.Action("Index", "Issue")">Gestionar Hallazgos</a></li>
+                                        <li><a href="@Url.Action("Query", "Issue")">Consultar Hallazgos</a></li>
                                     }
                                 }
                             </ul>
