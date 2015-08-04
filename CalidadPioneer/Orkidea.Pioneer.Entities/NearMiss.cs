@@ -56,6 +56,8 @@ public partial class NearMiss
 
     public string observacionesCierre { get; set; }
 
+    public Nullable<System.DateTime> fechaCreacion { get; set; }
+
 }
 
 }

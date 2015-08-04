@@ -34,9 +34,11 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             #endregion
 
             UserBiz userBiz = new UserBiz();
+            PositionBiz positionBiz = new PositionBiz();
+            DrillBiz drillBiz = new DrillBiz();
+
             User oUser = userBiz.GetUserbyKey(new User() { id = user });
             List<User> lsUser = userBiz.GetUserList();
-            PositionBiz positionBiz = new PositionBiz();
 
             if (oUser.idCargo != null)
             {
@@ -47,7 +49,26 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             else
                 return RedirectToAction("Index", "Home");
 
-            return View(issueBiz.GetIssueList(true));
+
+            List<Drill> lsDrill = drillBiz.GetDrillList();
+            List<Issue> lsIssue = issueBiz.GetIssueList(true);
+            List<vmIssue> lsReturn = new List<vmIssue>();
+
+            foreach (Issue item in lsIssue)
+            {
+                lsReturn.Add(new vmIssue()
+                {
+                    id = item.id,
+                    descripcionRig = lsDrill.Where(x => x.id.Equals(item.idTaladro)).Select(x => x.descripcion).First(),
+                    nombreReportador = item.nombreReportador,
+                    fechaReporte = item.fechaReporte,
+                    fotoAntes = item.fotoAntes,
+                    fotoDespues = item.fotoDespues,
+                    descripcion = item.descripcion
+                });
+            }
+
+            return View(lsReturn);
         }
 
         // GET: Issue/Details
@@ -423,6 +444,8 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 {
                     id = item.id,
                     fechaCreacion = item.fechaCreacion,
+                    fechaReporte = item.fechaReporte,
+                    fechaCierre = item.fechaCierre,
                     nombreReportador = item.nombreReportador,
                     descripcion = item.descripcion,
                     descripcionRig = rig,

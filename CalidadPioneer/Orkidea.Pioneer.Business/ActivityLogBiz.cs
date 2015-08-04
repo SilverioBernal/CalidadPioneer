@@ -99,6 +99,9 @@ namespace Orkidea.Pioneer.Business
                     else
                     {
                         // else create
+                        if (activityLog.accion.Length >= 50)
+                            activityLog.accion = activityLog.accion.Substring(0, 50);
+
                         ctx.ActivityLog.Add(activityLog);
                         ctx.SaveChanges();
                     }

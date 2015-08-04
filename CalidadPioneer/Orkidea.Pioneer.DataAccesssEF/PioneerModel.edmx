@@ -108,6 +108,7 @@
           <Property Name="fechaCierre" Type="datetime" />
           <Property Name="idUsuarioCierra" Type="int" />
           <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
+          <Property Name="fechaCreacion" Type="datetime" />
         </EntityType>
         <EntityType Name="NearMissParameter">
           <Key>
@@ -676,6 +677,7 @@
           <Property Name="fechaCierre" Type="DateTime" Precision="3" />
           <Property Name="idUsuarioCierra" Type="Int32" />
           <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -872,6 +874,7 @@
           <EntitySetMapping Name="NearMiss">
             <EntityTypeMapping TypeName="pioneerModel.NearMiss">
               <MappingFragment StoreEntitySet="NearMiss">
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
                 <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
                 <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />

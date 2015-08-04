@@ -190,6 +190,7 @@
     <EntitySetMapping Name="NearMiss">
       <EntityTypeMapping TypeName="pioneerModel.NearMiss">
         <MappingFragment StoreEntitySet="NearMiss">
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
           <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
           <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
           <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />

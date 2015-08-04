@@ -6,12 +6,6 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <EncryptedPassword />
-    <_PublishTargetUrl>ftp://waws-prod-blu-019.ftp.azurewebsites.windows.net</_PublishTargetUrl>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA1FwIabcR8UqQCbPvZv9OFAAAAAACAAAAAAAQZgAAAAEAACAAAACadwV0sUWqmasE8Gh6TB89WnsOhVXEc0EnXFkmrz8/ZQAAAAAOgAAAAAIAACAAAABm8B+Ct5BKrrW2g6H68Y8k64Ci5cKOa2usejy/TzdlAoAAAAC86/pvesHDGpamt9FU46xh+dLMknjQh+gv0WcP+F+4iEsq3AHh4j1dgjj9uMgU2/4qPCFigc8+TfrGQDW32syJxyxuOLogyCHCBtJVydHF6PGKTkwz3SJ0Y3qadSucl8b0ioKJhdFvTIVOD5WJA7Ryu+4sV3nqEQndOYDL5XXihEAAAAB6yXkoYeOmuw0ZuCPLUj6Sznj+DjBpHrB7DUp8JbOjzgpYC9+p1cjBD+NBtvauf6Qs/pYZS0Rj3RvsKbsAcRDr</EncryptedPassword>
   </PropertyGroup>
-  <ItemGroup>
-    <File Include="Web.config">
-      <publishTime>06/01/2015 12:30:05</publishTime>
-    </File>
-  </ItemGroup>
 </Project>

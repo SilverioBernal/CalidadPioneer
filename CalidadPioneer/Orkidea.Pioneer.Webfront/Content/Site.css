@@ -67,8 +67,9 @@ select {
 }
 
 
-.navbar{
+.navbar {
     min-height: 65PX;
+    color:red;
 }
 
 .navbar-inverse {
@@ -79,7 +80,6 @@ select {
     background: #f0eee9 url('../Images/header-bg-low.png') 100% 0 no-repeat;
     background-size: 400px;
     /*position: relative;*/
-
     -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,1);
     -moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,1);
     box-shadow: 0px 2px 8px 0px rgba(0,0,0,1);
@@ -94,7 +94,6 @@ select {
             color: #8d060c /*#ffffff*/;
             background-color: transparent;
             /*text-shadow: 0 0 21px #fbfbfb;*/
-            
         }
 
 

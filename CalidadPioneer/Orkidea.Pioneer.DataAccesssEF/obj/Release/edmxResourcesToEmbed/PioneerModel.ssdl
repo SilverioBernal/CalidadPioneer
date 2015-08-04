@@ -103,6 +103,7 @@
     <Property Name="fechaCierre" Type="datetime" />
     <Property Name="idUsuarioCierra" Type="int" />
     <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
+    <Property Name="fechaCreacion" Type="datetime" />
   </EntityType>
   <EntityType Name="NearMissParameter">
     <Key>

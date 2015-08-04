@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = null;
+}
+
+@*<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+    //google.load("visualization", "1", { packages: ["corechart"] });
+    google.load('visualization', '1', { packages: ['corechart', 'bar'] });
+    //google.setOnLoadCallback(abiertasVsCerradas);
+
+
+    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = true})', null, abiertas);
+    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = false})', null, cerradas);
+    $.getJSON('@Url.Action("issuesBySourceGraph")', null, issuesBySource);
+    $.getJSON('@Url.Action("OpenVsCloseGraph")', null, abiertasVsCerradas);
+
+
+    function abiertas(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'rig');
+        data.addColumn('number', 'cantidad');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+        }
+
+        // Instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('abiertasDiv'));
+
+        var options = {
+            title: 'Hallazgos abiertos',
+            is3D: true,
+        };
+
+        chart.draw(data, options);
+    }
+
+    function cerradas(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'rig');
+        data.addColumn('number', 'cantidad');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+        }
+
+        // Instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('cerradasDiv'));
+
+        var options = {
+            title: 'Hallazgos cerrados',
+            is3D: true,
+
+        };
+
+        chart.draw(data, options);
+    }
+
+    function issuesBySource(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Fuente');
+        data.addColumn('number', 'Cantidad');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+        }
+
+        // Instantiate and draw our chart, passing in some options
+        var chart = new google.visualization.PieChart(document.getElementById('hallazgoFuentesDiv'));
+
+        var options = {
+            title: 'Hallazgos por fuentes',
+            is3D: true,
+
+        };
+
+        chart.draw(data, options);
+    }
+
+    function abiertasVsCerradas(chartsdata) {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'RIG');
+        data.addColumn('number', 'abiertas');
+        data.addColumn('number', 'cerradas');
+
+        for (var i = 0; i < chartsdata.length; i++) {
+            data.addRow([chartsdata[i].rig, chartsdata[i].abiertas, chartsdata[i].cerradas]);
+        }
+
+        var options = {
+            chart: {
+                title: 'Hallazgos',
+                subtitle: 'Abiertos Vs cerrados'
+            },
+            hAxis: {
+                title: 'Total Population',
+                minValue: 0,
+            },
+            vAxis: {
+                //title: 'RIG'
+            },
+            bars: 'horizontal',
+
+        };
+        var material = new google.charts.Bar(document.getElementById('abiertasVsCerradasDiv'));
+        material.draw(data, options);
+    }
+
+</script>
+
+<div class="row">
+    <div id="abiertasDiv" style="width: 50%; min-height:400px; float:left">
+    </div>
+    <div id="cerradasDiv" style="width: 50%; min-height:400px; float:left">
+    </div>
+</div>
+<div class="row">
+    <div id="abiertasVsCerradasDiv" style="width: 50%; min-height:400px; float:left">
+    </div>   
+    <div id="hallazgoFuentesDiv" style="width: 50%; min-height:400px; float:left">
+    </div>   
+</div>

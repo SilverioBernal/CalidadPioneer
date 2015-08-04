@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Orkidea.Pioneer.Webfront.Models.vmNearMiss>
+
+@{
+    ViewBag.Title = "Near Miss Abiertas - Tarjetas abiertas";
+    Layout = null;
+}
+<div class="container-fluid">
+    <div class="span12">
+        <table class="table table-bordered table-striped table_vam" id="dt">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha apertura</th>
+                    <th>Usuario</th>
+                    <th>RIG</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.fechaApertura)</td>
+                        <td>@Html.DisplayFor(modelItem => item.usuarioCrea)</td>
+                        <td>@Html.DisplayFor(modelItem => item.descripcionRig)</td>
+                        <td>
+                            @if (item.fechaCierre == null)
+                            {
+                                if (item.fechaAnalisis == null)
+                                {
+                                    <a href="@Url.Action("Analize", "NearMiss", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Close", "NearMiss", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
+                                }
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("View", "NearMiss", new { id = item.id })" title="Cerrar"><i class="fa fa-search"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#dt').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "Ningun resultado encontrado",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primera",
+                "last": "Ultima",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        }
+    });
+</script>

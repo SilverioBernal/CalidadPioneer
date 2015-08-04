@@ -18,16 +18,25 @@
     @Html.ValidationSummary(true)
     <div class="row">
         <div class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.fechaCreacion, "Fecha reporte", new { @for = "fechaReporte" })
+                <div class="input-group date" id="datetimepicker1">
+                    @Html.TextBoxFor(model => model.fechaCreacion, new { type = "text", @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.tipoHallazgo, "Tipo de hallazgo", new { @for = "tipoHallazgo"})
                 @Html.DropDownListFor(model => model.tipoHallazgo, new SelectList(Model.lsTipoHallazgo), "Seleccione", new { @class = "form-control", style = "max-width:100%" })                
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.actividadReporteador, "Actividad que realiza quien reporta", new { @for = "tipoHallazgo" })
                 @Html.DropDownListFor(model => model.actividadReporteador, new SelectList(Model.lsReportador), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
                 @Html.ValidationMessageFor(model => model.actividadReporteador, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.idUbicacion, "Ubicacion", new { @for = "idUbicacion", @class = "control-label" })
                 @Html.DropDownListFor(model => model.idUbicacion, new SelectList(Model.lsUbicaion, "id", "descripcion"), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
                 @Html.ValidationMessageFor(model => model.idUbicacion, "", new { @class = "text-danger" })
@@ -66,6 +75,15 @@
 <script>
 
     $(document).ready(function () {
+        $('#datetimepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
 
         $('form').validate({
             rules: {
