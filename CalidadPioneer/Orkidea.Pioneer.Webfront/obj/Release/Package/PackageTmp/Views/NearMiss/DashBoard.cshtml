@@ -14,53 +14,71 @@
 
 <script type="text/javascript">
 
-    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = true})', null, abiertas);
-    $.getJSON('@Url.Action("OpenCloseGraph", new { estado = false})', null, cerradas);
+    $(function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("OpenCloseGraph", new { estado = true})',
+            data: '{}',
+            success: function (chartsdata) {
+                var data = new google.visualization.DataTable();
 
-    function abiertas(chartsdata) {
-        var data = new google.visualization.DataTable();
+                data.addColumn('string', 'rig');
+                data.addColumn('number', 'cantidad');
 
-        data.addColumn('string', 'rig');
-        data.addColumn('number', 'cantidad');
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                }
 
-        for (var i = 0; i < chartsdata.length; i++) {
-            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
-        }
+                // Instantiate and draw our chart, passing in some options
+                var chart = new google.visualization.PieChart(document.getElementById('abiertasDiv'));
 
-        // Instantiate and draw our chart, passing in some options
-        var chart = new google.visualization.PieChart(document.getElementById('abiertasDiv'));
+                var options = {
+                    'title': 'Near miss abiertas',
+                    //'width': 600,
+                    'height': 400
+                };
 
-        var options = {
-            'title': 'Near miss abiertas',
-            //'width': 600,
-            'height': 400
-        };
+                chart.draw(data, options);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
 
-        chart.draw(data, options);
-    }    
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("OpenCloseGraph", new { estado = false})',
+            data: '{}',
+            success: function (chartsdata) {
+                var data = new google.visualization.DataTable();
 
-    function cerradas(chartsdata) {
-        var data = new google.visualization.DataTable();
+                data.addColumn('string', 'rig');
+                data.addColumn('number', 'cantidad');
 
-        data.addColumn('string', 'rig');
-        data.addColumn('number', 'cantidad');
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                }
 
-        for (var i = 0; i < chartsdata.length; i++) {
-            data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
-        }
+                // Instantiate and draw our chart, passing in some options
+                var chart = new google.visualization.PieChart(document.getElementById('cerradasDiv'));
 
-        // Instantiate and draw our chart, passing in some options
-        var chart = new google.visualization.PieChart(document.getElementById('cerradasDiv'));
+                var options = {
+                    'title': 'Near miss cerradas',
+                    //'width': 600,
+                    'height': 400
+                };
 
-        var options = {
-            'title': 'Near miss cerradas',
-            //'width': 600,
-            'height': 400
-        };
-
-        chart.draw(data, options);
-    }
-
+                chart.draw(data, options);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    })
 </script>
   
 <div class="row">

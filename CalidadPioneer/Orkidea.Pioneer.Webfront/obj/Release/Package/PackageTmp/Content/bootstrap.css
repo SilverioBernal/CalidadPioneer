@@ -4025,7 +4025,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 65PX/*50px*/;
+  min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -4280,7 +4280,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 25px/*15px*/;
+    padding-top: 15px;
     padding-bottom: 15px;
   }
 }
@@ -4501,8 +4501,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color:#eff0f0 /*#222222*/;
-  border-color: #eff0f0/*#080808*/;
+  background-color: #222222;
+  border-color: #080808;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4520,12 +4520,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: black/*#999999*/;
+  color: #999999;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #8d060c/*#ffffff*/;
+  color: #ffffff;
   background-color: transparent;
 }
 
@@ -6201,31 +6201,6 @@ body.modal-open,
     bottom: 20px;
   }
 }
-
-
-/*custom slider*/
-.carousel .item {
-    width: 100%; /*slider width*/
-    max-height: 300px; /*slider height*/
-}
-.carousel .item img {
-    width: 100%; /*img width*/
-}
-
-/*.carousel .carousel-control {
-    background: none;
-    border: none;
-    top: 50%;
-}*/
-
-@media (max-width: 767px) {
-    .block {
-        margin-left: -20px;
-        margin-right: -20px;
-    }
-}
-
-/*custom slider*/
 
 .clearfix:before,
 .clearfix:after {

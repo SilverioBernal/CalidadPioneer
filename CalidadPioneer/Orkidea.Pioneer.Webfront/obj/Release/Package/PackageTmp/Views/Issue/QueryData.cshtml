@@ -11,10 +11,11 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Fecha apertura</th>
+                    <th>Fecha reporte</th>
                     <th>Usuario que reporta</th>
                     <th>Resumen</th>
                     <th>RIG</th>
+                    <th>Fecha cierre</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,18 +24,23 @@
                 {
                     <tr>
                         <td>@item.id</td>
-                        <td>@item.fechaCreacion.ToString("yyyy-MM-dd")</td>
+                        <td>@item.fechaReporte.ToString("yyyy-MM-dd")</td>
                         <td>@item.nombreReportador</td>
                         <td>@string.Format("{0}...", item.descripcion.Length > 49 ? item.descripcion.Substring(0, 50) : item.descripcion)</td>
                         <td>@item.descripcionRig</td>
+                        <td>@if(item.fechaCierre !=null)
+                            {
+                                ((DateTime)item.fechaReporte).ToString("yyyy-MM-dd");                                
+                            }
+                        </td>
                         <td>                            
                             @if (item.idUsuarioCierre == null)
                             {
-                                <a href="@Url.Action("Manage", "Issue", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a> <span> | </span> <a href="@Url.Action("Close", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
+                                <a href="@Url.Action("Manage", "Issue", new { id = item.id })" target="_blank" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a> <span> | </span> <a href="@Url.Action("Close", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Details", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-search"></i></a>
+                                <a href="@Url.Action("Details", "Issue", new { id = item.id })" target="_blank" title="Cerrar"><i class="fa fa-search"></i></a>
                             }                            
                         </td>
                     </tr>

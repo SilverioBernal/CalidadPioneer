@@ -18,14 +18,20 @@
     @Html.ValidationSummary(true)
     <div class="row">
         <div class="form-group well">
-            <div class="col-md-4">               
+            <div class="col-md-3">
                 <span>NEAR MISS No. <strong>@Model.id</strong></span>
             </div>
-            <div class="col-md-4">
-                <span>Abierta por <strong>@Model.usuarioCrea</strong></span>
+            <div class="col-md-3">
+                <span>Abierta por <strong>@Model.nombreReporteador</strong></span>
             </div>
-            <div class="col-md-4">
-                <span>Creada en <strong>@Model.fechaApertura.ToString("yyyy-MM-dd")</strong></span>
+            <div class="col-md-3">
+                <span>Empresa <strong>@Model.empresaReporteador</strong></span>
+            </div>
+            <div class="col-md-3">
+                @{
+                    DateTime reporte = (DateTime)Model.fechaReporte;
+                }
+                <span>Reportada en <strong>@reporte.ToString("yyyy-MM-dd")</strong></span>
             </div>
             <br />
         </div>
@@ -61,36 +67,38 @@
     <h3>Análisis del hallazgo</h3>
     <div class="row">
         <div class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.calidad, "Calidad", new { @for = "calidad" })
-                @Html.DropDownListFor(model => model.calidad, new SelectList(Model.lsAnalisisCalidad), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
+                @Html.DropDownListFor(model => model.calidad, new SelectList(Model.lsAnalisisCalidad), "Seleccione", new { @class = "form-control required", style = "max-width:100%" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.salud, "Salud", new { @for = "salud" })
                 @Html.DropDownListFor(model => model.salud, new SelectList(Model.lsAnalisisSalud), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.asuntosAmbientales, "Asuntos ambientales", new { @for = "asuntosAmbientales" })
                 @Html.DropDownListFor(model => model.asuntosAmbientales, new SelectList(Model.lsAnalisisAsuntosAmbientales), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
             </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.usoEpp, "Uso de EPP", new { @for = "usoEpp" })
                 @Html.DropDownListFor(model => model.usoEpp, new SelectList(Model.lsAnalisisUsoEpp), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
             </div>
-            <div class="col-md-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">            
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.condicionesTrabajo, "Condiciones de trabajo", new { @for = "condicionesTrabajo" })
                 @Html.DropDownListFor(model => model.condicionesTrabajo, new SelectList(Model.lsAnalisisCondicionesTrabajo), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.analisisHallazgo, "Clasificación", new { @for = "analisisHallazgo" })
                 @Html.DropDownListFor(model => model.analisisHallazgo, new SelectList(Model.lsClasificacion), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
             </div>
-
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.responsable, "Responsable", new { @for = "responsable" })
+                @Html.TextBoxFor(model => model.responsable, new { @class = "form-control" })
+            </div>
         </div>
     </div>
     <br />
@@ -114,43 +122,60 @@
 
     $(document).ready(function () {
 
-        //$('form').validate({
-        //    rules: {
-        //        tipoHallazgo: {
-        //            required: true
-        //        },
-        //        actividadReporteador: {
-        //            required: true
-        //        },
-        //        idUbicacion: {
-        //            required: true
-        //        },
-        //        descripcion: {
-        //            minlength: 2,
-        //            required: true
-        //        },
-        //        accionSugeida: {
-        //            minlength: 2,
-        //            required: true
-        //        }
-        //    },
-        //    messages: {
-        //        tipoHallazgo: {
-        //            required: "Ingrese un tipo de hallazgo"
-        //        },
-        //        actividadReporteador: {
-        //            required: "Ingrese una actividad"
-        //        },
-        //        idUbicacion: {
-        //            required: "Ingrese una ubicación"
-        //        },
-        //        descripcion: {
-        //            required: "Ingrese una descripción"
-        //        },
-        //        accionSugeida: {
-        //            required: "Ingrese una acción sugerida"
-        //        },
-        //    },
-        //});
+        $('form').validate({
+            rules: {
+                calidad: {
+                    minlength: 1,
+                    required: true
+                },
+                salud: {
+                    minlength: 1,
+                    required: true
+                },
+                asuntosAmbientales: {
+                    minlength: 1,
+                    required: true
+                },
+                usoEpp: {
+                    minlength: 1,
+                    required: true
+                },
+                condicionesTrabajo: {
+                    minlength: 1,
+                    required: true
+                },
+                analisisHallazgo: {
+                    minlength: 1,
+                    required: true
+                },
+                responsable: {
+                    minlength: 5,
+                    required: true
+                }
+            },
+            messages: {
+                calidad: {
+                    required: "Seleccione uno"
+                },
+                salud: {
+                    required: "Seleccione uno"
+                },
+                asuntosAmbientales: {
+                    required: "Seleccione uno"
+                },
+                usoEpp: {
+                    required: "Seleccione uno"
+                },
+                condicionesTrabajo: {
+                    required: "Seleccione uno"
+                },
+                analisisHallazgo: {
+                    required: "Seleccione uno"
+                },
+                responsable: {
+                    required: "Ingrese el responsable"
+                },
+            },
+        });
     });
 </script>

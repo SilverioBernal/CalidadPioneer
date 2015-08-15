@@ -13,8 +13,9 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Fecha apertura</th>
-                    <th>Usuario</th>                    
+                    <th>Fecha reporte</th>
+                    <th>Nombre quien reporta</th>                    
+                    <th>Resumen</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,8 +24,9 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.fechaApertura)</td>
-                        <td>@Html.DisplayFor(modelItem => item.usuarioCrea)</td>                        
+                        <td>@item.fechaApertura.ToString("yyyy-MM-dd")</td>
+                        <td>@Html.DisplayFor(modelItem => item.nombreReporteador)</td>   
+                        <td>@Html.DisplayFor(modelItem => item.descripcion)</td>                        
                         <td>
                             @if(item.fechaAnalisis==null)
                             { 

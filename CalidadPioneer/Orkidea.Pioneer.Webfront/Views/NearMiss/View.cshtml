@@ -18,10 +18,13 @@
                 <span>NEAR MISS No. <strong>@Model.id</strong></span>
             </div>
             <div class="col-md-4">
-                <span>Abierta por <strong>@Model.usuarioCrea</strong></span>
+                <span>Abierta por <strong>@Model.nombreReporteador</strong></span>
             </div>
             <div class="col-md-4">
-                <span>Creada en <strong>@Model.fechaApertura.ToString("yyyy-MM-dd")</strong></span>
+                @{
+                    DateTime reporte = (DateTime)Model.fechaReporte;
+                }
+                <span>Reportada en <strong>@reporte.ToString("yyyy-MM-dd")</strong></span>
             </div>
             <br />
         </div>

@@ -72,9 +72,9 @@ namespace Orkidea.Pioneer.Business
                     ctx.Configuration.ProxyCreationEnabled = false;
 
                     if (estado)
-                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra == null && x.fechaApertura >= desde && x.fechaApertura<= hasta).ToList();
+                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra == null && x.fechaReporte >= desde && x.fechaReporte <= hasta).ToList();
                     else
-                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra != null && x.fechaApertura >= desde && x.fechaApertura<= hasta).ToList();
+                        lstNearMiss = ctx.NearMiss.Where(x => x.idUsuarioCierra != null && x.fechaReporte >= desde && x.fechaReporte <= hasta).ToList();
                 }
             }
             catch (Exception ex) { throw ex; }
@@ -94,6 +94,48 @@ namespace Orkidea.Pioneer.Business
                         lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwNearMissAbiertas").ToList();
                     else
                         lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>("Select * from vwNearMissCerradas").ToList();
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
+        }
+
+        public IEnumerable GetReporteGenerico(bool estado, string desde, string hasta)
+        {
+            List<ReporteGenericoNearMissHallazgo> lsRep = new List<ReporteGenericoNearMissHallazgo>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    string query = "";
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    if (estado)
+                        query = string.Format("select isnull(b.descripcion, 'Borrado') rig, count(1) cantidad from nearmiss a left join drill b on a.idUbicacion = b.id where fechacierre is null and (a.fechareporte between '{0}' and '{1}') group by b.descripcion", desde, hasta);
+                    else
+                        query = string.Format("select isnull(b.descripcion, 'Borrado') rig, count(1) cantidad from nearmiss a left join drill b on a.idUbicacion = b.id where fechacierre is not null and (a.fechareporte between '{0}' and '{1}') group by b.descripcion", desde, hasta);
+
+                    lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>(query).ToList();
+                }
+            }
+            catch (Exception) { }
+
+            return lsRep;
+        }
+
+        public IEnumerable GetReporteGenerico(string desde, string hasta, string concepto)
+        {
+            List<ReporteGenericoNearMissHallazgo> lsRep = new List<ReporteGenericoNearMissHallazgo>();
+            try
+            {
+                using (var ctx = new pioneerEntities())
+                {
+                    string query = "";
+                    ctx.Configuration.ProxyCreationEnabled = false;
+                    
+                    query = string.Format("select {2} rig, count(1) cantidad from nearmiss a left join drill b on a.idUbicacion = b.id where a.fechareporte between '{0}' and '{1}' and ({2} is not null and {2} != '' and {2} != 'No aplica') group by {2}", desde, hasta, concepto);
+
+                    lsRep = ctx.Database.SqlQuery<ReporteGenericoNearMissHallazgo>(query).ToList();
                 }
             }
             catch (Exception) { }

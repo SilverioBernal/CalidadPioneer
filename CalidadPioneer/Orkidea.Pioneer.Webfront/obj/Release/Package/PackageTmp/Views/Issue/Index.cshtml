@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Orkidea.Pioneer.Entities.Issue>
+﻿@model IEnumerable<Orkidea.Pioneer.Webfront.Models.vmIssue>
 
 @{
     ViewBag.Title = "Sistema de gestión - Hallazgos abiertas";
@@ -13,9 +13,11 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Fecha apertura</th>
+                    <th>Fecha reporte</th>
                     <th>Usuario que reporta</th>
                     <th>Resumen</th>
+                    <th>Antes</th>
+                    <th>Después</th>
                     <th></th>
                 </tr>
             </thead>
@@ -24,12 +26,21 @@
                 {
                     <tr>
                         <td>@item.id</td>
-                        <td>@item.fechaCreacion.ToString("yyyy-MM-dd")</td>
+                        <td>@item.fechaReporte.ToString("yyyy-MM-dd")</td>
                         <td>@item.nombreReportador</td>
                         <td>@string.Format("{0}...", item.descripcion.Length > 49 ? item.descripcion.Substring(0, 50) : item.descripcion)</td>
+                        @*<td><a href="@Url.Action("GetPhoto", new {archivo = item.fotoAntes})" target="_blank" class="sepV_a" title="Analizar"><i class="fa fa-camera previewPhoto"></i></a></td>
+                            <td><a href="@Url.Action("GetPhoto", new {archivo = item.fotoDespues})" target="_blank" class="sepV_a" title="Analizar"><i class="fa fa-camera previewPhoto"></i></a></td>*@
+                        <td><a href="#" onclick="photo('@item.fotoAntes')" class="sepV_a" title="Foto antes"><i class="fa fa-camera previewPhoto"></i></a></td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.fotoDespues))
+                            {
+                                <a href="#" onclick="photo('@item.fotoDespues')" class="sepV_a" title="Foto antes"><i class="fa fa-camera previewPhoto"></i></a>
+                            }
+                        </td>
                         <td>
                             <a href="@Url.Action("Manage", "Issue", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a>
-                            <a href="@Url.Action("Close", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>                            
+                            <a href="@Url.Action("Close", "Issue", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
                         </td>
                     </tr>
                 }
@@ -37,6 +48,22 @@
         </table>
     </div>
 </div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Documentos relacionados</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll;">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script>
     $('#dt').dataTable({
         "language": {
@@ -54,4 +81,14 @@
             },
         }
     });
+
+    function photo(id) {
+        var url = '@Url.Action("GetPhoto", new { archivo = "foto" })';
+        url = url.replace('foto', id);
+        var img = '<img src="' + url + '" width="100%" />';
+
+        $(".modal-body").html(img);
+        $('#myModal').modal('show')
+
+    }
 </script>

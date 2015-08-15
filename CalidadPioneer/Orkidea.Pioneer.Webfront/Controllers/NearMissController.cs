@@ -56,7 +56,10 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                         id = item.id,
                         fechaApertura = item.fechaApertura,
                         usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
-                        fechaAnalisis = item.fechaAnalisis
+                        fechaAnalisis = item.fechaAnalisis,
+                        fechaReporte = item.fechaReporte,
+                        nombreReporteador = item.nombreReporteador == null?"Dato no disponible":item.nombreReporteador,
+                        descripcion = item.descripcion.Length>50?item.descripcion.Substring(0,50) + "...":item.descripcion
                     });
             }
 
@@ -193,7 +196,10 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 accionSugeida = oNearMiss.accionSugeida,
                 usuarioCrea = (userBiz.GetUserbyKey(new User() { id = oNearMiss.idUsuarioAbre })).usuario,
                 fechaApertura = oNearMiss.fechaApertura,
-                fechaAnalisis = oNearMiss.fechaAnalisis
+                fechaAnalisis = oNearMiss.fechaAnalisis,
+                fechaReporte = oNearMiss.fechaReporte,
+                nombreReporteador = oNearMiss.nombreReporteador== null?"Información no disponible":oNearMiss.nombreReporteador,
+                empresaReporteador = oNearMiss.empresaReporteador == null ? "Información no disponible" : oNearMiss.empresaReporteador,
             };
 
             return View(nearMiss);
@@ -234,7 +240,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 nm.usoEpp = string.IsNullOrEmpty(nearMiss.usoEpp) ? "" : nearMiss.usoEpp;
                 nm.condicionesTrabajo = string.IsNullOrEmpty(nearMiss.condicionesTrabajo) ? "" : nearMiss.condicionesTrabajo;
                 nm.analisisHallazgo = string.IsNullOrEmpty(nearMiss.analisisHallazgo) ? "Bajo" : nearMiss.analisisHallazgo;
-
+                nm.responsable = nearMiss.responsable;
                 nearMissBiz.SaveNearMiss(nm);
                 //return RedirectToAction("Details", new { id = id });
                 return RedirectToAction("Index");
@@ -293,7 +299,11 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 salud = oNearMiss.salud,
                 calidad = oNearMiss.calidad,
                 condicionesTrabajo = oNearMiss.condicionesTrabajo,
-                usoEpp = oNearMiss.usoEpp
+                usoEpp = oNearMiss.usoEpp,
+                fechaReporte = oNearMiss.fechaReporte,
+                nombreReporteador = oNearMiss.nombreReporteador == null ? "Información no disponible" : oNearMiss.nombreReporteador,
+                empresaReporteador = oNearMiss.empresaReporteador == null ? "Información no disponible" : oNearMiss.empresaReporteador,
+                responsable = oNearMiss.responsable == null ? "Información no disponible" : oNearMiss.responsable,                
             };
 
             return View(nearMiss);
@@ -339,7 +349,7 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 NearMiss nm = nearMissBiz.GetNearMissbyKey(nearMiss);
 
                 nm.idUsuarioCierra = user;
-                nm.fechaCierre = DateTime.Now;
+                nm.fechaCierre = nearMiss.fechaCierre;
                 nm.observacionesCierre = nearMiss.observacionesCierre;
 
                 nearMissBiz.SaveNearMiss(nm);
@@ -401,7 +411,9 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 condicionesTrabajo = oNearMiss.condicionesTrabajo,
                 usoEpp = oNearMiss.usoEpp,
                 fechaCierre = oNearMiss.fechaCierre,
-                observacionesCierre = oNearMiss.observacionesCierre
+                observacionesCierre = oNearMiss.observacionesCierre,
+                fechaReporte = oNearMiss.fechaReporte,
+                nombreReporteador = oNearMiss.nombreReporteador == null ? "Información no disponible" : oNearMiss.nombreReporteador
             };
 
             return View(nearMiss);
@@ -464,9 +476,22 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                     fechaApertura = item.fechaApertura,
                     usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
                     fechaAnalisis = item.fechaAnalisis,
-                    descripcionRig = rig
+                    descripcionRig = rig,
+                    fechaReporte = item.fechaReporte,
+                    nombreReporteador = item.nombreReporteador ==null?"Información no disponible": item.nombreReporteador,
+                    fechaCierre = item.fechaCierre,
+                    descripcion = item.descripcion.Length > 50 ? item.descripcion.Substring(0, 50) + "..." : item.descripcion
                 });
-            }
+            }            
+
+            ViewBag.abiertas = string.Format("true|{0}|{1}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"));
+            ViewBag.cerradas = string.Format("false|{0}|{1}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"));
+
+            ViewBag.calidad = string.Format("{0}|{1}|{2}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"), "calidad");
+            ViewBag.salud = string.Format("{0}|{1}|{2}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"), "salud");
+            ViewBag.asuntos = string.Format("{0}|{1}|{2}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"), "asuntosAmbientales");
+            ViewBag.condiciones = string.Format("{0}|{1}|{2}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"), "condicionesTrabajo");
+            ViewBag.epp = string.Format("{0}|{1}|{2}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"), "usoEpp");
 
             return PartialView("QueryData", lsNM);
         }
@@ -483,9 +508,33 @@ namespace Orkidea.Pioneer.Webfront.Controllers
             return lsNM;
         }
 
-        public JsonResult OpenCloseGraph(bool estado)
+        //public JsonResult OpenCloseGraph(bool estado)
+        //{
+        //    var chartsdata = nearMissBiz.GetReporteGenerico(estado);
+
+        //    return Json(chartsdata, JsonRequestBehavior.AllowGet);
+        //}
+
+        public JsonResult OpenCloseGraph(string id)
         {
-            var chartsdata = nearMissBiz.GetReporteGenerico(estado);
+            string[] parameters = id.Split('|');
+            bool estado = bool.Parse(parameters[0]);
+            string desde = parameters[1];
+            string hasta = parameters[2];
+            
+            var chartsdata = nearMissBiz.GetReporteGenerico(estado, desde, hasta);            
+
+            return Json(chartsdata, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult categoryGraph(string id)
+        {
+            string[] parameters = id.Split('|');            
+            string desde = parameters[0];
+            string hasta = parameters[1];
+            string categoria = parameters[2];
+
+            var chartsdata = nearMissBiz.GetReporteGenerico(desde, hasta, categoria);
 
             return Json(chartsdata, JsonRequestBehavior.AllowGet);
         }

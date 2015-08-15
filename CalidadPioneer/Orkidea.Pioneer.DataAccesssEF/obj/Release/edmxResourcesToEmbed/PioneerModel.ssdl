@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="ActivityLog">
     <Key>
       <PropertyRef Name="id" />
@@ -103,7 +103,10 @@
     <Property Name="fechaCierre" Type="datetime" />
     <Property Name="idUsuarioCierra" Type="int" />
     <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
-    <Property Name="fechaCreacion" Type="datetime" />
+    <Property Name="fechaReporte" Type="datetime" />
+    <Property Name="nombreReporteador" Type="varchar" MaxLength="250" />
+    <Property Name="empresaReporteador" Type="varchar" MaxLength="250" />
+    <Property Name="responsable" Type="varchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="NearMissParameter">
     <Key>

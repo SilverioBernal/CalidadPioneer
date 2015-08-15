@@ -7,7 +7,7 @@
 <style>
     .error {
         color: red;
-        font-weight:normal;
+        font-weight: normal;
     }
 </style>
 
@@ -18,15 +18,36 @@
     @Html.ValidationSummary(true)
     <div class="row">
         <div class="form-group">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.tipoHallazgo, "Tipo de hallazgo", new { @for = "tipoHallazgo"})
-                @Html.DropDownListFor(model => model.tipoHallazgo, new SelectList(Model.lsTipoHallazgo), "Seleccione", new { @class = "form-control", style = "max-width:100%" })                
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.fechaReporte, "Fecha reporte", new { @for = "fechaReporte" })
+                <div class="input-group date" id="datetimepicker1">
+                    @Html.TextBoxFor(model => model.fechaReporte, new { type = "text", @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
             </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.nombreReporteador, "Nombre de quien reporta", new { @for = "nombreReporteador", @class = "required" })
+                @Html.TextBoxFor(model => model.nombreReporteador, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.empresaReporteador, "Empresa", new { @for = "empresaReporteador", @class = "required" })
+                @Html.TextBoxFor(model => model.empresaReporteador, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
             <div class="col-md-4">
-                @Html.LabelFor(model => model.actividadReporteador, "Actividad que realiza quien reporta", new { @for = "tipoHallazgo" })
+                @Html.LabelFor(model => model.actividadReporteador, "Actividad de quien reporta", new { @for = "tipoHallazgo" })
                 @Html.DropDownListFor(model => model.actividadReporteador, new SelectList(Model.lsReportador), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
                 @Html.ValidationMessageFor(model => model.actividadReporteador, "", new { @class = "text-danger" })
             </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.tipoHallazgo, "Tipo de hallazgo", new { @for = "tipoHallazgo" })
+                @Html.DropDownListFor(model => model.tipoHallazgo, new SelectList(Model.lsTipoHallazgo), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
+            </div>            
             <div class="col-md-4">
                 @Html.LabelFor(model => model.idUbicacion, "Ubicacion", new { @for = "idUbicacion", @class = "control-label" })
                 @Html.DropDownListFor(model => model.idUbicacion, new SelectList(Model.lsUbicaion, "id", "descripcion"), "Seleccione", new { @class = "form-control", style = "max-width:100%" })
@@ -38,15 +59,15 @@
         <div class="form-group">
             <div class="col-md-6">
                 @Html.LabelFor(model => model.descripcion, "Descripción", new { @for = "descripcion", @class = "required" })
-                @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control col-md-12" })                
+                @Html.TextAreaFor(model => model.descripcion, new { @class = "form-control col-md-12" })
             </div>
             <div class="col-md-6">
                 @Html.LabelFor(model => model.accionSugeida, "Acción sugerida", new { @for = "accionSugeida" })
-                @Html.TextAreaFor(model => model.accionSugeida, new { @class = "form-control" })              
+                @Html.TextAreaFor(model => model.accionSugeida, new { @class = "form-control" })
             </div>
         </div>
     </div>
-    <br />    
+    <br />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -55,7 +76,7 @@
             </div>
         </div>
     </div>
-    
+
 
 }
 
@@ -66,6 +87,15 @@
 <script>
 
     $(document).ready(function () {
+        $('#datetimepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
 
         $('form').validate({
             rules: {
@@ -83,6 +113,18 @@
                     required: true
                 },
                 accionSugeida: {
+                    minlength: 2,
+                    required: true
+                },
+                fechaReporte: {
+                    required: true,
+                    date: true
+                },
+                nombreReporteador:{
+                    minlength: 5,
+                    required: true
+                },
+                empresaReporteador: {
                     minlength: 2,
                     required: true
                 }
@@ -103,7 +145,16 @@
                 accionSugeida: {
                     required: "Ingrese una acción sugerida"
                 },
+                fechaReporte: {
+                    required: "Ingrese la fecha"
+                },
+                nombreReporteador: {
+                    required: "Ingrese el nombre de quien reporta"
+                },
+                empresaReporteador: {
+                    required: "Ingrese la empresa"
+                },
             },
         });
-    });     
+    });
 </script>

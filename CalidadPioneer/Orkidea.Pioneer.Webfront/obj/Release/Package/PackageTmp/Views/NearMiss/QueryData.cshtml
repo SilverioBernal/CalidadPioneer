@@ -1,67 +1,331 @@
 ﻿@model IEnumerable<Orkidea.Pioneer.Webfront.Models.vmNearMiss>
 
-@{
-    ViewBag.Title = "Near Miss Abiertas - Tarjetas abiertas";
-    Layout = null;
-}
-<div class="container-fluid">
-    <div class="span12">
-        <table class="table table-bordered table-striped table_vam" id="dt">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Fecha apertura</th>
-                    <th>Usuario</th>
-                    <th>RIG</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    @{
+        ViewBag.Title = "Near Miss Abiertas - Tarjetas abiertas";
+        Layout = null;
+    }
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+    </script>
+
+    <div class="container-fluid">
+        <div class="span12">
+            <table class="table table-bordered table-striped table_vam" id="dt">
+                <thead>
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.fechaApertura)</td>
-                        <td>@Html.DisplayFor(modelItem => item.usuarioCrea)</td>
-                        <td>@Html.DisplayFor(modelItem => item.descripcionRig)</td>
-                        <td>
-                            @if (item.fechaCierre == null)
-                            {
-                                if (item.fechaAnalisis == null)
+                        <th>Id</th>
+                        <th>Fecha reporte</th>
+                        <th>Reportado por</th>
+                        <th>RIG</th>
+                        <th>Resumen</th>
+                        <th>Fecha cierre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        DateTime reporte = (DateTime)item.fechaReporte;
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.id)</td>
+                            <td>@reporte.ToString("yyyy-MM-dd")</td>
+                            <td>@Html.DisplayFor(modelItem => item.nombreReporteador)</td>
+                            <td>@Html.DisplayFor(modelItem => item.descripcionRig)</td>
+                            <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.fechaCierre)</td>
+                            <td>
+                                @if (item.fechaCierre == null)
                                 {
-                                    <a href="@Url.Action("Analize", "NearMiss", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a>
+                                    if (item.fechaAnalisis == null)
+                                    {
+                                        <a href="@Url.Action("Analize", "NearMiss", new { id = item.id })" class="sepV_a" title="Analizar"><i class="fa fa-magic"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Close", "NearMiss", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
+                                    }
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("Close", "NearMiss", new { id = item.id })" title="Cerrar"><i class="fa fa-lock"></i></a>
+                                    <a href="@Url.Action("View", "NearMiss", new { id = item.id })" title="Ver"><i class="fa fa-search"></i></a>
                                 }
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("View", "NearMiss", new { id = item.id })" title="Cerrar"><i class="fa fa-search"></i></a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<script>
-    $('#dt').dataTable({
-        "language": {
-            "lengthMenu": "Mostrar _MENU_ registros por pagina",
-            "zeroRecords": "Ningun resultado encontrado",
-            "info": "Página _PAGE_ de _PAGES_",
-            "infoEmpty": "Sin registros",
-            "infoFiltered": "(filtered from _MAX_ total records)",
-            "search": "Buscar:",
-            "paginate": {
-                "first": "Primera",
-                "last": "Ultima",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            },
-        }
-    });
-</script>
+
+    <div class="row">
+        <div id="abiertasDiv" class="col-md-6">
+        </div>
+        <div id="cerradasDiv" class="col-md-6">
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="calidadDiv" class="col-md-6">
+        </div>
+        <div id="saludDiv" class="col-md-6">
+        </div>
+    </div>
+    <div class="row">
+        <div id="asuntosDiv" class="col-md-6">
+        </div>
+        <div id="condicionesDiv" class="col-md-6">
+        </div>
+    </div>
+    <div class="row">
+        <div id="eppDiv" class="col-md-6">        
+        </div>
+    </div>
+    <script>
+        $('#dt').dataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                "zeroRecords": "Ningun resultado encontrado",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sin registros",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "search": "Buscar:",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("OpenCloseGraph", new { id = ViewBag.abiertas})',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('abiertasDiv'));
+
+                    var options = {
+                        'title': 'Near miss abiertas',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("OpenCloseGraph", new { id = ViewBag.cerradas})',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('cerradasDiv'));
+
+                    var options = {
+                        'title': 'Near miss cerradas',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("categoryGraph", new { id = ViewBag.calidad })',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('calidadDiv'));
+
+                    var options = {
+                        'title': 'Near miss Calidad',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("categoryGraph", new { id = ViewBag.salud })',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('saludDiv'));
+
+                    var options = {
+                        'title': 'Near miss Salud',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("categoryGraph", new { id = ViewBag.asuntos })',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('asuntosDiv'));
+
+                    var options = {
+                        'title': 'Near miss Asuntos ambientales',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("categoryGraph", new { id = ViewBag.condiciones })',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('condicionesDiv'));
+
+                    var options = {
+                        'title': 'Near miss Condiciones de trabajo',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("categoryGraph", new { id = ViewBag.epp })',
+                data: '{}',
+                success: function (chartsdata) {
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('string', 'rig');
+                    data.addColumn('number', 'cantidad');
+
+                    for (var i = 0; i < chartsdata.length; i++) {
+                        data.addRow([chartsdata[i].rig, chartsdata[i].cantidad]);
+                    }
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart(document.getElementById('eppDiv'));
+
+                    var options = {
+                        'title': 'Near miss Uso EPP',
+                        //'width': 600,
+                        'height': 400
+                    };
+
+                    chart.draw(data, options);
+                },
+                error: function () {
+                    //alert("Error loading data! Please try again.");
+                }
+            });
+        })
+    </script>

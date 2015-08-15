@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="pioneerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActivityLog">
           <Key>
             <PropertyRef Name="id" />
@@ -108,7 +108,10 @@
           <Property Name="fechaCierre" Type="datetime" />
           <Property Name="idUsuarioCierra" Type="int" />
           <Property Name="observacionesCierre" Type="varchar" MaxLength="500" />
-          <Property Name="fechaCreacion" Type="datetime" />
+          <Property Name="fechaReporte" Type="datetime" />
+          <Property Name="nombreReporteador" Type="varchar" MaxLength="250" />
+          <Property Name="empresaReporteador" Type="varchar" MaxLength="250" />
+          <Property Name="responsable" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="NearMissParameter">
           <Key>
@@ -677,7 +680,10 @@
           <Property Name="fechaCierre" Type="DateTime" Precision="3" />
           <Property Name="idUsuarioCierra" Type="Int32" />
           <Property Name="observacionesCierre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="fechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaReporte" Type="DateTime" Precision="3" />
+          <Property Name="nombreReporteador" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="empresaReporteador" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="responsable" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -874,7 +880,10 @@
           <EntitySetMapping Name="NearMiss">
             <EntityTypeMapping TypeName="pioneerModel.NearMiss">
               <MappingFragment StoreEntitySet="NearMiss">
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="responsable" ColumnName="responsable" />
+                <ScalarProperty Name="empresaReporteador" ColumnName="empresaReporteador" />
+                <ScalarProperty Name="nombreReporteador" ColumnName="nombreReporteador" />
+                <ScalarProperty Name="fechaReporte" ColumnName="fechaReporte" />
                 <ScalarProperty Name="observacionesCierre" ColumnName="observacionesCierre" />
                 <ScalarProperty Name="idUsuarioCierra" ColumnName="idUsuarioCierra" />
                 <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />

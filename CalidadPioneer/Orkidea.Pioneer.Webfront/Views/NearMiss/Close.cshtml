@@ -18,14 +18,20 @@
     @Html.ValidationSummary(true)
     <div class="row">
         <div class="form-group well">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <span>NEAR MISS No. <strong>@Model.id</strong></span>
             </div>
-            <div class="col-md-4">
-                <span>Abierta por <strong>@Model.usuarioCrea</strong></span>
+            <div class="col-md-3">
+                <span>Abierta por <strong>@Model.nombreReporteador</strong></span>
             </div>
-            <div class="col-md-4">
-                <span>Creada en <strong>@Model.fechaApertura.ToString("yyyy-MM-dd")</strong></span>
+            <div class="col-md-3">
+                <span>Empresa <strong>@Model.empresaReporteador</strong></span>
+            </div>
+            <div class="col-md-3">
+                @{
+                    DateTime reporte = (DateTime)Model.fechaReporte;
+                }
+                <span>Reportada en <strong>@reporte.ToString("yyyy-MM-dd")</strong></span>
             </div>
             <br />
         </div>
@@ -78,30 +84,46 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.usoEpp, "Uso de EPP", new { @for = "usoEpp" })
                 @Html.DropDownListFor(model => model.usoEpp, new SelectList(Model.lsAnalisisUsoEpp), "Seleccione", new { @class = "form-control", style = "max-width:100%", disabled = "disabled" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.condicionesTrabajo, "Salud", new { @for = "condicionesTrabajo" })
                 @Html.DropDownListFor(model => model.condicionesTrabajo, new SelectList(Model.lsAnalisisCondicionesTrabajo), "Seleccione", new { @class = "form-control", style = "max-width:100%", disabled = "disabled" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.LabelFor(model => model.analisisHallazgo, "Clasificación", new { @for = "analisisHallazgo" })
                 @Html.DropDownListFor(model => model.analisisHallazgo, new SelectList(Model.lsClasificacion), "Seleccione", new { @class = "form-control", style = "max-width:100%", disabled = "disabled" })
             </div>
-
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.responsable, "Responsable", new { @for = "responsable", disabled = "disabled" })
+                @Html.TextBoxFor(model => model.responsable, new { @class = "form-control", disabled = "disabled" })
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.observacionesCierre, "Observaciones", new { @for = "observacionesCierre", @class = "required" })
-                @Html.TextAreaFor(model => model.observacionesCierre, new { @class = "form-control"})
-            </div>            
+                @Html.LabelFor(model => model.observacionesCierre, "Observaciones finales", new { @for = "observacionesCierre", @class = "required" })
+                @Html.TextAreaFor(model => model.observacionesCierre, new { @class = "form-control" })
+            </div>
         </div>
     </div>
-    @*<br />*@
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.fechaCierre, "Fecha de cierre", new { @for = "fechaCierre", @class = "required" })
+                <div class="input-group date" id="datetimepicker1">
+                    @Html.TextBoxFor(model => model.fechaCierre, new { type = "text", @class = "form-control" })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -121,16 +143,31 @@
 <script>
 
     $(document).ready(function () {
+        $('#datetimepicker1').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "es-ES",
+            orientation: "top auto",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
 
         $('form').validate({
             rules: {
                 observacionesCierre: {
+                    required: true
+                },
+                fechaCierre: {
                     required: true
                 }
             },
             messages: {
                 observacionesCierre: {
                     required: "Ingrese sus observaciones"
+                },
+                fechaCierre: {
+                    required: "Ingrese la fecha de cierre"
                 }
             },
         });
