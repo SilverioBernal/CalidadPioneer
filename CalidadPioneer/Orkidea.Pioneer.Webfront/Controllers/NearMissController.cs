@@ -51,11 +51,15 @@ namespace Orkidea.Pioneer.Webfront.Controllers
 
             foreach (NearMiss item in lsNearMiss)
             {
+                string creator = "";
+                if (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).Count() > 0)
+                    creator = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario;
+
                 lsNM.Add(new vmNearMiss()
                     {
                         id = item.id,
                         fechaApertura = item.fechaApertura,
-                        usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
+                        usuarioCrea = creator,
                         fechaAnalisis = item.fechaAnalisis,
                         fechaReporte = item.fechaReporte,
                         nombreReporteador = item.nombreReporteador == null?"Dato no disponible":item.nombreReporteador,
@@ -470,18 +474,22 @@ namespace Orkidea.Pioneer.Webfront.Controllers
                 if (lsDrill.Where(x => x.id.Equals(item.idUbicacion)).FirstOrDefault() != null)
                     rig = (lsDrill.Where(x => x.id.Equals(item.idUbicacion)).FirstOrDefault()).descripcion;
 
-                lsNM.Add(new vmNearMiss()
+                vmNearMiss nm = new vmNearMiss()
                 {
                     id = item.id,
                     fechaApertura = item.fechaApertura,
-                    usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
+                    //usuarioCrea = (lsUser.Where(x => x.id.Equals(item.idUsuarioAbre)).FirstOrDefault()).usuario,
                     fechaAnalisis = item.fechaAnalisis,
                     descripcionRig = rig,
                     fechaReporte = item.fechaReporte,
-                    nombreReporteador = item.nombreReporteador ==null?"Información no disponible": item.nombreReporteador,
-                    fechaCierre = item.fechaCierre,
+                    nombreReporteador = item.nombreReporteador == null ? "Información no disponible" : item.nombreReporteador,                    
                     descripcion = item.descripcion.Length > 50 ? item.descripcion.Substring(0, 50) + "..." : item.descripcion
-                });
+                };
+
+                if (item.fechaCierre != null)
+                    nm.fechaCierre = item.fechaCierre;
+
+                lsNM.Add(nm);
             }            
 
             ViewBag.abiertas = string.Format("true|{0}|{1}", desde.ToString("yyyy-MM-dd"), hasta.ToString("yyyy-MM-dd"));

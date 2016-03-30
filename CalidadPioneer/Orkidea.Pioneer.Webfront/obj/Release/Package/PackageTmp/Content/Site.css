@@ -69,7 +69,8 @@ select {
 
 .navbar {
     min-height: 65PX;
-    color:red;
+    color: red;
+    border: 34px;
 }
 
 .navbar-inverse {

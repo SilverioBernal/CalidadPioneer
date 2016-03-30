@@ -10,31 +10,36 @@ namespace Orkidea.Pioneer.Business
 {
     public class CommonBiz
     {
-        public void sendContactMessage(string type,string fromMail, string subject, string message, string rootPath)
+        public void sendContactMessage(string type, string fromMail, string subject, string message, string rootPath)
         {
             List<System.Net.Mail.MailAddress> to = new List<System.Net.Mail.MailAddress>();
-            
+            string[] receivers = null;
             if (ConfigurationManager.AppSettings["testMail"].ToString() == "N")
+            {
                 switch (type)
                 {
                     case "Sugerencia":
-                        to.Add(new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["emailContactAddress"].ToString()));
+                        receivers = ConfigurationManager.AppSettings["emailContactAddress"].ToString().Split('|');
                         break;
                     case "Copaso":
-                        to.Add(new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["emailCopasoAddress"].ToString()));
+                        receivers = ConfigurationManager.AppSettings["emailCopasoAddress"].ToString().Split('|');                        
                         break;
                     case "RRHH":
-                        to.Add(new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["emailRHAddress"].ToString()));
+                        receivers = ConfigurationManager.AppSettings["emailRHAddress"].ToString().Split('|');                        
                         break;
                     default:
-                        to.Add(new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["emailContactAddress"].ToString()));
+                        receivers = ConfigurationManager.AppSettings["emailContactAddress"].ToString().Split('|');
                         break;
                 }
+
+                foreach (string item in receivers)                
+                    to.Add(new System.Net.Mail.MailAddress(item));
                 
+            }
             else
                 to.Add(new System.Net.Mail.MailAddress("silverio.bernal@orkidea.co"));
 
-            Dictionary<string, string> dynamicValues = new Dictionary<string, string>();            
+            Dictionary<string, string> dynamicValues = new Dictionary<string, string>();
             dynamicValues.Add("[correo]", fromMail);
             dynamicValues.Add("[fecha]", DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss"));
             dynamicValues.Add("[mensaje]", message);
